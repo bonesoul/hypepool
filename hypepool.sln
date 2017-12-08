@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hypepool.cli", "src\hypepool.cli\hypepool.cli.csproj", "{4C380F53-0CB3-4275-B6EE-339111C931F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypepool.CLI", "src\hypepool.cli\Hypepool.CLI.csproj", "{4C380F53-0CB3-4275-B6EE-339111C931F1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hypepool.core", "src\hypepool.core\hypepool.core.csproj", "{0EE2A96D-EE52-4A41-8154-EE4E1FE4BDC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypepool.Core", "src\hypepool.core\Hypepool.Core.csproj", "{0EE2A96D-EE52-4A41-8154-EE4E1FE4BDC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

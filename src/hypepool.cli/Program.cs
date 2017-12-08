@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace hypepool
+namespace hypepool.cli
 {
     class Program
     {

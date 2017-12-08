@@ -1,4 +1,4 @@
-﻿namespace hypepool.core.Internals.Registries
+﻿namespace Hypepool.Core.Internals.Registries
 {
     public interface IRegistry
     {

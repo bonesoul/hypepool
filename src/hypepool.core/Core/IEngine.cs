@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace hypepool.core.Core
+﻿namespace Hypepool.Core.Core
 {
     public interface IEngine
     {

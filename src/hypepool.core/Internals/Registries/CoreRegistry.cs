@@ -1,7 +1,7 @@
-﻿using SimpleInjector;
-using hypepool.core.Core;
+﻿using Hypepool.Core.Core;
+using SimpleInjector;
 
-namespace hypepool.core.Internals.Registries
+namespace Hypepool.Core.Internals.Registries
 {
     public class CoreRegistery : IRegistry
     {

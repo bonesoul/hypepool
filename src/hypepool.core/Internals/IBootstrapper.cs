@@ -1,6 +1,6 @@
 ﻿using SimpleInjector;
 
-namespace hypepool.core.Internals
+namespace Hypepool.Core.Internals
 {
     public interface IBootstrapper
     {

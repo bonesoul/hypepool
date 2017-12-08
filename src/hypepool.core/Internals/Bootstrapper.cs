@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SimpleInjector;
+﻿using SimpleInjector;
 
-namespace hypepool.core.Internals
+namespace Hypepool.Core.Internals
 {
     public class Bootstrapper : IBootstrapper
     {
@@ -12,6 +9,11 @@ namespace hypepool.core.Internals
         public Bootstrapper()
         {
             Container = new Container();
+        }
+
+        public void Run()
+        {
+
         }
     }
 }

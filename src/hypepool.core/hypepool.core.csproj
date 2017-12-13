@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="SimpleInjector" Version="4.0.12" />
+    <PackageReference Include="SimpleInjector.Packaging" Version="4.0.12" />
   </ItemGroup>
 
 </Project>

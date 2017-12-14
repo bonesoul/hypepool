@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\hypepool.core\Hypepool.Core.csproj" />
+    <ProjectReference Include="..\Hypepool.Core\Hypepool.Core.csproj" />
   </ItemGroup>
 
 </Project>

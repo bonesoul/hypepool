@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Hypepool.Common
+namespace Hypepool.Core.Stratum
 {
-    public interface IPool
+    public class StratumServer : IStratumServer
     {
-        void Initialize();
     }
 }

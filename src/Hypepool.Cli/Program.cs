@@ -2,6 +2,7 @@
 using Hypepool.Core.Core;
 using Hypepool.Core.Internals;
 using Hypepool.Core.Internals.Bootstrap;
+using Hypepool.Core.Internals.Factories.Core;
 
 namespace Hypepool.Cli
 {
@@ -12,7 +13,9 @@ namespace Hypepool.Cli
             var bootstrapper = new Bootstrapper(); // IoC kernel bootstrapper.
             bootstrapper.Run();
 
-            var engine = bootstrapper.Container.GetInstance<IEngine>();
+            var coreFactory = bootstrapper.Container.GetInstance<ICoreFactory>();
+
+            var engine = coreFactory.GetEngine();
             engine.Initialize();
         }
     }

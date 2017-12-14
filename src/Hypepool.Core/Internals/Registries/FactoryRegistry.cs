@@ -1,6 +1,6 @@
-﻿using Hypepool.Core.Blockchain.Monero;
-using Hypepool.Core.Core;
+﻿using Hypepool.Core.Internals.Factories.Core;
 using Hypepool.Core.Internals.Factories.Pool;
+using Hypepool.Core.Internals.Factories.Server;
 using SimpleInjector;
 
 namespace Hypepool.Core.Internals.Registries
@@ -17,6 +17,8 @@ namespace Hypepool.Core.Internals.Registries
         public void Run()
         {
             _container.RegisterSingleton<IPoolFactory, PoolFactory>();
+            _container.RegisterSingleton<ICoreFactory, CoreFactory>();
+            _container.RegisterSingleton<IServerFactory, ServerFactory>();
         }
     }
 }

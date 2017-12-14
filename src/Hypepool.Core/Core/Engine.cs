@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Hypepool.Common;
+using Hypepool.Common.Pools;
 using Hypepool.Core.Internals.Factories.Pool;
 
 namespace Hypepool.Core.Core
@@ -23,6 +24,11 @@ namespace Hypepool.Core.Core
         public void Initialize()
         {
             _pools.Add(_poolFactory.GetMoneroPool());
+
+            foreach (var pool in Pools)
+            {
+                pool.Initialize();
+            }
         }
     }
 }

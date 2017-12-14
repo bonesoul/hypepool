@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypepool.Common", "src\Hype
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypepool.Core", "src\Hypepool.Core\Hypepool.Core.csproj", "{63B184C0-6A74-45B8-AAFE-D6EC3503DF54}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypepool.CLI", "src\Hypepool.CLI\Hypepool.CLI.csproj", "{97DCEE8D-F9F8-4C42-AA48-DC83339A0724}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hypepool.Cli", "src\Hypepool.Cli\Hypepool.Cli.csproj", "{6DBD47F9-B740-44B4-B5B1-A6575E0CE53E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{63B184C0-6A74-45B8-AAFE-D6EC3503DF54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63B184C0-6A74-45B8-AAFE-D6EC3503DF54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63B184C0-6A74-45B8-AAFE-D6EC3503DF54}.Release|Any CPU.Build.0 = Release|Any CPU
-		{97DCEE8D-F9F8-4C42-AA48-DC83339A0724}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{97DCEE8D-F9F8-4C42-AA48-DC83339A0724}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{97DCEE8D-F9F8-4C42-AA48-DC83339A0724}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{97DCEE8D-F9F8-4C42-AA48-DC83339A0724}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DBD47F9-B740-44B4-B5B1-A6575E0CE53E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DBD47F9-B740-44B4-B5B1-A6575E0CE53E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DBD47F9-B740-44B4-B5B1-A6575E0CE53E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DBD47F9-B740-44B4-B5B1-A6575E0CE53E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

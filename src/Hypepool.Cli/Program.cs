@@ -1,6 +1,7 @@
 ﻿using System;
 using Hypepool.Core.Core;
 using Hypepool.Core.Internals;
+using Hypepool.Core.Internals.Bootstrap;
 
 namespace Hypepool.Cli
 {
@@ -12,6 +13,7 @@ namespace Hypepool.Cli
             bootstrapper.Run();
 
             var engine = bootstrapper.Container.GetInstance<IEngine>();
+            engine.Initialize();
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using Hypepool.Core.Core;
+using Hypepool.Core.Internals;
 
 namespace Hypepool.Cli
 {
@@ -6,7 +8,10 @@ namespace Hypepool.Cli
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var bootstrapper = new Bootstrapper(); // IoC kernel bootstrapper.
+            bootstrapper.Run();
+
+            var engine = bootstrapper.Container.GetInstance<IEngine>();
         }
     }
 }

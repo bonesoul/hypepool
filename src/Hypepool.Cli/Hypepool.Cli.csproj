@@ -5,4 +5,8 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Hypepool.Core\Hypepool.Core.csproj" />
+  </ItemGroup>
+
 </Project>

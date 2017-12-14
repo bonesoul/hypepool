@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypepool.CLI", "src\hypepool.cli\Hypepool.CLI.csproj", "{4C380F53-0CB3-4275-B6EE-339111C931F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypepool.Common", "src\Hypepool.Common\Hypepool.Common.csproj", "{9DE1B43B-2E09-4F0F-B955-93236ADFE688}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HypePool.Common", "src\Hypepool.Common\HypePool.Common.csproj", "{2889750F-AC2D-4866-AC8B-BD4CDFA6C3B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypepool.Core", "src\Hypepool.Core\Hypepool.Core.csproj", "{63B184C0-6A74-45B8-AAFE-D6EC3503DF54}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypepool.Core", "src\Hypepool.Core\Hypepool.Core.csproj", "{20C87901-9A58-42A9-A02A-BF8643845761}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypepool.CLI", "src\Hypepool.CLI\Hypepool.CLI.csproj", "{97DCEE8D-F9F8-4C42-AA48-DC83339A0724}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,18 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4C380F53-0CB3-4275-B6EE-339111C931F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4C380F53-0CB3-4275-B6EE-339111C931F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4C380F53-0CB3-4275-B6EE-339111C931F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4C380F53-0CB3-4275-B6EE-339111C931F1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2889750F-AC2D-4866-AC8B-BD4CDFA6C3B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2889750F-AC2D-4866-AC8B-BD4CDFA6C3B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2889750F-AC2D-4866-AC8B-BD4CDFA6C3B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2889750F-AC2D-4866-AC8B-BD4CDFA6C3B8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{20C87901-9A58-42A9-A02A-BF8643845761}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{20C87901-9A58-42A9-A02A-BF8643845761}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{20C87901-9A58-42A9-A02A-BF8643845761}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{20C87901-9A58-42A9-A02A-BF8643845761}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DE1B43B-2E09-4F0F-B955-93236ADFE688}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DE1B43B-2E09-4F0F-B955-93236ADFE688}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DE1B43B-2E09-4F0F-B955-93236ADFE688}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DE1B43B-2E09-4F0F-B955-93236ADFE688}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63B184C0-6A74-45B8-AAFE-D6EC3503DF54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63B184C0-6A74-45B8-AAFE-D6EC3503DF54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63B184C0-6A74-45B8-AAFE-D6EC3503DF54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63B184C0-6A74-45B8-AAFE-D6EC3503DF54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97DCEE8D-F9F8-4C42-AA48-DC83339A0724}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97DCEE8D-F9F8-4C42-AA48-DC83339A0724}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97DCEE8D-F9F8-4C42-AA48-DC83339A0724}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97DCEE8D-F9F8-4C42-AA48-DC83339A0724}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

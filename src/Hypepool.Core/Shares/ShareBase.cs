@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Hypepool.Common
+namespace Hypepool.Core.Shares
 {
-    public interface IPool
+    public class ShareBase : IShare
     {
-        void Initialize();
     }
 }

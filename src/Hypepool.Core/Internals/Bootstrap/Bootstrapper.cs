@@ -21,7 +21,8 @@ namespace Hypepool.Core.Internals.Bootstrap
             {
                 new CoreRegistery(Container),
                 new FactoryRegistry(Container),
-                new PoolRegistry(Container)
+                new PoolRegistry(Container),
+                new ServerRegistry(Container)
             };
         }
 

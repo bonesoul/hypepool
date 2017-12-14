@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Hypepool.Core.Blockchain.Monero;
+﻿using Hypepool.Core.Blockchain.Monero;
 using SimpleInjector;
 
 namespace Hypepool.Core.Internals.Factories.Pool

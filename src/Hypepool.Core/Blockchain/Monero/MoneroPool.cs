@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Hypepool.Common;
+﻿using Hypepool.Core.Internals.Factories.Server;
+using Hypepool.Core.Pools;
 
 namespace Hypepool.Core.Blockchain.Monero
 {
-    public class MoneroPool : IPool
+    public class MoneroPool : PoolBase<MoneroShare>
     {
-        public MoneroPool()
+        public MoneroPool(IServerFactory serverFactory)
+            :base(serverFactory)
         {
-            
+
         }
 
-        public void Initialize()
+        public override void Initialize()
         {
-            
+
         }
     }
 }

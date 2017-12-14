@@ -5,7 +5,7 @@ using System.Reflection;
 using Hypepool.Core.Internals.Registries;
 using SimpleInjector;
 
-namespace Hypepool.Core.Internals
+namespace Hypepool.Core.Internals.Bootstrap
 {
     public class Bootstrapper : IBootstrapper
     {
@@ -19,7 +19,9 @@ namespace Hypepool.Core.Internals
 
             _registeries = new List<IRegistry>
             {
-                new CoreRegistery(Container)
+                new CoreRegistery(Container),
+                new FactoryRegistry(Container),
+                new PoolRegistry(Container)
             };
         }
 

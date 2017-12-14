@@ -1,7 +1,9 @@
-﻿using Hypepool.Core.Core;
+﻿using System;
+using Hypepool.Core.Core;
 using Hypepool.Core.Internals;
+using Hypepool.Core.Internals.Bootstrap;
 
-namespace Hypepool.CLI
+namespace Hypepool.Cli
 {
     class Program
     {
@@ -11,6 +13,7 @@ namespace Hypepool.CLI
             bootstrapper.Run();
 
             var engine = bootstrapper.Container.GetInstance<IEngine>();
+            engine.Initialize();
         }
     }
 }

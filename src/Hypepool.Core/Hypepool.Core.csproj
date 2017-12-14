@@ -9,4 +9,8 @@
     <PackageReference Include="SimpleInjector.Packaging" Version="4.0.12" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Hypepool.Common\Hypepool.Common.csproj" />
+  </ItemGroup>
+
 </Project>

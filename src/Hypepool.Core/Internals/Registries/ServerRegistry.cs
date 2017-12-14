@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Hypepool.Common.Stratum;
 using Hypepool.Core.Stratum;
 using SimpleInjector;
 

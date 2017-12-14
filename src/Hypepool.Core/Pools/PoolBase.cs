@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using Hypepool.Common.Pools;
+using Hypepool.Common.Stratum;
 using Hypepool.Core.Internals.Factories.Server;
 using Hypepool.Core.Shares;
 using Hypepool.Core.Stratum;

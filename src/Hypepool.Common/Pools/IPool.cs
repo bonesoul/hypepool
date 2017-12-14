@@ -1,4 +1,4 @@
-﻿using Hypepool.Core.Stratum;
+﻿using Hypepool.Common.Stratum;
 
 namespace Hypepool.Common.Pools
 {

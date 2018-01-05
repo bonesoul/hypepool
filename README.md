@@ -6,7 +6,7 @@
 ▀▀▀ ·  ▀ • .▀    ▀▀▀ .▀    ▀█▄▀▪ ▀█▄▀▪.▀▀▀ 
 ```
 
-**hypepool** is an rock-solid & platform-agnostic pool server which is a next-gen successor of [CoiniumServ](https://github.com/bonesoul/CoiniumServ) running on dotnet core 2.0 + libuv.
+**hypepool** is an rock-solid & platform-agnostic pool server which is a next-gen successor of [CoiniumServ](https://github.com/bonesoul/CoiniumServ) running on [dotnet core 2.0](https://github.com/dotnet/core) + [libuv](https://github.com/libuv/libuv).
 
 ### donations
 

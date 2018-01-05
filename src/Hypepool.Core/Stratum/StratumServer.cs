@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
 using Hypepool.Common.Stratum;
 using Hypepool.Core.Utils.Buffers;
 using Hypepool.Core.Utils.Time;
@@ -122,6 +123,14 @@ namespace Hypepool.Core.Stratum
 
         protected virtual void OnReceive(StratumClient client, PooledArraySegment<byte> data)
         {
+            // get off of LibUV event-loop-thread immediately
+            Task.Run(async () =>
+            {
+                using (data)
+                {
+
+                }
+            });
         }
 
         protected virtual void OnReceiveError(StratumClient client, Exception ex)

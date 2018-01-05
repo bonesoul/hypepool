@@ -102,8 +102,7 @@ namespace Hypepool.Core.Stratum
             {
                 var remoteEndPoint = connection.GetPeerEndPoint(); // get endpoint.
                 var connectionId = CorrelationIdGenerator.GetNextId(); // get an unique id for connection.
-                _logger.Debug(
-                    $"Accepting connection [{connectionId}] from {remoteEndPoint.Address}:{remoteEndPoint.Port}");
+                _logger.Debug($"Accepting connection [{connectionId}] from {remoteEndPoint.Address}:{remoteEndPoint.Port}");
 
                 connection.KeepAlive(true, 1); // allow keep-alive.
 

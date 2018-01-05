@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Hypepool.Common\Hypepool.Common.csproj" />
+    <ProjectReference Include="..\..\Core\Hypepool.Common\Hypepool.Common.csproj" />
   </ItemGroup>
 
 </Project>

@@ -8,9 +8,13 @@
     <FileVersion>0.0.1.0</FileVersion>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\..\..\build\bin\Debug\netcoreapp2.0\</OutputPath>
+  </PropertyGroup>
+
   <ItemGroup>
+    <ProjectReference Include="..\..\Blockchains\Monero\Monero.csproj" />
     <ProjectReference Include="..\Hypepool.Core\Hypepool.Core.csproj" />
-    <ProjectReference Include="..\Monero\Monero.csproj" />
   </ItemGroup>
 
 </Project>

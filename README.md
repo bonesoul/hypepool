@@ -76,3 +76,7 @@ To support the project, we'll be stripping out full-featured web frontend as a s
 ### status
 
 development ongoing.
+
+### getting started
+
+check out the [wiki guide](https://github.com/bonesoul/hypepool/wiki/Getting-Started). 

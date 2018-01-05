@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Net;
 using System.Reactive.Disposables;
@@ -86,34 +88,6 @@ namespace Hypepool.Core.Stratum
             Receive(tcp, clock, onNext, onCompleted, onError); // start recieving.
         }
 
-        private void DrainSendQueue(Async handle)
-        {
-            try
-            {
-                var tcp = (Tcp) handle.UserToken;
-
-                if (tcp?.IsValid == true && !tcp.IsClosing && tcp.IsWritable && _sendQueue != null)
-                {
-                    var queueSize = _sendQueue.Count;
-                    if (queueSize >= 256)
-                        _logger.Warning($"[{ConnectionId}] Send queue backlog now at {queueSize}");
-
-                    while (_sendQueue.TryDequeue(out var segment))
-                    {
-                        using (segment)
-                        {
-                            tcp.QueueWrite(segment.Array, 0, segment.Size);
-                        }
-                    }
-                }
-            }
-
-            catch (Exception ex)
-            {
-                _logger.Error(ex.ToString());
-            }
-        }
-
         private void Receive(Tcp tcp, IMasterClock clock,
             Action<PooledArraySegment<byte>> onNext, Action onCompleted, Action<Exception> onError)
         {
@@ -155,6 +129,85 @@ namespace Hypepool.Core.Stratum
                 });
         }
 
+        public void Send<T>(T payload)
+        {
+            if (IsAlive)
+            {
+                var buf = ArrayPool<byte>.Shared.Rent(MaxOutboundRequestLength);
+
+                try
+                {
+                    using (var stream = new MemoryStream(buf, true))
+                    {
+                        stream.SetLength(0);
+                        int size;
+
+                        using (var writer = new StreamWriter(stream, StratumConstants.Encoding))
+                        {
+                            Serializer.Serialize(writer, payload);
+                            writer.Flush();
+
+                            // append newline
+                            stream.WriteByte(0xa);
+                            size = (int)stream.Position;
+                        }
+
+                        _logger.Verbose($"[{ConnectionId}] Sending: {StratumConstants.Encoding.GetString(buf, 0, size)}");
+
+                        SendInternal(new PooledArraySegment<byte>(buf, 0, size));
+                    }
+                }
+
+                catch (Exception)
+                {
+                    ArrayPool<byte>.Shared.Return(buf);
+                    throw;
+                }
+            }
+        }
+
+        public void Respond<T>(T payload, object id)
+        {
+            Respond(new JsonRpcResponse<T>(payload, id));
+        }
+
+        public void RespondError(StratumError code, string message, object id, object result = null, object data = null)
+        {
+            Respond(new JsonRpcResponse(new JsonRpcException((int)code, message, null), id, result));
+        }
+
+        public void Respond<T>(JsonRpcResponse<T> response)
+        {
+            Send(response);
+        }
+
+        public void Notify<T>(string method, T payload)
+        {
+            Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(method), $"{nameof(method)} must not be empty");
+
+            Notify(new JsonRpcRequest<T>(method, payload, null));
+        }
+
+        public void Notify<T>(JsonRpcRequest<T> request)
+        {
+
+            Send(request);
+        }
+
+        private void SendInternal(PooledArraySegment<byte> buffer)
+        {
+            try
+            {
+                _sendQueue.Enqueue(buffer);
+                _sendQueueDrainer.Send();
+            }
+
+            catch (ObjectDisposedException)
+            {
+                buffer.Dispose();
+            }
+        }
+
         public void Disconnect()
         {
             _subscription?.Dispose();
@@ -174,6 +227,34 @@ namespace Hypepool.Core.Stratum
                         return Serializer.Deserialize<JsonRpcRequest>(jreader);
                     }
                 }
+            }
+        }
+
+        private void DrainSendQueue(Async handle)
+        {
+            try
+            {
+                var tcp = (Tcp)handle.UserToken;
+
+                if (tcp?.IsValid == true && !tcp.IsClosing && tcp.IsWritable && _sendQueue != null)
+                {
+                    var queueSize = _sendQueue.Count;
+                    if (queueSize >= 256)
+                        _logger.Warning($"[{ConnectionId}] Send queue backlog now at {queueSize}");
+
+                    while (_sendQueue.TryDequeue(out var segment))
+                    {
+                        using (segment)
+                        {
+                            tcp.QueueWrite(segment.Array, 0, segment.Size);
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                _logger.Error(ex.ToString());
             }
         }
     }

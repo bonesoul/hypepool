@@ -24,7 +24,7 @@ namespace Hypepool.Common.Pools
 
         public virtual void Initialize()
         {
-            StratumServer.Initialize(this);
+            StratumServer.Start(this);
         }
 
         public abstract void OnConnect(IStratumClient client);

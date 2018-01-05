@@ -10,7 +10,7 @@ namespace Hypepool.Common.Stratum
 
         IReadOnlyDictionary<string, IStratumClient> Clients { get; }
 
-        void Initialize(IPool pool);
+        void Start(IPool pool);
 
         void Stop();
     }

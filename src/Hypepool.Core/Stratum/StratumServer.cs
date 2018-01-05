@@ -14,6 +14,7 @@ using Hypepool.Core.Utils.Time;
 using Hypepool.Core.Utils.Unique;
 using NetUV.Core.Handles;
 using NetUV.Core.Native;
+using Newtonsoft.Json;
 using Serilog;
 
 namespace Hypepool.Core.Stratum
@@ -43,17 +44,11 @@ namespace Hypepool.Core.Stratum
             Clients = new ReadOnlyDictionary<string, IStratumClient>(_clients);
         }
 
-        public void Initialize(IPool pool)
+        public void Start(IPool pool)
         {
             _pool = pool;
-
-            StartListeners();
-
             _logger.Verbose("Initialized stratum server");
-        }
 
-        private void StartListeners()
-        {
             var thread = new Thread(_ => // every port gets serviced by a dedicated loop thread
                 {
                     var loop = new Loop(); // libuv loop.
@@ -152,20 +147,34 @@ namespace Hypepool.Core.Stratum
 
                     JsonRpcRequest request = null;
 
-                    // de-serialize
-                    _logger.Verbose($"[{client.ConnectionId}] Received request data: {StratumConstants.Encoding.GetString(data.Array, 0, data.Size)}");
-                    request = client.DeserializeRequest(data);
+                    try
+                    {
+                        // de-serialize
+                        _logger.Verbose($"[{client.ConnectionId}] Received request data: {StratumConstants.Encoding.GetString(data.Array, 0, data.Size)}");
+                        request = client.DeserializeRequest(data);
 
-                    // dispatch
-                    if (request != null)
-                    {
-                        _logger.Debug($"[{client.ConnectionId}] Dispatching request '{request.Method}' [{request.Id}]");
-                        await _pool.OnRequestAsync(client, new Timestamped<JsonRpcRequest>(request, new StandardClock().Now));
+                        // dispatch
+                        if (request != null)
+                        {
+                            _logger.Debug($"[{client.ConnectionId}] Dispatching request '{request.Method}' [{request.Id}]");
+                            await _pool.OnRequestAsync(client, new Timestamped<JsonRpcRequest>(request, new StandardClock().Now));
+                        }
+                        else
+                        {
+                            _logger.Verbose($"[{client.ConnectionId}] Unable to deserialize request");
+                        }
                     }
-                    else
+                    catch (JsonReaderException jsonEx)
                     {
-                        _logger.Verbose($"[{client.ConnectionId}] Unable to deserialize request");
-                    }                        
+                        // junk received (no valid json)
+                        _logger.Error($"[{client.ConnectionId}] Connection json error state: {jsonEx.Message}");
+                    }
+
+                    catch (Exception ex)
+                    {
+                        if (request != null)
+                            _logger.Error(ex, $"[{client.ConnectionId}] Error processing request {request.Method} [{request.Id}]");
+                    }
                 }
             });
         }

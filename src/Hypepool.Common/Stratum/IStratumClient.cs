@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Net;
+using Hypepool.Common.JsonRpc;
 using Hypepool.Common.Mining.Context;
 
 namespace Hypepool.Common.Stratum
@@ -21,5 +23,27 @@ namespace Hypepool.Common.Stratum
         DateTime? LastReceive { get; }
 
         void Disconnect();
+
+        void Respond<T>(T payload, object id);
+
+
+        void RespondError(StratumError code, string message, object id, object result = null, object data = null);
+
+
+        void Respond<T>(JsonRpcResponse<T> response);
+
+
+        void Notify<T>(string method, T payload);
+
+
+        void Notify<T>(JsonRpcRequest<T> request);
+
+
+        void RespondError(object id, int code, string message);
+
+
+        void RespondUnsupportedMethod(object id);
+
+        void RespondUnauthorized(object id);
     }
 }

@@ -206,20 +206,6 @@ namespace Hypepool.Core.Stratum
             Send(request);
         }
 
-        private void SendInternal(PooledArraySegment<byte> buffer)
-        {
-            try
-            {
-                _sendQueue.Enqueue(buffer);
-                _sendQueueDrainer.Send();
-            }
-
-            catch (ObjectDisposedException)
-            {
-                buffer.Dispose();
-            }
-        }
-
         public void RespondError(object id, int code, string message)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(message), $"{nameof(message)} must not be empty");
@@ -235,6 +221,20 @@ namespace Hypepool.Core.Stratum
         public void RespondUnauthorized(object id)
         {
             RespondError(id, (int)StratumError.UnauthorizedWorker, "Unauthorized worker");
+        }
+
+        private void SendInternal(PooledArraySegment<byte> buffer)
+        {
+            try
+            {
+                _sendQueue.Enqueue(buffer);
+                _sendQueueDrainer.Send();
+            }
+
+            catch (ObjectDisposedException)
+            {
+                buffer.Dispose();
+            }
         }
 
         public void Disconnect()

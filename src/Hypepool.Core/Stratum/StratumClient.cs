@@ -8,9 +8,10 @@ using System.Net;
 using System.Reactive.Disposables;
 using System.Text;
 using Hypepool.Common.JsonRpc;
+using Hypepool.Common.Mining.Context;
 using Hypepool.Common.Stratum;
+using Hypepool.Common.Utils.Time;
 using Hypepool.Core.Utils.Buffers;
-using Hypepool.Core.Utils.Time;
 using NetUV.Core.Handles;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -35,6 +36,7 @@ namespace Hypepool.Core.Stratum
         private IDisposable _subscription;
         private readonly ILogger _logger;
         private readonly PooledLineBuffer _pooledLineBuffer;
+        private WorkerContext _workerContext;
 
         private const int MaxInboundRequestLength = 8192;
         private const int MaxOutboundRequestLength = 0x4000;
@@ -86,6 +88,16 @@ namespace Hypepool.Core.Stratum
             _subscription = Disposable.Create(() => { disposer.Send(); });
 
             Receive(tcp, clock, onNext, onCompleted, onError); // start recieving.
+        }
+
+        public void SetContext<T>(T value) where T : WorkerContext
+        {
+            _workerContext = value;
+        }
+
+        public T GetContextAs<T>() where T : WorkerContext
+        {
+            return (T)_workerContext;
         }
 
         private void Receive(Tcp tcp, IMasterClock clock,
@@ -178,6 +190,7 @@ namespace Hypepool.Core.Stratum
 
         public void Respond<T>(JsonRpcResponse<T> response)
         {
+
             Send(response);
         }
 
@@ -190,7 +203,6 @@ namespace Hypepool.Core.Stratum
 
         public void Notify<T>(JsonRpcRequest<T> request)
         {
-
             Send(request);
         }
 
@@ -206,6 +218,23 @@ namespace Hypepool.Core.Stratum
             {
                 buffer.Dispose();
             }
+        }
+
+        public void RespondError(object id, int code, string message)
+        {
+            Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(message), $"{nameof(message)} must not be empty");
+
+            Respond(new JsonRpcResponse(new JsonRpcException(code, message, null), id));
+        }
+
+        public void RespondUnsupportedMethod(object id)
+        {
+            RespondError(id, (int)StratumError.Other, "Unsupported method");
+        }
+
+        public void RespondUnauthorized(object id)
+        {
+            RespondError(id, (int)StratumError.UnauthorizedWorker, "Unauthorized worker");
         }
 
         public void Disconnect()

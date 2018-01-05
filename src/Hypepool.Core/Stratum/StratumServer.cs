@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 using Hypepool.Common.JsonRpc;
 using Hypepool.Common.Pools;
 using Hypepool.Common.Stratum;
+using Hypepool.Common.Utils.Time;
 using Hypepool.Core.Utils.Buffers;
-using Hypepool.Core.Utils.Time;
 using Hypepool.Core.Utils.Unique;
 using NetUV.Core.Handles;
 using NetUV.Core.Native;
@@ -202,7 +202,7 @@ namespace Hypepool.Core.Stratum
             DisconnectClient(client);
         }
 
-        protected virtual void DisconnectClient(StratumClient client)
+        public void DisconnectClient(IStratumClient client)
         {
             var subscriptionId = client.ConnectionId;
 

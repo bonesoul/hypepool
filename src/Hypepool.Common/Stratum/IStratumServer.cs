@@ -13,5 +13,7 @@ namespace Hypepool.Common.Stratum
         void Start(IPool pool);
 
         void Stop();
+
+        void DisconnectClient(IStratumClient client);
     }
 }

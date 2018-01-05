@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Hypepool.Common.Factories.Server;
 using Hypepool.Common.JsonRpc;
+using Hypepool.Common.Mining.Context;
 using Hypepool.Common.Pools;
 using Hypepool.Common.Stratum;
 using Serilog;
@@ -10,7 +11,6 @@ namespace Hypepool.Monero
 {
     public class MoneroPool : PoolBase<MoneroShare>
     {
-        private readonly ILogger _logger;
 
         public MoneroPool(IServerFactory serverFactory)
             : base(serverFactory)
@@ -18,19 +18,16 @@ namespace Hypepool.Monero
             _logger = Log.ForContext<MoneroPool>();
         }
 
-        public override void Initialize()
+        protected override WorkerContext CreateClientContext()
         {
-            _logger.Information("Initializing pool..");
-            base.Initialize();
+            return new MoneroWorkerContext();
         }
 
-        public override void OnConnect(IStratumClient client)
+        public override Task OnRequestAsync(IStratumClient client, Timestamped<JsonRpcRequest> timeStampedRequest)
         {
-            
-        }
+            var request = timeStampedRequest.Value;
+            var context = client.GetContextAs<MoneroWorkerContext>();
 
-        public override Task OnRequestAsync(IStratumClient client, Timestamped<JsonRpcRequest> request)
-        {
             return null;
         }
     }

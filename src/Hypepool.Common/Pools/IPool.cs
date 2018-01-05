@@ -9,12 +9,12 @@ namespace Hypepool.Common.Pools
     {
         IStratumServer StratumServer { get; }
 
-        void Initialize();
+        Task StartAsync();
 
         void OnConnect(IStratumClient client);
 
         void OnDisconnect(string subscriptionId);
 
-        Task OnRequestAsync(IStratumClient client, Timestamped<JsonRpcRequest> request);
+        Task OnRequestAsync(IStratumClient client, Timestamped<JsonRpcRequest> timeStampedRequest);
     }
 }

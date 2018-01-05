@@ -14,5 +14,7 @@ namespace Hypepool.Common.Stratum
         bool IsAlive { get; }
 
         DateTime? LastReceive { get; }
+
+        void Disconnect();
     }
 }

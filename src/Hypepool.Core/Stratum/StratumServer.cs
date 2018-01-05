@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
+using System.Reactive;
 using System.Threading;
 using System.Threading.Tasks;
 using Hypepool.Common.Stratum;
+using Hypepool.Core.JsonRpc;
 using Hypepool.Core.Utils.Buffers;
 using Hypepool.Core.Utils.Time;
 using Hypepool.Core.Utils.Unique;
 using NetUV.Core.Handles;
+using NetUV.Core.Native;
 using Serilog;
 
 namespace Hypepool.Core.Stratum
@@ -17,8 +20,11 @@ namespace Hypepool.Core.Stratum
     public class StratumServer : IStratumServer
     {
         public IReadOnlyDictionary<int, Tcp> Ports { get; }
+        public IReadOnlyDictionary<string, IStratumClient> Clients { get; }
 
-        private IDictionary<int, Tcp> _ports { get; }
+        private readonly IDictionary<int, Tcp> _ports;
+
+        private readonly IDictionary<string, IStratumClient> _clients;
 
         private readonly ILogger _logger;
 
@@ -27,7 +33,10 @@ namespace Hypepool.Core.Stratum
             _logger = Log.ForContext<StratumServer>().ForContext("Pool", "pool-name");
 
             _ports = new Dictionary<int, Tcp>();
+            _clients = new Dictionary<string, IStratumClient>();
+
             Ports = new ReadOnlyDictionary<int, Tcp>(_ports);
+            Clients = new ReadOnlyDictionary<string, IStratumClient>(_clients);
         }
 
         public void Initialize()
@@ -113,6 +122,13 @@ namespace Hypepool.Core.Stratum
                     () => OnReceiveComplete(client),
                     ex => OnReceiveError(client, ex));
 
+                // register client
+                lock (_clients)
+                {
+                    _clients[connectionId] = client;
+                }
+
+                OnConnect(client);
             }
             catch (Exception ex)
             {
@@ -128,15 +144,95 @@ namespace Hypepool.Core.Stratum
                 using (data)
                 {
 
+                    JsonRpcRequest request = null;
+
+                    // de-serialize
+                    _logger.Verbose($"[{client.ConnectionId}] Received request data: {StratumConstants.Encoding.GetString(data.Array, 0, data.Size)}");
+                    request = client.DeserializeRequest(data);
+
+                    // dispatch
+                    if (request != null)
+                    {
+                        _logger.Debug($"[{client.ConnectionId}] Dispatching request '{request.Method}' [{request.Id}]");
+                        //await OnRequestAsync(client, new Timestamped<JsonRpcRequest>(request, clock.Now));
+                    }
+                    else
+                    {
+                        _logger.Verbose($"[{client.ConnectionId}] Unable to deserialize request");
+                    }                        
                 }
             });
         }
 
         protected virtual void OnReceiveError(StratumClient client, Exception ex)
         {
+            switch (ex)
+            {
+                case OperationException opEx:
+                    // log everything but ECONNRESET which just indicates the client disconnecting
+                    if (opEx.ErrorCode != ErrorCode.ECONNRESET)
+                        _logger.Error($"[{client.ConnectionId}] Connection error state: {ex.Message}");
+                    break;
+                default:
+                    _logger.Error($"[{client.ConnectionId}] Connection error state: {ex.Message}");
+                    break;
+            }
+
+            DisconnectClient(client);
         }
 
         protected virtual void OnReceiveComplete(StratumClient client)
+        {
+            _logger.Debug($"[{client.ConnectionId}] Received EOF");
+            DisconnectClient(client);
+        }
+
+        protected virtual void DisconnectClient(StratumClient client)
+        {
+            var subscriptionId = client.ConnectionId;
+
+            client.Disconnect();
+
+            if (!string.IsNullOrEmpty(subscriptionId))
+            {
+                // unregister client
+                lock (_clients)
+                {
+                    _clients.Remove(subscriptionId);
+                }
+            }
+
+            OnDisconnect(subscriptionId);
+        }
+
+        protected void ForEachClient(Action<IStratumClient> action)
+        {
+            IStratumClient[] clients;
+
+            lock (_clients)
+            {
+                clients = _clients.Values.ToArray();
+            }
+
+            foreach (var client in clients)
+            {
+                try
+                {
+                    action(client);
+                }
+
+                catch (Exception ex)
+                {
+                    _logger.Error(ex.ToString());
+                }
+            }
+        }
+
+        protected virtual void OnConnect(StratumClient client)
+        {
+        }
+
+        protected virtual void OnDisconnect(string subscriptionId)
         {
         }
     }

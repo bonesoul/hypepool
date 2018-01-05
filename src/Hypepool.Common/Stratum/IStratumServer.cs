@@ -7,6 +7,8 @@ namespace Hypepool.Common.Stratum
     {
         IReadOnlyDictionary<int, Tcp> Ports { get; }
 
+        IReadOnlyDictionary<string, IStratumClient> Clients { get; }
+
         void Initialize();
 
         void Stop();

@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Reactive.Disposables;
 using System.Text;
 using Hypepool.Common.Stratum;
+using Hypepool.Core.JsonRpc;
 using Hypepool.Core.Utils.Buffers;
 using Hypepool.Core.Utils.Time;
 using NetUV.Core.Handles;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Serilog;
 
 namespace Hypepool.Core.Stratum
@@ -32,6 +36,11 @@ namespace Hypepool.Core.Stratum
 
         private const int MaxInboundRequestLength = 8192;
         private const int MaxOutboundRequestLength = 0x4000;
+
+        private static readonly JsonSerializer Serializer = new JsonSerializer
+        {
+            ContractResolver = new CamelCasePropertyNamesContractResolver()
+        };
 
         public StratumClient()
         {
@@ -144,6 +153,28 @@ namespace Hypepool.Core.Stratum
 
                     handle.CloseHandle();
                 });
+        }
+
+        public void Disconnect()
+        {
+            _subscription?.Dispose();
+            _subscription = null;
+
+            IsAlive = false;
+        }
+
+        public JsonRpcRequest DeserializeRequest(PooledArraySegment<byte> data)
+        {
+            using (var stream = new MemoryStream(data.Array, data.Offset, data.Size))
+            {
+                using (var reader = new StreamReader(stream, StratumConstants.Encoding))
+                {
+                    using (var jreader = new JsonTextReader(reader))
+                    {
+                        return Serializer.Deserialize<JsonRpcRequest>(jreader);
+                    }
+                }
+            }
         }
     }
 }

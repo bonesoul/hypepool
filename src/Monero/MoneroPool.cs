@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Reactive;
 using System.Threading.Tasks;
+using Hypepool.Common.Coins;
 using Hypepool.Common.Factories.Server;
 using Hypepool.Common.JsonRpc;
 using Hypepool.Common.Mining.Context;
+using Hypepool.Common.Native;
 using Hypepool.Common.Pools;
 using Hypepool.Common.Stratum;
 using Hypepool.Common.Utils.Time;
 using Hypepool.Monero.Stratum;
+using Hypepool.Monero.Stratum.Responses;
 using Newtonsoft.Json;
 using Serilog;
 
@@ -88,6 +91,31 @@ namespace Hypepool.Monero
                 context.PaymentId = context.MinerName.Substring(index + 1);
             }
 
+            var hasValidAddress = ValidateAddress(context.MinerName);
+            context.IsAuthorized = context.IsSubscribed = hasValidAddress;
+
+            if (!context.IsAuthorized)
+            {
+                client.RespondError(StratumError.MinusOne, "invalid login", request.Id);
+                return;
+            }
+
+            var loginResponse = new MoneroLoginResponse
+            {
+                Id = client.ConnectionId,
+                Job = new MoneroJobParams()
+                {
+                    Blob = "a",
+                    JobId = "b",
+                    Target = "c"
+                }
+            };
+
+            client.Respond(loginResponse, request.Id);
+
+            // log association
+            _logger.Information($"[{client.ConnectionId}] = {loginRequest.Login} = {client.RemoteEndpoint.Address}");
+
             // recognize activity.
             context.LastActivity = new StandardClock().Now;
         }
@@ -100,5 +128,18 @@ namespace Hypepool.Monero
         private async Task OnSubmitAsync(IStratumClient client, Timestamped<JsonRpcRequest> tsRequest)
         {
         }
+
+        private bool ValidateAddress(string address)
+        {
+            // check address length.
+            if (address.Length != MoneroConstants.AddressLength[CoinType.XMR])
+                return false;
+
+            var addressPrefix = LibCryptonote.DecodeAddress(address);
+            //if (addressPrefix != poolAddressBase58Prefix)
+            //    return false;
+
+            return true;
+        } 
     }
 }

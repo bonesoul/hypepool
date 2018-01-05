@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Hypepool.Common.Utils.Buffers;
 using Hypepool.Core.Extensions;
 using Serilog;
 

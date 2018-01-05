@@ -12,6 +12,10 @@ namespace Hypepool.Common.Mining.Context
         /// </summary>
         public DateTime LastActivity { get; set; }
 
+        public bool IsAuthorized { get; set; } = false;
+
+        public bool IsSubscribed { get; set; } = false;
+
         /// <summary>
         /// Difficulty assigned to this worker, either static or updated through VarDiffManager
         /// </summary>

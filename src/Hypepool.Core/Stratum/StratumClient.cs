@@ -10,6 +10,7 @@ using System.Text;
 using Hypepool.Common.JsonRpc;
 using Hypepool.Common.Mining.Context;
 using Hypepool.Common.Stratum;
+using Hypepool.Common.Utils.Buffers;
 using Hypepool.Common.Utils.Time;
 using Hypepool.Core.Utils.Buffers;
 using NetUV.Core.Handles;

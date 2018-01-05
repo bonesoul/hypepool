@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Buffers;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Hypepool.Core.Utils.Buffers
+namespace Hypepool.Common.Utils.Buffers
 {
     public struct PooledArraySegment<T> : IDisposable
     {

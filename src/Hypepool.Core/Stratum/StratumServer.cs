@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Hypepool.Common.JsonRpc;
 using Hypepool.Common.Pools;
 using Hypepool.Common.Stratum;
+using Hypepool.Common.Utils.Buffers;
 using Hypepool.Common.Utils.Time;
 using Hypepool.Core.Utils.Buffers;
 using Hypepool.Core.Utils.Unique;

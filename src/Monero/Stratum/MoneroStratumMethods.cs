@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Hypepool.Monero
+﻿namespace Hypepool.Monero.Stratum
 {
     public class MoneroStratumMethods
     {

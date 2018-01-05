@@ -8,5 +8,7 @@ namespace Hypepool.Common.Stratum
         IReadOnlyDictionary<int, Tcp> Ports { get; }
 
         void Initialize();
+
+        void Stop();
     }
 }

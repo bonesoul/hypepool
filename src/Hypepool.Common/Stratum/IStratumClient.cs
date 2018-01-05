@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 
 namespace Hypepool.Common.Stratum
 {
@@ -9,5 +10,9 @@ namespace Hypepool.Common.Stratum
         IPEndPoint RemoteEndpoint { get; }
 
         string ConnectionId { get; }
+
+        bool IsAlive { get; }
+
+        DateTime? LastReceive { get; }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using Hypepool.Common.Factories.Server;
 using Hypepool.Common.Shares;
 using Hypepool.Common.Stratum;
+using Serilog;
 
 namespace Hypepool.Common.Pools
 {

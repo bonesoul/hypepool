@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using Hypepool.Common.Stratum;
 using NetUV.Core.Handles;
+using Serilog;
 
 namespace Hypepool.Core.Stratum
 {
@@ -15,8 +16,12 @@ namespace Hypepool.Core.Stratum
 
         private IDictionary<int, Tcp> _ports { get; }
 
+        private readonly ILogger _logger;
+
         public StratumServer()
         {
+            _logger = Log.ForContext<StratumServer>().ForContext("Pool", "test"); ;
+
             _ports = new Dictionary<int, Tcp>();
             Ports = new ReadOnlyDictionary<int, Tcp>(_ports);
         }
@@ -24,6 +29,8 @@ namespace Hypepool.Core.Stratum
         public void Initialize()
         {
             StartListeners();
+
+            _logger.Verbose("Initialized stratum server");
         }
 
         private void StartListeners()

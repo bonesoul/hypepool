@@ -1,4 +1,5 @@
 ﻿using Hypepool.Core.Core;
+using Hypepool.Core.Internals.Logging;
 using SimpleInjector;
 
 namespace Hypepool.Core.Internals.Factories.Core
@@ -15,6 +16,11 @@ namespace Hypepool.Core.Internals.Factories.Core
         public IEngine GetEngine()
         {
             return _container.GetInstance<IEngine>();
+        }
+
+        public ILogManager GetLogManager()
+        {
+            return _container.GetInstance<ILogManager>();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Hypepool.Core.Stratum
 
         public StratumServer()
         {
-            _logger = Log.ForContext<StratumServer>().ForContext("Pool", "test"); ;
+            _logger = Log.ForContext<StratumServer>().ForContext("Pool", "pool-name"); ;
 
             _ports = new Dictionary<int, Tcp>();
             Ports = new ReadOnlyDictionary<int, Tcp>(_ports);
@@ -47,10 +47,10 @@ namespace Hypepool.Core.Stratum
                         .SimultaneousAccepts(false)
                         .Listen(endpoint, (con, ex) =>
                         {
-                            if (ex == null)
+                            if (ex != null)
+                                _logger.Error($"Connection error: {ex.Message}");
+                            else
                                 OnClientConnected(con, endpoint, loop);
-                            //else
-                                //logger.Error(() => $"[{LogCat}] Connection error state: {ex.Message}");
                         });
 
                     // add to ports list.

@@ -154,7 +154,7 @@ namespace Hypepool.Core.Stratum
                     if (request != null)
                     {
                         _logger.Debug($"[{client.ConnectionId}] Dispatching request '{request.Method}' [{request.Id}]");
-                        //await OnRequestAsync(client, new Timestamped<JsonRpcRequest>(request, clock.Now));
+                        await OnRequestAsync(client, new Timestamped<JsonRpcRequest>(request, new StandardClock().Now));
                     }
                     else
                     {
@@ -234,6 +234,12 @@ namespace Hypepool.Core.Stratum
 
         protected virtual void OnDisconnect(string subscriptionId)
         {
+        }
+
+        protected Task OnRequestAsync(StratumClient client,
+            Timestamped<JsonRpcRequest> request)
+        {
+            return null;
         }
     }
 }

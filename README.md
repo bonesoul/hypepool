@@ -43,7 +43,9 @@ for list of supported operating systems [check here](https://github.com/dotnet/c
 - [ ] superior extensiblity.
 - [ ] vardiff support.
 - [ ] banning support.
-- [ ] full-stack api.
+- [ ] full-stack API.
 
+### web frontend
 
+To support the project, we'll be stripping out full-featured web frontend as a standalone project which can be purchased to support the development. Still, the user can implement his own web-frontend using the API.
                                            

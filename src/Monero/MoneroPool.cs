@@ -1,5 +1,9 @@
-﻿using Hypepool.Common.Factories.Server;
+﻿using System.Reactive;
+using System.Threading.Tasks;
+using Hypepool.Common.Factories.Server;
+using Hypepool.Common.JsonRpc;
 using Hypepool.Common.Pools;
+using Hypepool.Common.Stratum;
 using Serilog;
 
 namespace Hypepool.Monero
@@ -17,8 +21,17 @@ namespace Hypepool.Monero
         public override void Initialize()
         {
             _logger.Information("Initializing pool..");
+            base.Initialize();
+        }
 
-            StratumServer.Initialize();
+        public override void OnConnect(IStratumClient client)
+        {
+            
+        }
+
+        public override Task OnRequestAsync(IStratumClient client, Timestamped<JsonRpcRequest> request)
+        {
+            return null;
         }
     }
 }

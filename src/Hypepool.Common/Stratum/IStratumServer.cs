@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Hypepool.Common.Pools;
 using NetUV.Core.Handles;
 
 namespace Hypepool.Common.Stratum
@@ -9,7 +10,7 @@ namespace Hypepool.Common.Stratum
 
         IReadOnlyDictionary<string, IStratumClient> Clients { get; }
 
-        void Initialize();
+        void Initialize(IPool pool);
 
         void Stop();
     }

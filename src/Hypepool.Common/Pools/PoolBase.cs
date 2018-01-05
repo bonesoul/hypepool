@@ -1,5 +1,8 @@
 using System;
+using System.Reactive;
+using System.Threading.Tasks;
 using Hypepool.Common.Factories.Server;
+using Hypepool.Common.JsonRpc;
 using Hypepool.Common.Shares;
 using Hypepool.Common.Stratum;
 using Serilog;
@@ -21,7 +24,14 @@ namespace Hypepool.Common.Pools
 
         public virtual void Initialize()
         {
-            throw new NotImplementedException();
+            StratumServer.Initialize(this);
         }
+
+        public abstract void OnConnect(IStratumClient client);
+
+        public virtual void OnDisconnect(string subscriptionId)
+        { }
+
+        public abstract Task OnRequestAsync(IStratumClient client, Timestamped<JsonRpcRequest> request);
     }
 }

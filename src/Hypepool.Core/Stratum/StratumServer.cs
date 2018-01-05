@@ -6,8 +6,9 @@ using System.Net;
 using System.Reactive;
 using System.Threading;
 using System.Threading.Tasks;
+using Hypepool.Common.JsonRpc;
+using Hypepool.Common.Pools;
 using Hypepool.Common.Stratum;
-using Hypepool.Core.JsonRpc;
 using Hypepool.Core.Utils.Buffers;
 using Hypepool.Core.Utils.Time;
 using Hypepool.Core.Utils.Unique;
@@ -20,6 +21,7 @@ namespace Hypepool.Core.Stratum
     public class StratumServer : IStratumServer
     {
         public IReadOnlyDictionary<int, Tcp> Ports { get; }
+
         public IReadOnlyDictionary<string, IStratumClient> Clients { get; }
 
         private readonly IDictionary<int, Tcp> _ports;
@@ -27,6 +29,8 @@ namespace Hypepool.Core.Stratum
         private readonly IDictionary<string, IStratumClient> _clients;
 
         private readonly ILogger _logger;
+
+        private IPool _pool;
 
         public StratumServer()
         {
@@ -39,8 +43,10 @@ namespace Hypepool.Core.Stratum
             Clients = new ReadOnlyDictionary<string, IStratumClient>(_clients);
         }
 
-        public void Initialize()
+        public void Initialize(IPool pool)
         {
+            _pool = pool;
+
             StartListeners();
 
             _logger.Verbose("Initialized stratum server");
@@ -128,7 +134,7 @@ namespace Hypepool.Core.Stratum
                     _clients[connectionId] = client;
                 }
 
-                OnConnect(client);
+                _pool.OnConnect(client);
             }
             catch (Exception ex)
             {
@@ -154,7 +160,7 @@ namespace Hypepool.Core.Stratum
                     if (request != null)
                     {
                         _logger.Debug($"[{client.ConnectionId}] Dispatching request '{request.Method}' [{request.Id}]");
-                        await OnRequestAsync(client, new Timestamped<JsonRpcRequest>(request, new StandardClock().Now));
+                        await _pool.OnRequestAsync(client, new Timestamped<JsonRpcRequest>(request, new StandardClock().Now));
                     }
                     else
                     {
@@ -202,7 +208,7 @@ namespace Hypepool.Core.Stratum
                 }
             }
 
-            OnDisconnect(subscriptionId);
+            _pool.OnDisconnect(subscriptionId);
         }
 
         protected void ForEachClient(Action<IStratumClient> action)
@@ -226,20 +232,6 @@ namespace Hypepool.Core.Stratum
                     _logger.Error(ex.ToString());
                 }
             }
-        }
-
-        protected virtual void OnConnect(StratumClient client)
-        {
-        }
-
-        protected virtual void OnDisconnect(string subscriptionId)
-        {
-        }
-
-        protected Task OnRequestAsync(StratumClient client,
-            Timestamped<JsonRpcRequest> request)
-        {
-            return null;
         }
     }
 }

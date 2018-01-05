@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Newtonsoft.Json;
 
-namespace Hypepool.Core.JsonRpc
+namespace Hypepool.Common.JsonRpc
 {
     /// <summary>
     /// 5.1 Error object

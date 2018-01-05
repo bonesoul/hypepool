@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Hypepool.Core.JsonRpc
+namespace Hypepool.Common.JsonRpc
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class JsonRpcResponse : JsonRpcResponse<object>

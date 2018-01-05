@@ -35,5 +35,15 @@ for list of supported operating systems [check here](https://github.com/dotnet/c
 * dotnet core 2.0.
 * libUV for high-performance sockets.
                                            
-                                           
+### features
+
+- [ ] high performance sockets & stratum server.
+- [ ] efficient share processor.
+- [ ] rock solid payment processor.      
+- [ ] superior extensiblity.
+- [ ] vardiff support.
+- [ ] banning support.
+- [ ] full-stack api.
+
+
                                            

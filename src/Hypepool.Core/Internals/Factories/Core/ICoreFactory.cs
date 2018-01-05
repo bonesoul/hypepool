@@ -1,5 +1,4 @@
-﻿using Hypepool.Core.Blockchain.Monero;
-using Hypepool.Core.Core;
+﻿using Hypepool.Core.Core;
 
 namespace Hypepool.Core.Internals.Factories.Core
 {

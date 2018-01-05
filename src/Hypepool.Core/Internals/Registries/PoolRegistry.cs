@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Text;
-using Hypepool.Core.Blockchain.Monero;
+using Hypepool.Common.Pools;
 using SimpleInjector;
 
 namespace Hypepool.Core.Internals.Registries
@@ -17,7 +20,14 @@ namespace Hypepool.Core.Internals.Registries
 
         public void Run()
         {
-            _container.RegisterSingleton<MoneroPool>();
+            var root = AppDomain.CurrentDomain.BaseDirectory;
+
+            var assemnblies =
+                from file in new DirectoryInfo(root).GetFiles()
+                where file.Extension.ToLower() == ".dll"
+                select Assembly.Load(AssemblyName.GetAssemblyName(file.FullName));
+
+            _container.RegisterCollection<IPool>(assemnblies);
         }
     }
 }

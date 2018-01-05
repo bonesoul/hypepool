@@ -1,4 +1,8 @@
-﻿using Hypepool.Core.Blockchain.Monero;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using Hypepool.Common.Pools;
 using SimpleInjector;
 
 namespace Hypepool.Core.Internals.Factories.Pool
@@ -12,9 +16,10 @@ namespace Hypepool.Core.Internals.Factories.Pool
             _container = container;
         }
 
-        public MoneroPool GetMoneroPool()
+        public IPool GetPool(string name)
         {
-            return _container.GetInstance<MoneroPool>();
+            var registrations = _container.GetAllInstances<IPool>();
+            return registrations.First();
         }
     }
 }

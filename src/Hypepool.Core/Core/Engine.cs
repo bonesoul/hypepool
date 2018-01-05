@@ -23,7 +23,7 @@ namespace Hypepool.Core.Core
 
         public void Initialize()
         {
-            _pools.Add(_poolFactory.GetMoneroPool());
+            _pools.Add(_poolFactory.GetPool("Monero"));
 
             foreach (var pool in Pools)
             {

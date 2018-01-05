@@ -12,6 +12,7 @@ namespace Hypepool.Cli
         {
             var bootstrapper = new Bootstrapper(); // IoC kernel bootstrapper.
             bootstrapper.Run();
+            bootstrapper.Container.Verify(); // verify container
 
             var coreFactory = bootstrapper.Container.GetInstance<ICoreFactory>();
 

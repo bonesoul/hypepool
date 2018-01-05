@@ -1,4 +1,5 @@
-﻿using Hypepool.Common.Stratum;
+﻿using Hypepool.Common.Factories.Server;
+using Hypepool.Common.Stratum;
 using Hypepool.Core.Stratum;
 using SimpleInjector;
 

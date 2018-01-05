@@ -1,4 +1,5 @@
 ﻿using Hypepool.Core.Core;
+using Hypepool.Core.Internals.Logging;
 using SimpleInjector;
 
 namespace Hypepool.Core.Internals.Registries
@@ -15,6 +16,7 @@ namespace Hypepool.Core.Internals.Registries
         public void Run()
         {
             _container.RegisterSingleton<IEngine, Engine>();
+            _container.RegisterSingleton<ILogManager, LogManager>();
         }
     }
 }

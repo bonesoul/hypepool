@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Hypepool.Core.Blockchain.Monero;
+using Hypepool.Common.Pools;
 
 namespace Hypepool.Core.Internals.Factories.Pool
 {
     public interface IPoolFactory
     {
-        MoneroPool GetMoneroPool();
+        IPool GetPool(string name);
     }
 }

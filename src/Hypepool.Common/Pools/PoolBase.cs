@@ -1,11 +1,10 @@
 using System;
-using Hypepool.Common.Pools;
+using Hypepool.Common.Factories.Server;
+using Hypepool.Common.Shares;
 using Hypepool.Common.Stratum;
-using Hypepool.Core.Internals.Factories.Server;
-using Hypepool.Core.Shares;
-using Hypepool.Core.Stratum;
+using Serilog;
 
-namespace Hypepool.Core.Pools
+namespace Hypepool.Common.Pools
 {
     public abstract class PoolBase<TShare> : IPool where TShare : IShare
     {

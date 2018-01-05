@@ -1,4 +1,5 @@
-﻿using Hypepool.Core.Internals.Factories.Core;
+﻿using Hypepool.Common.Factories.Server;
+using Hypepool.Core.Internals.Factories.Core;
 using Hypepool.Core.Internals.Factories.Pool;
 using Hypepool.Core.Internals.Factories.Server;
 using SimpleInjector;

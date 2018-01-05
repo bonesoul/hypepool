@@ -11,12 +11,17 @@ namespace Hypepool.Cli
         static void Main(string[] args)
         {
             var bootstrapper = new Bootstrapper(); // IoC kernel bootstrapper.
-            bootstrapper.Run();
+            bootstrapper.Run(); // run bootstrapper.
+            bootstrapper.Container.Verify(); // verify container
 
-            var coreFactory = bootstrapper.Container.GetInstance<ICoreFactory>();
+            var coreFactory = bootstrapper.Container.GetInstance<ICoreFactory>(); // get core object factory.
+            var engine = coreFactory.GetEngine(); // get engine.
 
-            var engine = coreFactory.GetEngine();
             engine.Initialize();
+
+            while (true)
+            {                
+            }
         }
     }
 }

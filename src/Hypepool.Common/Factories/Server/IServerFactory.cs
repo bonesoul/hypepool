@@ -1,7 +1,6 @@
 ﻿using Hypepool.Common.Stratum;
-using Hypepool.Core.Stratum;
 
-namespace Hypepool.Core.Internals.Factories.Server
+namespace Hypepool.Common.Factories.Server
 {
     public interface IServerFactory
     {

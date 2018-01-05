@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Hypepool.Core.Shares
+namespace Hypepool.Core.Internals.Logging
 {
-    public class ShareBase : IShare
+    public interface ILogManager
     {
     }
 }

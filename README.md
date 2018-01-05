@@ -56,8 +56,23 @@ for list of supported operating systems [check here](https://github.com/dotnet/c
 - [ ] vardiff support.
 - [ ] banning support.
 - [ ] full-stack API.
+- [ ] multiple pools & ports support.
+- [ ] multiple coin daemon connections
+
+### supported blockchains
+
+- [ ] bitcoin and clones.
+- [ ] ethereum
+- [ ] dash
+- [ ] monero
+- [ ] zcash
+
+keep in mind that you can easly implement support for other blockchains too.
 
 ### web frontend
 
 To support the project, we'll be stripping out full-featured web frontend as a standalone project which can be purchased to support the development. Still, the user can implement his own web-frontend using the API.
                                            
+### status
+
+development ongoing.

@@ -21,18 +21,8 @@ module.exports = function (grunt) {
         }
       },
       install_vcpkg: '<%= vcpkg_dir %>\\bootstrap-vcpkg.bat',
-      install_packages: '<%= vcpkg %> install boost-system:x64-windows-static boost-thread:x64-windows-static boost-uuid:x64-windows-static boost-variant:x64-windows-static',
-      cook_libboost: '<%= vcpkg %> export --nuget --nuget-id=libboost --nuget-version=1.66.0 boost-system:x64-windows-static boost-thread:x64-windows-static boost-uuid:x64-windows-static boost-variant:x64-windows-static'
-    },
-    copy: {
-     packages: {
-       files: [{
-         expand: true,
-         cwd: '<%= vcpkg_dir %>',
-         src: ['*.nupkg'],
-         dest: '<%= deps_dir %>'
-       }]
-     }
+      install_packages: '<%= vcpkg %> install boost',
+      cook_libboost: '<%= vcpkg %> export --nuget --nuget-id=libboost --nuget-version=1.66.0 boost'
     }
   });
 
@@ -41,7 +31,7 @@ module.exports = function (grunt) {
 
   // task steps.
   grunt.registerTask('vcpkg', ['shell:clone_vcpkg', 'shell:install_vcpkg']);
-  grunt.registerTask('cook_windows_deps', ['shell:install_packages', 'shell:cook_libboost', 'copy:packages']);
+  grunt.registerTask('cook_windows_deps', ['shell:install_packages', 'shell:cook_libboost']);
 
   // build tasks.
   grunt.registerTask('cook-deps', ['vcpkg', 'cook_windows_deps']);

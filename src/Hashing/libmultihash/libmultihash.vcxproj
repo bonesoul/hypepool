@@ -285,7 +285,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\..\packages\libsodium.1.0.16\build\native\libsodium.targets" Condition="Exists('..\..\..\packages\libsodium.1.0.16\build\native\libsodium.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\..\packages\libsodium.1.0.16\build\native\libsodium.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\libsodium.1.0.16\build\native\libsodium.targets'))" />
+  </Target>
 </Project>

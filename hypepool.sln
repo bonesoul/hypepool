@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hashing", "Hashing", "{E6DB4AF0-31D9-40A0-AD5C-163E25D0C2EB}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{7FF6FCE5-FC6E-4FA5-8C07-6EA5E987B7AE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blockchains", "Blockchains", "{B45560AE-FBA1-4D5D-BC03-6EF2B5F286AC}"
@@ -16,10 +14,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypepool.Cli", "src\Core\Hypepool.Cli\Hypepool.Cli.csproj", "{E3D8AB8F-6E09-4038-B5F4-9547A4A3E0DF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monero", "src\Blockchains\Monero\Monero.csproj", "{3EE7E067-4C99-4287-9792-DE568636A6F1}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libcryptonote", "src\Hashing\libcryptonote\libcryptonote.vcxproj", "{2DE74E14-BF6D-4046-951B-8EBC8A1BA009}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libmultihash", "src\Hashing\libmultihash\libmultihash.vcxproj", "{7161C035-94B9-4230-96C8-94643EED62B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,26 +73,6 @@ Global
 		{3EE7E067-4C99-4287-9792-DE568636A6F1}.Release|x64.Build.0 = Release|Any CPU
 		{3EE7E067-4C99-4287-9792-DE568636A6F1}.Release|x86.ActiveCfg = Release|Any CPU
 		{3EE7E067-4C99-4287-9792-DE568636A6F1}.Release|x86.Build.0 = Release|Any CPU
-		{2DE74E14-BF6D-4046-951B-8EBC8A1BA009}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{2DE74E14-BF6D-4046-951B-8EBC8A1BA009}.Debug|x64.ActiveCfg = Debug|x64
-		{2DE74E14-BF6D-4046-951B-8EBC8A1BA009}.Debug|x64.Build.0 = Debug|x64
-		{2DE74E14-BF6D-4046-951B-8EBC8A1BA009}.Debug|x86.ActiveCfg = Debug|Win32
-		{2DE74E14-BF6D-4046-951B-8EBC8A1BA009}.Debug|x86.Build.0 = Debug|Win32
-		{2DE74E14-BF6D-4046-951B-8EBC8A1BA009}.Release|Any CPU.ActiveCfg = Release|Win32
-		{2DE74E14-BF6D-4046-951B-8EBC8A1BA009}.Release|x64.ActiveCfg = Release|x64
-		{2DE74E14-BF6D-4046-951B-8EBC8A1BA009}.Release|x64.Build.0 = Release|x64
-		{2DE74E14-BF6D-4046-951B-8EBC8A1BA009}.Release|x86.ActiveCfg = Release|Win32
-		{2DE74E14-BF6D-4046-951B-8EBC8A1BA009}.Release|x86.Build.0 = Release|Win32
-		{7161C035-94B9-4230-96C8-94643EED62B9}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{7161C035-94B9-4230-96C8-94643EED62B9}.Debug|x64.ActiveCfg = Debug|x64
-		{7161C035-94B9-4230-96C8-94643EED62B9}.Debug|x64.Build.0 = Debug|x64
-		{7161C035-94B9-4230-96C8-94643EED62B9}.Debug|x86.ActiveCfg = Debug|Win32
-		{7161C035-94B9-4230-96C8-94643EED62B9}.Debug|x86.Build.0 = Debug|Win32
-		{7161C035-94B9-4230-96C8-94643EED62B9}.Release|Any CPU.ActiveCfg = Release|Win32
-		{7161C035-94B9-4230-96C8-94643EED62B9}.Release|x64.ActiveCfg = Release|x64
-		{7161C035-94B9-4230-96C8-94643EED62B9}.Release|x64.Build.0 = Release|x64
-		{7161C035-94B9-4230-96C8-94643EED62B9}.Release|x86.ActiveCfg = Release|Win32
-		{7161C035-94B9-4230-96C8-94643EED62B9}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -108,8 +82,6 @@ Global
 		{FB8E61D8-A173-4795-B992-4BD8794FE53B} = {7FF6FCE5-FC6E-4FA5-8C07-6EA5E987B7AE}
 		{E3D8AB8F-6E09-4038-B5F4-9547A4A3E0DF} = {7FF6FCE5-FC6E-4FA5-8C07-6EA5E987B7AE}
 		{3EE7E067-4C99-4287-9792-DE568636A6F1} = {B45560AE-FBA1-4D5D-BC03-6EF2B5F286AC}
-		{2DE74E14-BF6D-4046-951B-8EBC8A1BA009} = {E6DB4AF0-31D9-40A0-AD5C-163E25D0C2EB}
-		{7161C035-94B9-4230-96C8-94643EED62B9} = {E6DB4AF0-31D9-40A0-AD5C-163E25D0C2EB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A237468A-5EBB-4D19-9AAD-85A05BCC1402}

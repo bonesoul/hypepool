@@ -21,9 +21,8 @@ module.exports = function (grunt) {
         }
       },
       install_vcpkg: '<%= vcpkg_dir %>\\bootstrap-vcpkg.bat',
-      install_packages: '<%= vcpkg %> install boost-system:x64-windows-static libsodium:x64-windows-static',
-      cook_libboost: '<%= vcpkg %> export --nuget --nuget-id=libboost --nuget-version=1.66.0 boost-system:x64-windows-static',
-      cook_libsodium: '<%= vcpkg %> export --nuget --nuget-id=libsodium --nuget-version=1.0.16 libsodium:x64-windows-static',
+      install_packages: '<%= vcpkg %> install boost:x64-windows-static boost-thread:x64-windows-static boost-uuid:x64-windows-static boost-variant:x64-windows-static',
+      cook_libboost: '<%= vcpkg %> export --nuget --nuget-id=libboost --nuget-version=1.66.0 boost:x64-windows-static boost-thread:x64-windows-static boost-uuid:x64-windows-static boost-variant:x64-windows-static'
     },
     copy: {
      packages: {
@@ -42,7 +41,7 @@ module.exports = function (grunt) {
 
   // task steps.
   grunt.registerTask('vcpkg', ['shell:clone_vcpkg', 'shell:install_vcpkg']);
-  grunt.registerTask('cook_windows_deps', ['shell:install_packages', 'shell:cook_libboost', 'shell:cook_libsodium', 'copy:packages']);
+  grunt.registerTask('cook_windows_deps', ['shell:install_packages', 'shell:cook_libboost', 'copy:packages']);
 
   // build tasks.
   grunt.registerTask('cook-deps', ['vcpkg', 'cook_windows_deps']);

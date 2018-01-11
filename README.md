@@ -3,7 +3,7 @@
 ██▪▐█▐█▪██▌▐█ ▄█▀▄.▀·▐█ ▄█▪     ▪     ██•  
 ██▀▐█▐█▌▐█▪ ██▀·▐▀▀▪▄ ██▀· ▄█▀▄  ▄█▀▄ ██▪  
 ██▌▐▀ ▐█▀·.▐█▪·•▐█▄▄▌▐█▪·•▐█▌.▐▌▐█▌.▐▌▐█▌▐▌
-▀▀▀ ·  ▀ • .▀    ▀▀▀ .▀    ▀█▄▀▪ ▀█▄▀▪.▀▀▀ 
+▀▀▀ ·  ▀ • .▀    ▀▀▀ .▀    ▀█▄▀▪ ▀█▄▀▪.▀▀▀
 ```
 
 **hypepool** is an rock-solid & platform-agnostic pool server which is a next-gen successor of [CoiniumServ](https://github.com/bonesoul/CoiniumServ) running on [dotnet core 2.0](https://github.com/dotnet/core) + [libuv](https://github.com/libuv/libuv).
@@ -39,6 +39,7 @@ for list of supported operating systems [check here](https://github.com/dotnet/c
 
 ### requirements
 
+* node 8+
 * dotnet core 2.0
 * mongodb
 
@@ -46,7 +47,7 @@ for list of supported operating systems [check here](https://github.com/dotnet/c
 
 * dotnet core 2.0.
 * libUV for high-performance sockets.
-                                           
+
 ### features
 
 - [ ] high performance sockets & stratum server.
@@ -72,7 +73,14 @@ keep in mind that you can easly implement support for other blockchains too.
 ### web frontend
 
 To support the project, we'll be stripping out full-featured web frontend as a standalone project which can be purchased to support the development. Still, the user can implement his own web-frontend using the API.
-                                           
+
 ### status
 
 development ongoing.
+
+### installation
+
+* install node 8+ (https://nodejs.org/en/download/)
+* `npm install -g grunt-cli`
+* `git clone git@github.com:bonesoul/hypepool.git`
+* `grunt`

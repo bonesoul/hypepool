@@ -81,6 +81,6 @@ development ongoing.
 ### installation
 
 * install node 8+ (https://nodejs.org/en/download/)
-* `npm install -g grunt-cli`
+* `npm install -g grunt-cli && npm install`
 * `git clone git@github.com:bonesoul/hypepool.git`
 * `grunt`

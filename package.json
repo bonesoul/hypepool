@@ -27,5 +27,10 @@
   "engines": {
     "node": ">=9.3.0",
     "npm": ">=5.6.0"
+  },
+  "dependencies": {
+    "grunt-shell": "^2.1.0",
+    "load-grunt-tasks": "^3.5.2",
+    "time-grunt": "^1.4.0"
   }
 }

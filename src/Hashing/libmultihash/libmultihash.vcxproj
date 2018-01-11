@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{2DE74E14-BF6D-4046-951B-8EBC8A1BA009}</ProjectGuid>
+    <ProjectGuid>{7161C035-94B9-4230-96C8-94643EED62B9}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>netmultihashnative</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
@@ -74,11 +74,15 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir)windows\include\libsodium;$(IncludePath)</IncludePath>
+    <OutDir>build\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>build\$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir)windows\include\libsodium;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)windows\lib\x64;$(LibraryPath)</LibraryPath>
+    <OutDir>build\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>build\$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -281,8 +285,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\..\packages\vcpkg-export-20180111-151558.1.0.0\build\native\vcpkg-export-20180111-151558.targets" Condition="Exists('..\..\..\packages\vcpkg-export-20180111-151558.1.0.0\build\native\vcpkg-export-20180111-151558.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\..\packages\vcpkg-export-20180111-151558.1.0.0\build\native\vcpkg-export-20180111-151558.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\vcpkg-export-20180111-151558.1.0.0\build\native\vcpkg-export-20180111-151558.targets'))" />
+  </Target>
 </Project>

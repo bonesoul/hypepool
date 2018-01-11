@@ -18,8 +18,8 @@ module.exports = function (grunt) {
         }
       },
       install_vcpkg: 'build\\vcpkg\\bootstrap-vcpkg.bat',
-      install_packages: 'build\\vcpkg\\vcpkg install boost libsodium',
-      cook_libcryptonote_deps: 'build\\vcpkg\\vcpkg export --nuget --nuget-id=libcryptonote.x86.deps --nuget-version=0.0.1 boost',
+      install_packages: 'build\\vcpkg\\vcpkg install boost-system libsodium',
+      cook_libcryptonote_deps: 'build\\vcpkg\\vcpkg export --nuget --nuget-id=libcryptonote.x86.deps --nuget-version=0.0.1 boost-system',
       cook_libmultihash_deps: 'build\\vcpkg\\vcpkg export --nuget --nuget-id=libmultihash.x86.deps --nuget-version=0.0.1 libsodium',
     }
   });
@@ -33,7 +33,7 @@ module.exports = function (grunt) {
 
   // build tasks.
   grunt.registerTask('deps', ['vcpkg', 'cook_dependencies']);
-  grunt.registerTask('build', ['vcpkg', 'cook_dependencies']);
+  grunt.registerTask('build', []);
 
   // default task.
   grunt.registerTask('default', ['build']);

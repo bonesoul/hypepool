@@ -197,5 +197,6 @@
   <ItemGroup>
     <None Include="Makefile" />
     <None Include="Makefile.MSys2" />
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

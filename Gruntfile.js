@@ -21,8 +21,8 @@ module.exports = function (grunt) {
         }
       },
       install_vcpkg: '<%= vcpkg_dir %>\\bootstrap-vcpkg.bat',
-      install_packages: '<%= vcpkg %> install boost:x64-windows-static boost-thread:x64-windows-static boost-uuid:x64-windows-static boost-variant:x64-windows-static',
-      cook_libboost: '<%= vcpkg %> export --nuget --nuget-id=libboost --nuget-version=1.66.0 boost:x64-windows-static boost-thread:x64-windows-static boost-uuid:x64-windows-static boost-variant:x64-windows-static'
+      install_packages: '<%= vcpkg %> install boost-system:x64-windows-static boost-thread:x64-windows-static boost-uuid:x64-windows-static boost-variant:x64-windows-static',
+      cook_libboost: '<%= vcpkg %> export --nuget --nuget-id=libboost --nuget-version=1.66.0 boost-system:x64-windows-static boost-thread:x64-windows-static boost-uuid:x64-windows-static boost-variant:x64-windows-static'
     },
     copy: {
      packages: {

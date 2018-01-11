@@ -21,9 +21,9 @@ module.exports = function (grunt) {
         }
       },
       install_vcpkg: '<%= vcpkg_dir %>\\bootstrap-vcpkg.bat',
-      install_packages: '<%= vcpkg %> install boost-system libsodium',
-      cook_libcryptonote_deps: '<%= vcpkg %> export --nuget --nuget-id=libcryptonote.x86.deps --nuget-version=0.0.1 boost-system',
-      cook_libmultihash_deps: '<%= vcpkg %> export --nuget --nuget-id=libmultihash.x86.deps --nuget-version=0.0.1 libsodium',
+      install_packages: '<%= vcpkg %> install boost-system:x86-windows-static boost-system:x64-windows-static libsodium:x86-windows-static libsodium:x64-windows-static',
+      cook_libcryptonote_deps: '<%= vcpkg %> export --nuget --nuget-id=libcryptonote.deps --nuget-version=0.0.1 boost-system:x86-windows-static boost-system:x64-windows-static',
+      cook_libmultihash_deps: '<%= vcpkg %> export --nuget --nuget-id=libmultihash.deps --nuget-version=0.0.1 libsodium:x86-windows-static libsodium:x64-windows-static',
     },
     copy: {
      packages: {
@@ -42,11 +42,10 @@ module.exports = function (grunt) {
 
   // task steps.
   grunt.registerTask('vcpkg', ['shell:clone_vcpkg', 'shell:install_vcpkg']);
-  grunt.registerTask('cook_windows_deps', ['shell:install_packages', 'shell:cook_libcryptonote_deps', 'shell:cook_libmultihash_deps']);
-  grunt.registerTask('copy_windows_deps', ['copy:packages']);
+  grunt.registerTask('cook_windows_deps', ['shell:install_packages', 'shell:cook_libcryptonote_deps', 'shell:cook_libmultihash_deps', 'copy:packages']);
 
   // build tasks.
-  grunt.registerTask('cook-windows-deps', ['vcpkg', 'cook_windows_deps', 'copy_windows_deps']);
+  grunt.registerTask('cook-deps', ['vcpkg', 'cook_windows_deps']);
   grunt.registerTask('build', []);
 
   // default task.

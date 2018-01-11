@@ -84,8 +84,8 @@ development ongoing.
 * `npm install -g grunt-cli && npm install`
 * `git clone git@github.com:bonesoul/hypepool.git`
 
-if it's your first time building (will take some on the very first build);
-* `grunt deps`
+if it's your first time building on windows (will take some);
+* `grunt cook_deps`
 
 finally run;
 * `grunt build`

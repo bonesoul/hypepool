@@ -358,6 +358,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />
-    <None Include="packages.config" />
   </ItemGroup>
 </Project>

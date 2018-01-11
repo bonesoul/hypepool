@@ -75,7 +75,7 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir)windows\include\libsodium;$(IncludePath)</IncludePath>
     <OutDir>build\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>build\$(Platform)\</IntDir>
+    <IntDir>build\$(Platform)\obj\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -106,7 +106,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Ws2_32.lib;$(ProjectDir)windows\lib\x86\libsodium.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -285,7 +285,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\..\packages\libmultihash.x86.deps.0.0.1\build\native\libmultihash.x86.deps.targets" Condition="Exists('..\..\..\packages\libmultihash.x86.deps.0.0.1\build\native\libmultihash.x86.deps.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\..\packages\libmultihash.x86.deps.0.0.1\build\native\libmultihash.x86.deps.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\libmultihash.x86.deps.0.0.1\build\native\libmultihash.x86.deps.targets'))" />
+  </Target>
 </Project>

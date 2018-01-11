@@ -76,7 +76,7 @@
     <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;$(SolutionDir)\..\..\..\..\boost_1_62_0\lib32-msvc-14.0</LibraryPath>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IncludePath);$(SolutionDir)\..\..\..\..\boost_1_62_0</IncludePath>
     <OutDir>build\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>build\$(Platform)\</IntDir>
+    <IntDir>build\$(Platform)\obj\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -238,7 +238,16 @@
   <ItemGroup>
     <None Include="Makefile" />
     <None Include="Makefile.MSys2" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\..\packages\libcryptonote.x86.deps.0.0.1\build\native\libcryptonote.x86.deps.targets" Condition="Exists('..\..\..\packages\libcryptonote.x86.deps.0.0.1\build\native\libcryptonote.x86.deps.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\..\packages\libcryptonote.x86.deps.0.0.1\build\native\libcryptonote.x86.deps.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\libcryptonote.x86.deps.0.0.1\build\native\libcryptonote.x86.deps.targets'))" />
+  </Target>
 </Project>

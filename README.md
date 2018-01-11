@@ -83,4 +83,9 @@ development ongoing.
 * install node 8+ (https://nodejs.org/en/download/)
 * `npm install -g grunt-cli && npm install`
 * `git clone git@github.com:bonesoul/hypepool.git`
-* `grunt`
+
+if it's your first time building (will take some on the very first build);
+* `grunt deps`
+
+finally run;
+* `grunt build`

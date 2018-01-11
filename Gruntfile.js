@@ -18,7 +18,9 @@ module.exports = function (grunt) {
         }
       },
       install_vcpkg: 'build\\vcpkg\\bootstrap-vcpkg.bat',
-      install_packages: 'build\\vcpkg\\vcpkg install boost libsodium'
+      install_packages: 'build\\vcpkg\\vcpkg install boost libsodium',
+      cook_libcryptonote_deps: 'build\\vcpkg\\vcpkg export --nuget --nuget-id=libcryptonote.x86.deps --nuget-version=0.0.1 boost',
+      cook_libmultihash_deps: 'build\\vcpkg\\vcpkg export --nuget --nuget-id=libmultihash.x86.deps --nuget-version=0.0.1 libsodium',
     }
   });
 
@@ -26,10 +28,12 @@ module.exports = function (grunt) {
   require('load-grunt-tasks')(grunt);
 
   // task steps.
-  grunt.registerTask('vcpkg', ['shell:clone_vcpkg', 'shell:install_vcpkg', 'shell:install_packages']);
+  grunt.registerTask('vcpkg', ['shell:clone_vcpkg', 'shell:install_vcpkg']);
+  grunt.registerTask('cook_dependencies', ['shell:install_packages', 'shell:cook_libcryptonote_deps', 'shell:cook_libmultihash_deps']);
 
   // build tasks.
-  grunt.registerTask('build', ['vcpkg']);
+  grunt.registerTask('deps', ['vcpkg', 'cook_dependencies']);
+  grunt.registerTask('build', ['vcpkg', 'cook_dependencies']);
 
   // default task.
   grunt.registerTask('default', ['build']);

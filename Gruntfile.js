@@ -15,7 +15,7 @@ module.exports = function (grunt) {
     vcpkg: 'build\\vcpkg\\vcpkg', // vcpkg executable.
     shell: {
       clone_vcpkg: {
-        command: 'git clone https://github.com/Microsoft/vcpkg.git <%= vcpkg_dir %>',
+        command: 'git clone https://github.com/Microsoft/vcpkg.git <%= vcpkg_dir %> && git pull',
         options: {
           failOnError: false
         }

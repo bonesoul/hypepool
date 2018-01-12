@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Hypepool.Common.Stratum;
+
+namespace Hypepool.Core.Stratum
+{
+    /// <summary>
+    /// Stratum exeption.
+    /// </summary>
+    public class StratumException : Exception
+    {
+        /// <summary>
+        /// Error code.
+        /// </summary>
+        public StratumError Code { get; set; }
+
+        public StratumException(StratumError code, string message) 
+            : base(message)
+        {
+            Code = code;
+        }
+    }
+}

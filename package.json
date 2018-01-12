@@ -1,0 +1,37 @@
+{
+  "name": "hypepool",
+  "version": "0.0.1",
+  "private": true,
+  "description": "hypepool build system.",
+  "os": [
+    "linux",
+    "darwin",
+    "win32"
+  ],
+  "cpu": [
+    "x64",
+    "ia32"
+  ],
+  "author": "Huseyin Uslu <huseyin@int6ware.com> (http://www.int6ware.com)",
+  "homepage": "https://github.com/bonesoul/hypepool",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bonesoul/hypepool.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bonesoul/hypepool/issues"
+  },
+  "devDependencies": {
+    "grunt": "1.0.1",
+    "grunt-shell": "2.1.0",
+    "load-grunt-tasks": "3.5.2",
+    "time-grunt": "1.4.0"
+  },
+  "engines": {
+    "node": ">=9.4.0",
+    "npm": ">=5.6.0"
+  },
+  "dependencies": {
+    "grunt-cli": "^1.2.0"
+  }
+}

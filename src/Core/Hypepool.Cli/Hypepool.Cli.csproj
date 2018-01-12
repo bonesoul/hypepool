@@ -21,4 +21,14 @@
     <ProjectReference Include="..\Hypepool.Core\Hypepool.Core.csproj" />
   </ItemGroup>
 
+  <Target Name="NativeDeps" AfterTargets="Build">
+    <ItemGroup>
+		<x86deps Include="..\..\..\deps\windows\x86\**\*.*" />
+		<x64deps Include="..\..\..\deps\windows\x64\**\*.*" />
+    </ItemGroup>
+    <Copy Condition="'$(Platform)' == 'AnyCPU'" SourceFiles="@(x86deps)" DestinationFiles="@(x86deps->'$(OutputPath)\%(RecursiveDir)%(Filename)%(Extension)')" />
+	<Copy Condition="'$(Platform)' == 'x64'" SourceFiles="@(x64deps)" DestinationFiles="@(x64deps->'$(OutputPath)\%(RecursiveDir)%(Filename)%(Extension)')" />
+	<Copy Condition="'$(Platform)' == 'x86'" SourceFiles="@(x86)" DestinationFiles="@(x86->'$(OutputPath)\%(RecursiveDir)%(Filename)%(Extension)')" />	
+  </Target>
+  
 </Project>

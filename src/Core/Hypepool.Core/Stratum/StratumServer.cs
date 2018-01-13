@@ -11,6 +11,7 @@ using Hypepool.Common.Pools;
 using Hypepool.Common.Stratum;
 using Hypepool.Common.Utils.Buffers;
 using Hypepool.Common.Utils.Time;
+using Hypepool.Core.Extensions;
 using Hypepool.Core.Utils.Buffers;
 using Hypepool.Core.Utils.Unique;
 using NetUV.Core.Handles;
@@ -151,7 +152,7 @@ namespace Hypepool.Core.Stratum
                     try
                     {
                         // de-serialize
-                        _logger.Verbose($"[{client.ConnectionId}] Received request data: {StratumConstants.Encoding.GetString(data.Array, 0, data.Size)}");
+                        _logger.Verbose($"[{client.ConnectionId}] Received request data:\n {StratumConstants.Encoding.GetString(data.Array, 0, data.Size).FormatJson()}");
                         request = client.DeserializeRequest(data);
 
                         // dispatch

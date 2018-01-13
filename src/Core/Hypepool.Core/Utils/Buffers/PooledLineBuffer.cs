@@ -59,7 +59,7 @@ namespace Hypepool.Core.Utils.Buffers
                 readBuffer(buffer, buf, bufferSize);
 
                 // diagnostics
-                _logger.Verbose($"recv: {Encoding.GetString(buf, 0, bufferSize)}");
+                //_logger.Verbose($"recv: {Encoding.GetString(buf, 0, bufferSize)}");
 
                 while (remaining > 0)
                 {

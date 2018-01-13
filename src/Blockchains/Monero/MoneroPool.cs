@@ -19,10 +19,18 @@ namespace Hypepool.Monero
     public class MoneroPool : PoolBase<MoneroShare>
     {
 
+        private string _poolAddress = "9z9PQi2NFS43RnNDUQo5oucHUpvJDi5RUaDuLoHtG5dJ1v2AMjKawziKfWdRY5mVuANs2dr2k6hsSDZCQJNL38LqD6xQCHX";
+        private uint poolAddressBase58Prefix;
+
         public MoneroPool(IServerFactory serverFactory)
             : base(serverFactory)
         {
             _logger = Log.ForContext<MoneroPool>();
+
+            poolAddressBase58Prefix = LibCryptonote.DecodeAddress(_poolAddress);
+
+            if (poolAddressBase58Prefix == 0)
+                _logger.Error($"Unable to decode pool-address {_poolAddress}");
         }
 
         protected override WorkerContext CreateClientContext()
@@ -136,8 +144,8 @@ namespace Hypepool.Monero
                 return false;
 
             var addressPrefix = LibCryptonote.DecodeAddress(address);
-            //if (addressPrefix != poolAddressBase58Prefix)
-            //    return false;
+            if (addressPrefix != poolAddressBase58Prefix)
+                return false;
 
             return true;
         } 

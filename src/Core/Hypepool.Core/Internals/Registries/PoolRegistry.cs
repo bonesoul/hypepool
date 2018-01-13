@@ -21,13 +21,24 @@ namespace Hypepool.Core.Internals.Registries
         public void Run()
         {
             var root = AppDomain.CurrentDomain.BaseDirectory;
+            var assemblies = new List<Assembly>();
 
-            var assemnblies =
-                from file in new DirectoryInfo(root).GetFiles()
-                where file.Extension.ToLower() == ".dll"
-                select Assembly.Load(AssemblyName.GetAssemblyName(file.FullName));
+            foreach(var file in new DirectoryInfo(root).GetFiles())
+            {
+                if( file.Extension.ToLower()!= ".dll")
+                    continue;
 
-            _container.RegisterCollection<IPool>(assemnblies);
+                try
+                {
+                    assemblies.Add(Assembly.Load(AssemblyName.GetAssemblyName(file.FullName)));
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+            }
+
+            _container.RegisterCollection<IPool>(assemblies);
         }
     }
 }

@@ -12,6 +12,7 @@ using Hypepool.Common.Mining.Context;
 using Hypepool.Common.Stratum;
 using Hypepool.Common.Utils.Buffers;
 using Hypepool.Common.Utils.Time;
+using Hypepool.Core.Extensions;
 using Hypepool.Core.Utils.Buffers;
 using NetUV.Core.Handles;
 using Newtonsoft.Json;
@@ -165,7 +166,7 @@ namespace Hypepool.Core.Stratum
                             size = (int)stream.Position;
                         }
 
-                        _logger.Verbose($"[{ConnectionId}] Sending: {StratumConstants.Encoding.GetString(buf, 0, size)}");
+                        _logger.Verbose($"[{ConnectionId}] Sending:\n {StratumConstants.Encoding.GetString(buf, 0, size).FormatJson()}");
 
                         SendInternal(new PooledArraySegment<byte>(buf, 0, size));
                     }

@@ -13,7 +13,7 @@
 **hypepool** is an open-source project. Your donations will be a great help & motivation for the development of the project.
 
 ```
-* ETH: 0x61aa3e0709e20bcb4aedc2607d4070f1db72e69b
+* ETH: ethereum:0x61aa3e0709e20bcb4aedc2607d4070f1db72e69b
 ```
 
 ### platforms

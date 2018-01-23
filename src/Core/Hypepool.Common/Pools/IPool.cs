@@ -9,7 +9,7 @@ namespace Hypepool.Common.Pools
     {
         void Initialize();
 
-        Task StartAsync();
+        void Start();
 
         void OnConnect(IStratumClient client);
 

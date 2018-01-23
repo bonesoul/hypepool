@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Hypepool.Common.Daemon;
 using Hypepool.Common.Mining.Jobs;
 using Hypepool.Common.Stratum;
 
@@ -12,10 +13,13 @@ namespace Hypepool.Common.Pools
 
         public IJobManager JobManager { get; private set; }
 
-        public void Attach(IStratumServer stratumServer, IJobManager jobManager)
+        public IDaemonClient DaemonClient { get; private set; }
+
+        public void Attach(IDaemonClient daemonClient, IJobManager jobManager, IStratumServer stratumServer)
         {
-            StratumServer = stratumServer;
+            DaemonClient = daemonClient;
             JobManager = jobManager;
+            StratumServer = stratumServer;
         }
     }
 }

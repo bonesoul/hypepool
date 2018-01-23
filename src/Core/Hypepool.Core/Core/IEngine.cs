@@ -9,5 +9,7 @@ namespace Hypepool.Core.Core
         IReadOnlyList<IPool> Pools { get; }
 
         void Initialize();
+
+        void Start();
     }
 }

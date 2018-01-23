@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Net;
 using System.Reactive;
 using System.Threading.Tasks;
 using Hypepool.Common.Coins;
+using Hypepool.Common.Daemon;
 using Hypepool.Common.Factories.Server;
 using Hypepool.Common.JsonRpc;
 using Hypepool.Common.Mining.Context;
@@ -10,6 +12,7 @@ using Hypepool.Common.Native;
 using Hypepool.Common.Pools;
 using Hypepool.Common.Stratum;
 using Hypepool.Common.Utils.Time;
+using Hypepool.Monero.Daemon.Responses;
 using Hypepool.Monero.Stratum;
 using Hypepool.Monero.Stratum.Responses;
 using Newtonsoft.Json;
@@ -36,10 +39,36 @@ namespace Hypepool.Monero
 
         public override void Initialize()
         {
-            var stratumServer = ServerFactory.GetStratumServer();
             var jobManager = new MoneroJobManager();
+            var daemonClient = new DaemonClient();
+            var stratumServer = ServerFactory.GetStratumServer();
 
-            PoolContext.Attach(stratumServer, jobManager);
+            PoolContext.Attach(daemonClient, jobManager, stratumServer);
+        }
+
+        protected override async Task<bool> IsDaemonConnectionHealthy()
+        {
+            var response =
+              await PoolContext.DaemonClient.ExecuteCommandAsync<GetInfoResponse>(MoneroRpcCommands.GetInfo);
+
+            if (response.Error?.InnerException?.GetType() == typeof(DaemonException))
+            {
+                var exception = (DaemonException) response.Error.InnerException;
+                if (exception.Code == HttpStatusCode.Unauthorized)
+                    _logger.Fatal("Wallet daemon reported invalid credentials");
+            }
+
+            return response.Error == null;
+        }
+
+        protected override Task<bool> IsDaemonConnectedToNetwork()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override Task EnsureDaemonSynchedAsync()
+        {
+            throw new NotImplementedException();
         }
 
         protected override WorkerContext CreateClientContext()

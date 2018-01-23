@@ -27,14 +27,21 @@ namespace Hypepool.Core.Core
             _logger.Information("Initialized engine..");
         }
 
-        public async void Initialize()
+        public void Initialize()
         {
             _pools.Add(_poolFactory.GetPool("Monero"));
 
-            foreach (var pool in Pools)
+            foreach (var pool in _pools)
             {
                 pool.Initialize();
-                await pool.StartAsync();
+            }
+        }
+
+        public void Start()
+        {
+            foreach (var pool in _pools)
+            {
+                pool.Start();
             }
         }
     }

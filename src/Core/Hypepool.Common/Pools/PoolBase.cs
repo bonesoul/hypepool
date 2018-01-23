@@ -18,20 +18,37 @@ namespace Hypepool.Common.Pools
         protected readonly IServerFactory ServerFactory;
         protected ILogger _logger;
 
+        public abstract void Initialize();
+
+        protected abstract Task<bool> IsDaemonConnectionHealthy();
+
+        protected abstract Task<bool> IsDaemonConnectedToNetwork();
+
+        protected abstract Task EnsureDaemonSynchedAsync();
+
+        /// <summary>
+        /// Creates a context for client.
+        /// </summary>
+        /// <returns></returns>
+        protected abstract WorkerContext CreateClientContext();
+
         protected PoolBase(IPoolContext poolContext, IServerFactory serverFactory)
         {
             PoolContext = poolContext;
             ServerFactory = serverFactory;
         }
 
-        public virtual async Task StartAsync()
+        public virtual void Start()
         {
             _logger.Information($"Loading pool..");
 
             try
             {
-                await PoolContext.JobManager.StartAsync();
+                PoolContext.DaemonClient.Initialize("localhost", 6666, "user", "password");
+                WaitDaemon();
 
+                PoolContext.JobManager.Initialize(PoolContext);
+                PoolContext.JobManager.Start();
                 PoolContext.StratumServer.Start(this);
             }
             catch (Exception ex)
@@ -41,13 +58,13 @@ namespace Hypepool.Common.Pools
             }
         }
 
-        public abstract void Initialize();
-
-        /// <summary>
-        /// Creates a context for client.
-        /// </summary>
-        /// <returns></returns>
-        protected abstract WorkerContext CreateClientContext();
+        public async void WaitDaemon()
+        {
+            while (!await IsDaemonConnectionHealthy())
+            {
+                _logger.Information($"Waiting for daemons to come online ...");
+            }
+        }
 
         public void OnConnect(IStratumClient client)
         {

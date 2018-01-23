@@ -22,6 +22,7 @@ namespace Hypepool.Cli
             var engine = coreFactory.GetEngine(); // get engine.
 
             engine.Initialize();
+            engine.Start();
 
             while (true)
             {                

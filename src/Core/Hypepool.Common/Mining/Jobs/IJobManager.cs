@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Hypepool.Common.Pools;
 
 namespace Hypepool.Common.Mining.Jobs
 {
     public interface IJobManager
     {
-        Task StartAsync();
+        void Initialize(IPoolContext poolContext);
+
+        void Start();
     }
 }

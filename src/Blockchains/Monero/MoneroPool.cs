@@ -5,6 +5,7 @@ using Hypepool.Common.Coins;
 using Hypepool.Common.Factories.Server;
 using Hypepool.Common.JsonRpc;
 using Hypepool.Common.Mining.Context;
+using Hypepool.Common.Mining.Jobs;
 using Hypepool.Common.Native;
 using Hypepool.Common.Pools;
 using Hypepool.Common.Stratum;
@@ -20,22 +21,28 @@ namespace Hypepool.Monero
     {
 
         private string _poolAddress = "9z9PQi2NFS43RnNDUQo5oucHUpvJDi5RUaDuLoHtG5dJ1v2AMjKawziKfWdRY5mVuANs2dr2k6hsSDZCQJNL38LqD6xQCHX";
-        private uint poolAddressBase58Prefix;
+        private readonly uint _poolAddressBase58Prefix;
 
         public MoneroPool(IServerFactory serverFactory)
             : base(serverFactory)
         {
             _logger = Log.ForContext<MoneroPool>();
 
-            poolAddressBase58Prefix = LibCryptonote.DecodeAddress(_poolAddress);
+            _poolAddressBase58Prefix = LibCryptonote.DecodeAddress(_poolAddress);
 
-            if (poolAddressBase58Prefix == 0)
+            if (_poolAddressBase58Prefix == 0)
                 _logger.Error($"Unable to decode pool-address {_poolAddress}");
         }
 
         protected override WorkerContext CreateClientContext()
         {
             return new MoneroWorkerContext();
+        }
+
+        protected override async Task SetupJobManager()
+        {
+            var jobManager = new MoneroJobManager();
+            await jobManager.StartAsync();
         }
 
         public override async Task OnRequestAsync(IStratumClient client, Timestamped<JsonRpcRequest> timeStampedRequest)
@@ -144,7 +151,7 @@ namespace Hypepool.Monero
                 return false;
 
             var addressPrefix = LibCryptonote.DecodeAddress(address);
-            if (addressPrefix != poolAddressBase58Prefix)
+            if (addressPrefix != _poolAddressBase58Prefix)
                 return false;
 
             return true;

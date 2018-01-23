@@ -41,7 +41,17 @@ namespace Hypepool.Common.Pools
             }
         }
 
+        /// <summary>
+        /// Creates a context for client.
+        /// </summary>
+        /// <returns></returns>
         protected abstract WorkerContext CreateClientContext();
+
+        /// <summary>
+        /// Setups job manager.
+        /// </summary>
+        /// <returns></returns>
+        protected abstract Task SetupJobManager();
 
         public void OnConnect(IStratumClient client)
         {

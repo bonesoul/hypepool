@@ -43,9 +43,8 @@ namespace Hypepool.Cli
  ░  ░  ░░ ░                 ░  ░             ░ ░      ░ ░      ░  ░
         ░ ░                                                        
 ");
-            Console.Write($" https://github.com/bonesoul/hypepool");
-            Console.CursorLeft = Console.BufferWidth - 59;
-            Console.WriteLine($"v{Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion}");            
+            Console.WriteLine($" v{Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion}");
+            Console.WriteLine($" https://github.com/bonesoul/hypepool");
             Console.WriteLine();
         }
     }

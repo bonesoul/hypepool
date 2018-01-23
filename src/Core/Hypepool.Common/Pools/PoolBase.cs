@@ -14,25 +14,42 @@ namespace Hypepool.Common.Pools
 {
     public abstract class PoolBase<TShare> : IPool where TShare : IShare
     {
-        public IStratumServer StratumServer { get; }
-
-        private readonly IServerFactory _serverFactory;
+        protected readonly IPoolContext PoolContext;
+        protected readonly IServerFactory ServerFactory;
         protected ILogger _logger;
 
-        protected PoolBase(IServerFactory serverFactory)
-        {
-            _serverFactory = serverFactory;
+        public abstract void Initialize();
 
-            StratumServer = serverFactory.GetStratumServer();
+        protected abstract Task<bool> IsDaemonConnectionHealthy();
+
+        protected abstract Task<bool> IsDaemonConnectedToNetwork();
+
+        protected abstract Task EnsureDaemonSynchedAsync();
+
+        /// <summary>
+        /// Creates a context for client.
+        /// </summary>
+        /// <returns></returns>
+        protected abstract WorkerContext CreateClientContext();
+
+        protected PoolBase(IPoolContext poolContext, IServerFactory serverFactory)
+        {
+            PoolContext = poolContext;
+            ServerFactory = serverFactory;
         }
 
-        public virtual async Task StartAsync()
+        public virtual void Start()
         {
             _logger.Information($"Loading pool..");
 
             try
             {
-                StratumServer.Start(this);
+                PoolContext.DaemonClient.Initialize("127.0.0.1", 28081, "user", "pass", "json_rpc");
+                WaitDaemon();
+
+                PoolContext.JobManager.Initialize(PoolContext);
+                PoolContext.JobManager.Start();
+                PoolContext.StratumServer.Start(this);
             }
             catch (Exception ex)
             {
@@ -41,17 +58,13 @@ namespace Hypepool.Common.Pools
             }
         }
 
-        /// <summary>
-        /// Creates a context for client.
-        /// </summary>
-        /// <returns></returns>
-        protected abstract WorkerContext CreateClientContext();
-
-        /// <summary>
-        /// Setups job manager.
-        /// </summary>
-        /// <returns></returns>
-        protected abstract Task SetupJobManager();
+        public async void WaitDaemon()
+        {
+            while (!await IsDaemonConnectionHealthy())
+            {
+                _logger.Information($"Waiting for daemons to come online ...");
+            }
+        }
 
         public void OnConnect(IStratumClient client)
         {
@@ -72,7 +85,7 @@ namespace Hypepool.Common.Pools
                         return;
 
                     _logger.Information($"[{client.ConnectionId}] Booting zombie-worker (post-connect silence)");
-                    StratumServer.DisconnectClient(client);
+                    PoolContext.StratumServer.DisconnectClient(client);
                 });
         }
 

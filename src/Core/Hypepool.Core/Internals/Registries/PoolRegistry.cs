@@ -39,6 +39,7 @@ namespace Hypepool.Core.Internals.Registries
             }
 
             _container.RegisterCollection<IPool>(assemblies);
+            _container.Register<IPoolContext, PoolContext>();
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Net;
 using System.Reactive;
 using System.Threading.Tasks;
 using Hypepool.Common.Coins;
+using Hypepool.Common.Daemon;
 using Hypepool.Common.Factories.Server;
 using Hypepool.Common.JsonRpc;
 using Hypepool.Common.Mining.Context;
@@ -10,7 +12,9 @@ using Hypepool.Common.Native;
 using Hypepool.Common.Pools;
 using Hypepool.Common.Stratum;
 using Hypepool.Common.Utils.Time;
+using Hypepool.Monero.Daemon.Responses;
 using Hypepool.Monero.Stratum;
+using Hypepool.Monero.Stratum.Requests;
 using Hypepool.Monero.Stratum.Responses;
 using Newtonsoft.Json;
 using Serilog;
@@ -23,8 +27,8 @@ namespace Hypepool.Monero
         private string _poolAddress = "9z9PQi2NFS43RnNDUQo5oucHUpvJDi5RUaDuLoHtG5dJ1v2AMjKawziKfWdRY5mVuANs2dr2k6hsSDZCQJNL38LqD6xQCHX";
         private readonly uint _poolAddressBase58Prefix;
 
-        public MoneroPool(IServerFactory serverFactory)
-            : base(serverFactory)
+        public MoneroPool(IPoolContext poolContext, IServerFactory serverFactory)
+            : base(poolContext, serverFactory)
         {
             _logger = Log.ForContext<MoneroPool>();
 
@@ -34,15 +38,43 @@ namespace Hypepool.Monero
                 _logger.Error($"Unable to decode pool-address {_poolAddress}");
         }
 
+        public override void Initialize()
+        {
+            var jobManager = new MoneroJobManager();
+            var daemonClient = new DaemonClient();
+            var stratumServer = ServerFactory.GetStratumServer();
+
+            PoolContext.Attach(daemonClient, jobManager, stratumServer);
+        }
+
+        protected override async Task<bool> IsDaemonConnectionHealthy()
+        {
+            var response =
+              await PoolContext.DaemonClient.ExecuteCommandAsync<GetInfoResponse>(MoneroRpcCommands.GetInfo);
+
+            if (response.Error?.InnerException?.GetType() == typeof(DaemonException))
+            {
+                var exception = (DaemonException) response.Error.InnerException;
+                if (exception.Code == HttpStatusCode.Unauthorized)
+                    _logger.Fatal("Wallet daemon reported invalid credentials");
+            }
+
+            return response.Error == null;
+        }
+
+        protected override Task<bool> IsDaemonConnectedToNetwork()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override Task EnsureDaemonSynchedAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         protected override WorkerContext CreateClientContext()
         {
             return new MoneroWorkerContext();
-        }
-
-        protected override async Task SetupJobManager()
-        {
-            var jobManager = new MoneroJobManager();
-            await jobManager.StartAsync();
         }
 
         public override async Task OnRequestAsync(IStratumClient client, Timestamped<JsonRpcRequest> timeStampedRequest)

@@ -4,31 +4,8 @@ using Newtonsoft.Json.Linq;
 namespace Hypepool.Common.JsonRpc
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class JsonRpcRequest : JsonRpcRequest<object>
-    {
-        public JsonRpcRequest()
-        {
-        }
-
-        public JsonRpcRequest(string method, object parameters, object id) : base(method, parameters, id)
-        {
-        }
-    }
-
-    [JsonObject(MemberSerialization.OptIn)]
     public class JsonRpcRequest<T>
     {
-        public JsonRpcRequest()
-        {
-        }
-
-        public JsonRpcRequest(string method, T parameters, object id)
-        {
-            Method = method;
-            Params = parameters;
-            Id = id;
-        }
-
         [JsonProperty("jsonrpc")]
         public string JsonRpc => "2.0";
 
@@ -41,12 +18,28 @@ namespace Hypepool.Common.JsonRpc
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public object Id { get; set; }
 
+        public JsonRpcRequest(string method, T parameters, object id)
+        {
+            Method = method;
+            Params = parameters;
+            Id = id;
+        }
+
         public TParam ParamsAs<TParam>() where TParam : class
         {
             if (Params is JToken)
                 return ((JToken)Params)?.ToObject<TParam>();
 
             return (TParam)Params;
+        }
+    }
+
+    [JsonObject(MemberSerialization.OptIn)]
+    public class JsonRpcRequest : JsonRpcRequest<object>
+    {
+        public JsonRpcRequest(string method, object parameters, object id) 
+            : base(method, parameters, id)
+        {
         }
     }
 }

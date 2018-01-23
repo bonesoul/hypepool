@@ -7,9 +7,9 @@ namespace Hypepool.Common.Pools
 {
     public interface IPool
     {
-        IStratumServer StratumServer { get; }
+        void Initialize();
 
-        Task StartAsync();
+        void Start();
 
         void OnConnect(IStratumClient client);
 

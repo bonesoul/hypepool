@@ -3,7 +3,7 @@ using FluentAssertions;
 using Hypepool.Core.Internals.Bootstrap;
 using Xunit;
 
-namespace Hypepool.Tests.Core
+namespace Hypepool.Tests.Core.Internals
 {
     public class ContainerTest
     {

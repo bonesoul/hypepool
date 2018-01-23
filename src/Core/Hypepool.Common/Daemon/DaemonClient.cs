@@ -47,7 +47,8 @@ namespace Hypepool.Common.Daemon
             // build authentication header if needed
             if (!string.IsNullOrEmpty(username))
             {
-                var base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{username}:{password}"));
+                var auth = $"{username}:{password}";
+                var base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(auth));
                 _authenticationHeader = new AuthenticationHeaderValue("Basic", base64);
             }
 
@@ -70,7 +71,7 @@ namespace Hypepool.Common.Daemon
                 await task;
             }
 
-            catch (Exception)
+            catch (Exception e)
             {
                 // ignored
             }

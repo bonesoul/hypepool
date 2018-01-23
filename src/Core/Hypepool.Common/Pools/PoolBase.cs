@@ -44,7 +44,7 @@ namespace Hypepool.Common.Pools
 
             try
             {
-                PoolContext.DaemonClient.Initialize("localhost", 6666, "user", "password");
+                PoolContext.DaemonClient.Initialize("127.0.0.1", 28081, "user", "pass", "json_rpc");
                 WaitDaemon();
 
                 PoolContext.JobManager.Initialize(PoolContext);

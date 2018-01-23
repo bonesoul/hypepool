@@ -14,16 +14,14 @@ namespace Hypepool.Common.Pools
 {
     public abstract class PoolBase<TShare> : IPool where TShare : IShare
     {
-        public IStratumServer StratumServer { get; }
-
-        private readonly IServerFactory _serverFactory;
+        protected readonly IPoolContext PoolContext;
+        protected readonly IServerFactory ServerFactory;
         protected ILogger _logger;
 
-        protected PoolBase(IServerFactory serverFactory)
+        protected PoolBase(IPoolContext poolContext, IServerFactory serverFactory)
         {
-            _serverFactory = serverFactory;
-
-            StratumServer = serverFactory.GetStratumServer();
+            PoolContext = poolContext;
+            ServerFactory = serverFactory;
         }
 
         public virtual async Task StartAsync()
@@ -32,7 +30,9 @@ namespace Hypepool.Common.Pools
 
             try
             {
-                StratumServer.Start(this);
+                await PoolContext.JobManager.StartAsync();
+
+                PoolContext.StratumServer.Start(this);
             }
             catch (Exception ex)
             {
@@ -41,17 +41,13 @@ namespace Hypepool.Common.Pools
             }
         }
 
+        public abstract void Initialize();
+
         /// <summary>
         /// Creates a context for client.
         /// </summary>
         /// <returns></returns>
         protected abstract WorkerContext CreateClientContext();
-
-        /// <summary>
-        /// Setups job manager.
-        /// </summary>
-        /// <returns></returns>
-        protected abstract Task SetupJobManager();
 
         public void OnConnect(IStratumClient client)
         {
@@ -72,7 +68,7 @@ namespace Hypepool.Common.Pools
                         return;
 
                     _logger.Information($"[{client.ConnectionId}] Booting zombie-worker (post-connect silence)");
-                    StratumServer.DisconnectClient(client);
+                    PoolContext.StratumServer.DisconnectClient(client);
                 });
         }
 

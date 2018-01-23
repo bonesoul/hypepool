@@ -8,5 +8,7 @@ namespace Hypepool.Core.Internals.Factories.Pool
     public interface IPoolFactory
     {
         IPool GetPool(string name);
+
+        IPoolContext GetPoolContext();
     }
 }

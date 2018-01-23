@@ -23,8 +23,8 @@ namespace Hypepool.Monero
         private string _poolAddress = "9z9PQi2NFS43RnNDUQo5oucHUpvJDi5RUaDuLoHtG5dJ1v2AMjKawziKfWdRY5mVuANs2dr2k6hsSDZCQJNL38LqD6xQCHX";
         private readonly uint _poolAddressBase58Prefix;
 
-        public MoneroPool(IServerFactory serverFactory)
-            : base(serverFactory)
+        public MoneroPool(IPoolContext poolContext, IServerFactory serverFactory)
+            : base(poolContext, serverFactory)
         {
             _logger = Log.ForContext<MoneroPool>();
 
@@ -34,15 +34,17 @@ namespace Hypepool.Monero
                 _logger.Error($"Unable to decode pool-address {_poolAddress}");
         }
 
+        public override void Initialize()
+        {
+            var stratumServer = ServerFactory.GetStratumServer();
+            var jobManager = new MoneroJobManager();
+
+            PoolContext.Attach(stratumServer, jobManager);
+        }
+
         protected override WorkerContext CreateClientContext()
         {
             return new MoneroWorkerContext();
-        }
-
-        protected override async Task SetupJobManager()
-        {
-            var jobManager = new MoneroJobManager();
-            await jobManager.StartAsync();
         }
 
         public override async Task OnRequestAsync(IStratumClient client, Timestamped<JsonRpcRequest> timeStampedRequest)

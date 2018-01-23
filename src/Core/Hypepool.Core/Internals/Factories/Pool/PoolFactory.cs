@@ -21,5 +21,10 @@ namespace Hypepool.Core.Internals.Factories.Pool
             var registrations = _container.GetAllInstances<IPool>();
             return registrations.First();
         }
+
+        public IPoolContext GetPoolContext()
+        {
+            return _container.GetInstance<IPoolContext>();
+        }
     }
 }

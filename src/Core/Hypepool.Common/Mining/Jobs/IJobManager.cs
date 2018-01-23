@@ -5,11 +5,8 @@ using System.Threading.Tasks;
 
 namespace Hypepool.Common.Mining.Jobs
 {
-    public abstract class JobManagerBase<TJob> : IJobManager
+    public interface IJobManager
     {
-        public async Task StartAsync()
-        {
-
-        }
+        Task StartAsync();
     }
 }

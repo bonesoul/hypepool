@@ -33,6 +33,7 @@ namespace Hypepool.Core.Core
 
             foreach (var pool in Pools)
             {
+                pool.Initialize();
                 await pool.StartAsync();
             }
         }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2020
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{7FF6FCE5-FC6E-4FA5-8C07-6EA5E987B7AE}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypepool.Cli", "src\Core\Hypepool.Cli\Hypepool.Cli.csproj", "{E3D8AB8F-6E09-4038-B5F4-9547A4A3E0DF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monero", "src\Blockchains\Monero\Monero.csproj", "{3EE7E067-4C99-4287-9792-DE568636A6F1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypepool.Tests", "src\Core\Hypepool.Tests\Hypepool.Tests.csproj", "{3DB6B454-5D64-4148-B684-F04AB74D615D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +75,18 @@ Global
 		{3EE7E067-4C99-4287-9792-DE568636A6F1}.Release|x64.Build.0 = Release|Any CPU
 		{3EE7E067-4C99-4287-9792-DE568636A6F1}.Release|x86.ActiveCfg = Release|Any CPU
 		{3EE7E067-4C99-4287-9792-DE568636A6F1}.Release|x86.Build.0 = Release|Any CPU
+		{3DB6B454-5D64-4148-B684-F04AB74D615D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DB6B454-5D64-4148-B684-F04AB74D615D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DB6B454-5D64-4148-B684-F04AB74D615D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3DB6B454-5D64-4148-B684-F04AB74D615D}.Debug|x64.Build.0 = Debug|Any CPU
+		{3DB6B454-5D64-4148-B684-F04AB74D615D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3DB6B454-5D64-4148-B684-F04AB74D615D}.Debug|x86.Build.0 = Debug|Any CPU
+		{3DB6B454-5D64-4148-B684-F04AB74D615D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DB6B454-5D64-4148-B684-F04AB74D615D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DB6B454-5D64-4148-B684-F04AB74D615D}.Release|x64.ActiveCfg = Release|Any CPU
+		{3DB6B454-5D64-4148-B684-F04AB74D615D}.Release|x64.Build.0 = Release|Any CPU
+		{3DB6B454-5D64-4148-B684-F04AB74D615D}.Release|x86.ActiveCfg = Release|Any CPU
+		{3DB6B454-5D64-4148-B684-F04AB74D615D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,6 +96,7 @@ Global
 		{FB8E61D8-A173-4795-B992-4BD8794FE53B} = {7FF6FCE5-FC6E-4FA5-8C07-6EA5E987B7AE}
 		{E3D8AB8F-6E09-4038-B5F4-9547A4A3E0DF} = {7FF6FCE5-FC6E-4FA5-8C07-6EA5E987B7AE}
 		{3EE7E067-4C99-4287-9792-DE568636A6F1} = {B45560AE-FBA1-4D5D-BC03-6EF2B5F286AC}
+		{3DB6B454-5D64-4148-B684-F04AB74D615D} = {7FF6FCE5-FC6E-4FA5-8C07-6EA5E987B7AE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A237468A-5EBB-4D19-9AAD-85A05BCC1402}

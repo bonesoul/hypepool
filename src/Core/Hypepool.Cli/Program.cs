@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using Hypepool.Core.Core;
-using Hypepool.Core.Internals;
 using Hypepool.Core.Internals.Bootstrap;
 using Hypepool.Core.Internals.Factories.Core;
 

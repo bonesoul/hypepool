@@ -14,6 +14,7 @@ using Hypepool.Common.Stratum;
 using Hypepool.Common.Utils.Time;
 using Hypepool.Monero.Daemon.Responses;
 using Hypepool.Monero.Stratum;
+using Hypepool.Monero.Stratum.Requests;
 using Hypepool.Monero.Stratum.Responses;
 using Newtonsoft.Json;
 using Serilog;

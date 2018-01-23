@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace Hypepool.Monero.Stratum
+namespace Hypepool.Monero.Stratum.Requests
 {
     public class MoneroLoginRequest
     {

@@ -9,5 +9,5 @@ jobs:
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
     steps:
       - checkout
-      - run: dotnet build
+      - run: dotnet build hypepool.sln
       - run: cd src/Core/Hypepool.Tests/ && dotnet xunit

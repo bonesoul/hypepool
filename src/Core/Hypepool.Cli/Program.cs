@@ -27,6 +27,7 @@
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using Hypepool.Cli.Utils;
 using Hypepool.Core.Core;
 using Hypepool.Core.Internals.Bootstrap;
 using Hypepool.Core.Internals.Factories.Core;
@@ -39,7 +40,8 @@ namespace Hypepool.Cli
 
         public static void Main(string[] args)
         {
-            PrintBanner();
+            ConsoleExtensions.PrintBanner(); // print banner.
+            ConsoleExtensions.PrintLicense(); // print license.
 
             var bootstrapper = new Bootstrapper(); // IoC kernel bootstrapper.
             bootstrapper.Run(); // run bootstrapper.
@@ -53,26 +55,6 @@ namespace Hypepool.Cli
             while (true)
             {
             }
-        }
-
-        private static void PrintBanner()
-        {
-            Console.WriteLine($@"
-
- ██░ ██▓██   ██▓ ██▓███  ▓█████  ██▓███   ▒█████   ▒█████   ██▓    
-▓██░ ██▒▒██  ██▒▓██░  ██▒▓█   ▀ ▓██░  ██▒▒██▒  ██▒▒██▒  ██▒▓██▒    
-▒██▀▀██░ ▒██ ██░▓██░ ██▓▒▒███   ▓██░ ██▓▒▒██░  ██▒▒██░  ██▒▒██░    
-░▓█ ░██  ░ ▐██▓░▒██▄█▓▒ ▒▒▓█  ▄ ▒██▄█▓▒ ▒▒██   ██░▒██   ██░▒██░    
-░▓█▒░██▓ ░ ██▒▓░▒██▒ ░  ░░▒████▒▒██▒ ░  ░░ ████▓▒░░ ████▓▒░░██████▒
- ▒ ░░▒░▒  ██▒▒▒ ▒▓▒░ ░  ░░░ ▒░ ░▒▓▒░ ░  ░░ ▒░▒░▒░ ░ ▒░▒░▒░ ░ ▒░▓  ░
- ▒ ░▒░ ░▓██ ░▒░ ░▒ ░      ░ ░  ░░▒ ░       ░ ▒ ▒░   ░ ▒ ▒░ ░ ░ ▒  ░
- ░  ░░ ░▒ ▒ ░░  ░░          ░   ░░       ░ ░ ░ ▒  ░ ░ ░ ▒    ░ ░   
- ░  ░  ░░ ░                 ░  ░             ░ ░      ░ ░      ░  ░
-        ░ ░                                                        
-");
-            Console.WriteLine($" v{Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion}");
-            Console.WriteLine($" https://github.com/bonesoul/hypepool");
-            Console.WriteLine();
         }
     }
 }

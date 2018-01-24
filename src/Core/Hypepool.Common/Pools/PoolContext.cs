@@ -32,15 +32,19 @@ namespace Hypepool.Common.Pools
 {
     public class PoolContext : IPoolContext
     {
-        public IStratumServer StratumServer { get; private set; }
+
+        public IDaemonClient MiningDaemon { get; private set; }
+
+        public IDaemonClient WalletDaemon { get; private set; }
 
         public IJobManager JobManager { get; private set; }
 
-        public IDaemonClient DaemonClient { get; private set; }
+        public IStratumServer StratumServer { get; private set; }
 
-        public void Attach(IDaemonClient daemonClient, IJobManager jobManager, IStratumServer stratumServer)
+        public void Configure(IDaemonClient miningDaemon, IDaemonClient walletDaemon,IJobManager jobManager, IStratumServer stratumServer)
         {
-            DaemonClient = daemonClient;
+            MiningDaemon = miningDaemon;
+            WalletDaemon = walletDaemon;
             JobManager = jobManager;
             StratumServer = stratumServer;
         }

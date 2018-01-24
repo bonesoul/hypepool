@@ -24,9 +24,19 @@
 //      SOFTWARE.
 #endregion
 
-namespace Hypepool.Core.Internals.Logging
+namespace Hypepool.Core.Utils.Extensions
 {
-    public interface ILogManager
+    public static class ArrayExtensions
     {
+        public static int IndexOf(this byte[] arr, byte val, int start, int count)
+        {
+            for (var i = start; i < start + count; i++)
+            {
+                if (arr[i] == val)
+                    return i;
+            }
+
+            return -1;
+        }
     }
 }

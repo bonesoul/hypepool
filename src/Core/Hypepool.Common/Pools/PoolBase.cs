@@ -66,10 +66,16 @@ namespace Hypepool.Common.Pools
         protected abstract Task EnsureDaemonSynchedAsync();
 
         /// <summary>
-        /// Any extra checks the blockchain may require.
+        /// Any checks before the initilization.
         /// </summary>
         /// <returns></returns>
-        protected abstract Task RunPostInitChecks();
+        protected abstract Task RunPreInitChecksAsync();
+
+        /// <summary>
+        /// Any extra checks the blockchain may require after initilization.
+        /// </summary>
+        /// <returns></returns>
+        protected abstract Task RunPostInitChecksAsync();
 
         /// <summary>
         /// Creates a context for client.

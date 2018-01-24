@@ -29,7 +29,7 @@ using Serilog;
 using Serilog.Core;
 using Serilog.Events;
 
-namespace Hypepool.Core.Internals.Logging
+namespace Hypepool.Core.Utils.Logging
 {
     public class LogManager : ILogManager
     {

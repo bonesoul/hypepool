@@ -46,15 +46,17 @@ namespace Hypepool.Common.Daemon
     {
         private readonly ILogger _logger;
 
-        private string _rpcUrl;
-        private int _requestCounter = 0;
+        private readonly string _rpcUrl;
         private HttpClient _httpClient;
         private AuthenticationHeaderValue _authenticationHeader;
+        private string _username;
+        private string _pasword;
+        private int _requestCounter = 0;
 
         private readonly JsonSerializer _serializer;
         private readonly JsonSerializerSettings _serializerSettings;
 
-        public DaemonClient()
+        public DaemonClient(string host, int port, string username, string password, string rpcLocation = "")
         {
             _logger = Log.ForContext<DaemonClient>();
 
@@ -67,27 +69,30 @@ namespace Hypepool.Common.Daemon
             {
                 ContractResolver = _serializerSettings.ContractResolver
             };
-        }
 
-        public void Initialize(string host, int port, string username, string password, string rpcLocation = "")
-        {
             // build rpc url.
             _rpcUrl = $"http://{host}:{port}";
             if (!string.IsNullOrEmpty(rpcLocation))
                 _rpcUrl += $"/{rpcLocation}";
 
+            _username = username;
+            _pasword = password;
+        }
+
+        public void Initialize()
+        {
             // build authentication header if needed
-            if (!string.IsNullOrEmpty(username))
+            if (!string.IsNullOrEmpty(_username))
             {
-                var auth = $"{username}:{password}";
+                var auth = $"{_username}:{_pasword}";
                 var base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(auth));
                 _authenticationHeader = new AuthenticationHeaderValue("Basic", base64);
             }
 
             // create httpclient instance with credentals.
-                _httpClient = new HttpClient(new HttpClientHandler
+            _httpClient = new HttpClient(new HttpClientHandler
             {
-                Credentials = new NetworkCredential(username, password),
+                Credentials = new NetworkCredential(_username, _pasword),
                 PreAuthenticate = true,
                 AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip,
             });

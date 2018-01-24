@@ -24,23 +24,9 @@
 //      SOFTWARE.
 #endregion
 
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-
-namespace Hypepool.Core.Extensions
+namespace Hypepool.Core.Utils.Logging
 {
-    public static class StringExtensions
+    public interface ILogManager
     {
-        public static string FormatJson(this string input)
-        {
-            try
-            {
-                return JToken.Parse(input).ToString(Formatting.Indented);
-            }
-            catch
-            {
-                return input;
-            }
-        }
     }
 }

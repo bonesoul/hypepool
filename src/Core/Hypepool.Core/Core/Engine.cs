@@ -27,7 +27,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Hypepool.Common.Pools;
 using Hypepool.Core.Internals.Factories.Pool;
-using Hypepool.Core.Internals.Logging;
+using Hypepool.Core.Utils.Logging;
 using Serilog;
 
 namespace Hypepool.Core.Core

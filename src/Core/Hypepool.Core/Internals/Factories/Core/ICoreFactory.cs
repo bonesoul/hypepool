@@ -24,7 +24,7 @@
 //      SOFTWARE.
 #endregion
 using Hypepool.Core.Core;
-using Hypepool.Core.Internals.Logging;
+using Hypepool.Core.Utils.Logging;
 
 namespace Hypepool.Core.Internals.Factories.Core
 {

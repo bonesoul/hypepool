@@ -37,7 +37,7 @@ using Hypepool.Common.Pools;
 using Hypepool.Common.Stratum;
 using Hypepool.Common.Utils.Buffers;
 using Hypepool.Common.Utils.Time;
-using Hypepool.Core.Extensions;
+using Hypepool.Core.Utils.Extensions;
 using Hypepool.Core.Utils.Unique;
 using NetUV.Core.Handles;
 using NetUV.Core.Native;

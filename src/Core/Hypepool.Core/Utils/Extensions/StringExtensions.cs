@@ -24,19 +24,23 @@
 //      SOFTWARE.
 #endregion
 
-namespace Hypepool.Core.Extensions
-{
-    public static class ArrayExtensions
-    {
-        public static int IndexOf(this byte[] arr, byte val, int start, int count)
-        {
-            for (var i = start; i < start + count; i++)
-            {
-                if (arr[i] == val)
-                    return i;
-            }
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
-            return -1;
+namespace Hypepool.Core.Utils.Extensions
+{
+    public static class StringExtensions
+    {
+        public static string FormatJson(this string input)
+        {
+            try
+            {
+                return JToken.Parse(input).ToString(Formatting.Indented);
+            }
+            catch
+            {
+                return input;
+            }
         }
     }
 }

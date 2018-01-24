@@ -34,7 +34,7 @@ namespace Hypepool.Common.Daemon
     /// </summary>
     public interface IDaemonClient
     {
-        void Initialize(string host, int port, string username, string password, string rpcLocation = "");
+        void Initialize();
 
         /// <summary>
         /// Executes the request against configured daemon and returns the response.

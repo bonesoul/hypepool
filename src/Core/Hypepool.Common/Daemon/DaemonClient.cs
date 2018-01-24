@@ -35,21 +35,31 @@ using Hypepool.Common.JsonRpc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using Serilog;
 
 namespace Hypepool.Common.Daemon
 {
+    /// <summary>
+    /// Daemon client.
+    /// </summary>
     public class DaemonClient : IDaemonClient
     {
-        private string _rpcUrl;
-        private Int32 _requestCounter = 0;
+        private readonly ILogger _logger;
+
+        private readonly string _rpcUrl;
         private HttpClient _httpClient;
         private AuthenticationHeaderValue _authenticationHeader;
+        private string _username;
+        private string _pasword;
+        private int _requestCounter = 0;
 
         private readonly JsonSerializer _serializer;
         private readonly JsonSerializerSettings _serializerSettings;
 
-        public DaemonClient()
+        public DaemonClient(string host, int port, string username, string password, string rpcLocation = "")
         {
+            _logger = Log.ForContext<DaemonClient>();
+
             _serializerSettings = new JsonSerializerSettings
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
@@ -59,34 +69,43 @@ namespace Hypepool.Common.Daemon
             {
                 ContractResolver = _serializerSettings.ContractResolver
             };
-        }
 
-        public void Initialize(string host, int port, string username, string password, string rpcLocation = "")
-        {
             // build rpc url.
             _rpcUrl = $"http://{host}:{port}";
             if (!string.IsNullOrEmpty(rpcLocation))
                 _rpcUrl += $"/{rpcLocation}";
 
+            _username = username;
+            _pasword = password;
+        }
+
+        public void Initialize()
+        {
             // build authentication header if needed
-            if (!string.IsNullOrEmpty(username))
+            if (!string.IsNullOrEmpty(_username))
             {
-                var auth = $"{username}:{password}";
+                var auth = $"{_username}:{_pasword}";
                 var base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(auth));
                 _authenticationHeader = new AuthenticationHeaderValue("Basic", base64);
             }
 
             // create httpclient instance with credentals.
-                _httpClient = new HttpClient(new HttpClientHandler
+            _httpClient = new HttpClient(new HttpClientHandler
             {
-                Credentials = new NetworkCredential(username, password),
+                Credentials = new NetworkCredential(_username, _pasword),
                 PreAuthenticate = true,
                 AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip,
             });
         }
 
-        public async Task<DaemonResponse<TResponse>> ExecuteCommandAsync<TResponse>(string method,
-            object payload = null) where TResponse : class
+        /// <summary>
+        /// Executes the request against configured daemon and returns the response.
+        /// </summary>
+        /// <typeparam name="TResponse"></typeparam>
+        /// <param name="method"></param>
+        /// <param name="payload"></param>
+        /// <returns></returns>
+        public async Task<DaemonResponse<TResponse>> ExecuteCommandAsync<TResponse>(string method, object payload = null) where TResponse : class
         {
             var task = MakeRequestAsync(method, payload);
 
@@ -94,16 +113,31 @@ namespace Hypepool.Common.Daemon
             {
                 await task;
             }
-
             catch (Exception e)
             {
-                // ignored
+                // TODO: ignored?
             }
 
             var result = MapDaemonResponse<TResponse>(task);
             return result;
         }
 
+        /// <summary>
+        /// Executes the request against configured daemon and returns the response.
+        /// </summary>
+        /// <param name="method"></param>
+        /// <returns></returns>
+        public Task<DaemonResponse<JToken>> ExecuteCommandAsync(string method)
+        {
+            return ExecuteCommandAsync<JToken>(method);
+        }
+
+        /// <summary>
+        /// Maps the response for the request.
+        /// </summary>
+        /// <typeparam name="TResponse"></typeparam>
+        /// <param name="task"></param>
+        /// <returns></returns>
         private DaemonResponse<TResponse> MapDaemonResponse<TResponse>(Task<JsonRpcResponse> task)
             where TResponse : class
         {
@@ -111,13 +145,14 @@ namespace Hypepool.Common.Daemon
 
             // check tasks faults.
             if (task.IsFaulted)
-                response.Error = new JsonRpcException(-999, task.Exception.Message,
-                    task.Exception.InnerExceptions.Count > 0 ? task.Exception.InnerException : task.Exception);
+                response.Error = new JsonRpcException(-999, task.Exception.Message, null, task.Exception.InnerExceptions.Count > 0 ? task.Exception.InnerException : task.Exception);
             else if (task.IsCanceled)
                 response.Error = new JsonRpcException(-998, "Cancelled", null);
             else
             {
                 Debug.Assert(task.IsCompletedSuccessfully);
+
+                //_logger.Verbose($"<< [{task.Result?.Id:x8}] {task.Result?.Result}");
 
                 if (task.Result?.Result is JToken token)
                     response.Response = token?.ToObject<TResponse>(_serializer);
@@ -130,7 +165,12 @@ namespace Hypepool.Common.Daemon
             return response;
         }
 
-
+        /// <summary>
+        /// Cooks the actual request.
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="payload"></param>
+        /// <returns></returns>
         private async Task<JsonRpcResponse> MakeRequestAsync(string method, object payload)
         {
             var rpcRequestId = _requestCounter++;
@@ -144,8 +184,9 @@ namespace Hypepool.Common.Daemon
             request.Content = new StringContent(json, Encoding.UTF8, "application/json");
             request.Headers.Authorization = _authenticationHeader;
 
-            // send the request.
+            //_logger.Verbose($">> [{rpcRequest.Id:x8}] {json}");
 
+            // send the request.
             using (var response = await _httpClient.SendAsync(request))
             {
                 // check if succeded

@@ -24,41 +24,23 @@
 //      SOFTWARE.
 #endregion
 
-using Hypepool.Common.Daemon;
-using Hypepool.Common.Mining.Jobs;
-using Hypepool.Common.Stratum;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
-namespace Hypepool.Common.Pools
+namespace Hypepool.Core.Utils.Extensions
 {
-    public interface IPoolContext
+    public static class StringExtensions
     {
-        /// <summary>
-        /// Mining daemon client.
-        /// </summary>
-        IDaemonClient MiningDaemon { get; }
-
-        /// <summary>
-        /// Wallet daemon client.
-        /// </summary>
-        IDaemonClient WalletDaemon { get; }
-
-        /// <summary>
-        /// Job manager.
-        /// </summary>
-        IJobManager JobManager { get; }
-
-        /// <summary>
-        /// Stratum server.
-        /// </summary>
-        IStratumServer StratumServer { get; }
-
-        /// <summary>
-        /// Configures the context instance.
-        /// </summary>
-        /// <param name="miningDaemon"></param>
-        /// <param name="walletDaemon"></param>
-        /// <param name="jobManager"></param>
-        /// <param name="stratumServer"></param>
-        void Configure(IDaemonClient miningDaemon, IDaemonClient walletDaemon, IJobManager jobManager, IStratumServer stratumServer);
+        public static string FormatJson(this string input)
+        {
+            try
+            {
+                return JToken.Parse(input).ToString(Formatting.Indented);
+            }
+            catch
+            {
+                return input;
+            }
+        }
     }
 }

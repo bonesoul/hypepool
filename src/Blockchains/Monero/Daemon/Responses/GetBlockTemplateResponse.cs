@@ -24,41 +24,24 @@
 //      SOFTWARE.
 #endregion
 
-using Hypepool.Common.Daemon;
-using Hypepool.Common.Mining.Jobs;
-using Hypepool.Common.Stratum;
+using Newtonsoft.Json;
 
-namespace Hypepool.Common.Pools
+namespace Hypepool.Monero.Daemon.Responses
 {
-    public interface IPoolContext
+    public class GetBlockTemplateResponse
     {
-        /// <summary>
-        /// Mining daemon client.
-        /// </summary>
-        IDaemonClient MiningDaemon { get; }
+        [JsonProperty("blocktemplate_blob")]
+        public string Blob { get; set; }
 
-        /// <summary>
-        /// Wallet daemon client.
-        /// </summary>
-        IDaemonClient WalletDaemon { get; }
+        public long Difficulty { get; set; }
+        public uint Height { get; set; }
 
-        /// <summary>
-        /// Job manager.
-        /// </summary>
-        IJobManager JobManager { get; }
+        [JsonProperty("prev_hash")]
+        public string PreviousBlockhash { get; set; }
 
-        /// <summary>
-        /// Stratum server.
-        /// </summary>
-        IStratumServer StratumServer { get; }
+        [JsonProperty("reserved_offset")]
+        public uint ReservedOffset { get; set; }
 
-        /// <summary>
-        /// Configures the context instance.
-        /// </summary>
-        /// <param name="miningDaemon"></param>
-        /// <param name="walletDaemon"></param>
-        /// <param name="jobManager"></param>
-        /// <param name="stratumServer"></param>
-        void Configure(IDaemonClient miningDaemon, IDaemonClient walletDaemon, IJobManager jobManager, IStratumServer stratumServer);
+        public string Status { get; set; }
     }
 }

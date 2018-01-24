@@ -24,19 +24,47 @@
 //      SOFTWARE.
 #endregion
 
-namespace Hypepool.Core.Extensions
-{
-    public static class ArrayExtensions
-    {
-        public static int IndexOf(this byte[] arr, byte val, int start, int count)
-        {
-            for (var i = start; i < start + count; i++)
-            {
-                if (arr[i] == val)
-                    return i;
-            }
+using System;
+using System.Reflection;
+using System.Runtime.InteropServices;
 
-            return -1;
+namespace Hypepool.Cli.Utils.Runtime
+{
+    public static class RuntimeInfo
+    {
+        public static class OperatingSystem
+        {
+            public static bool IsWindows() => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+
+            public static bool IsMacOs() => RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+
+            public static bool IsLinux() => RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+
+            public static string Name
+            {
+                get
+                {
+                    if (IsWindows()) return "win";
+                    if (IsMacOs()) return "osx";
+                    if (IsLinux()) return "lin";
+                    return "Unknown";
+                }
+            }
+        }
+
+        public static string DotNetCoreVersion
+        {
+            get
+            {
+                var assembly = typeof(System.Runtime.GCSettings).GetTypeInfo().Assembly;
+                var assemblyPath = assembly.CodeBase.Split(new[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries);
+                var netCoreAppIndex = Array.IndexOf(assemblyPath, "Microsoft.NETCore.App");
+
+                if (netCoreAppIndex > 0 && netCoreAppIndex < assemblyPath.Length - 2)
+                    return assemblyPath[netCoreAppIndex + 1];
+
+                return null;
+            }
         }
     }
 }

@@ -24,41 +24,19 @@
 //      SOFTWARE.
 #endregion
 
-using Hypepool.Common.Daemon;
-using Hypepool.Common.Mining.Jobs;
-using Hypepool.Common.Stratum;
-
-namespace Hypepool.Common.Pools
+namespace Hypepool.Core.Utils.Extensions
 {
-    public interface IPoolContext
+    public static class ArrayExtensions
     {
-        /// <summary>
-        /// Mining daemon client.
-        /// </summary>
-        IDaemonClient MiningDaemon { get; }
+        public static int IndexOf(this byte[] arr, byte val, int start, int count)
+        {
+            for (var i = start; i < start + count; i++)
+            {
+                if (arr[i] == val)
+                    return i;
+            }
 
-        /// <summary>
-        /// Wallet daemon client.
-        /// </summary>
-        IDaemonClient WalletDaemon { get; }
-
-        /// <summary>
-        /// Job manager.
-        /// </summary>
-        IJobManager JobManager { get; }
-
-        /// <summary>
-        /// Stratum server.
-        /// </summary>
-        IStratumServer StratumServer { get; }
-
-        /// <summary>
-        /// Configures the context instance.
-        /// </summary>
-        /// <param name="miningDaemon"></param>
-        /// <param name="walletDaemon"></param>
-        /// <param name="jobManager"></param>
-        /// <param name="stratumServer"></param>
-        void Configure(IDaemonClient miningDaemon, IDaemonClient walletDaemon, IJobManager jobManager, IStratumServer stratumServer);
+            return -1;
+        }
     }
 }

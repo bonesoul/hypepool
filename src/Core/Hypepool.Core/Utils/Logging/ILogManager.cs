@@ -24,7 +24,7 @@
 //      SOFTWARE.
 #endregion
 
-namespace Hypepool.Core.Internals.Logging
+namespace Hypepool.Core.Utils.Logging
 {
     public interface ILogManager
     {

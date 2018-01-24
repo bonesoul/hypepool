@@ -37,7 +37,7 @@ using Hypepool.Common.Pools;
 using Hypepool.Common.Stratum;
 using Hypepool.Common.Utils.Buffers;
 using Hypepool.Common.Utils.Time;
-using Hypepool.Core.Extensions;
+using Hypepool.Core.Utils.Extensions;
 using Hypepool.Core.Utils.Unique;
 using NetUV.Core.Handles;
 using NetUV.Core.Native;
@@ -93,7 +93,7 @@ namespace Hypepool.Core.Stratum
                                 OnClientConnected(con, endpoint, loop);
                         });
 
-                    _logger.Verbose($"Initialized stratum server [{endpoint.ToString()}]");
+                    _logger.Information($"stratum server [{endpoint.ToString()}] started..");
 
                     // add to ports list.
                     lock (_ports)

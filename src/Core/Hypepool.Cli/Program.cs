@@ -26,16 +26,23 @@
 
 using System;
 using System.Reflection;
+using System.Runtime.InteropServices;
+using Hypepool.Cli.Utils.Extensions;
+using Hypepool.Cli.Utils.Runtime;
 using Hypepool.Core.Internals.Bootstrap;
 using Hypepool.Core.Internals.Factories.Core;
+using Serilog;
 
 namespace Hypepool.Cli
 {
     public class Program
     {
-        static void Main(string[] args)
+
+
+        public static void Main(string[] args)
         {
-            PrintBanner();
+            ConsoleExtensions.PrintBanner(); // print banner.
+            ConsoleExtensions.PrintLicense(); // print license.
 
             var bootstrapper = new Bootstrapper(); // IoC kernel bootstrapper.
             bootstrapper.Run(); // run bootstrapper.
@@ -44,32 +51,18 @@ namespace Hypepool.Cli
             var coreFactory = bootstrapper.Container.GetInstance<ICoreFactory>(); // get core object factory.
             var engine = coreFactory.GetEngine(); // get engine.
 
-            engine.Initialize();
+            var logger = Log.ForContext<Program>();
+            logger.Information($"hypepool warming-up: v{Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion}");
+            logger.Information($"running on {RuntimeInfo.OperatingSystem.Name}-{RuntimeInformation.ProcessArchitecture.ToString().ToLower()}");
+            logger.Information($"os: {RuntimeInformation.OSDescription}");
+            logger.Information($"dotnet core: {RuntimeInfo.DotNetCoreVersion}, framework: {RuntimeInformation.FrameworkDescription}");
+            logger.Information($"running over {Environment.ProcessorCount} core system");
+
             engine.Start();
 
             while (true)
-            {                
+            {
             }
-        }
-
-        private static void PrintBanner()
-        {
-            Console.WriteLine($@"
-
- ██░ ██▓██   ██▓ ██▓███  ▓█████  ██▓███   ▒█████   ▒█████   ██▓    
-▓██░ ██▒▒██  ██▒▓██░  ██▒▓█   ▀ ▓██░  ██▒▒██▒  ██▒▒██▒  ██▒▓██▒    
-▒██▀▀██░ ▒██ ██░▓██░ ██▓▒▒███   ▓██░ ██▓▒▒██░  ██▒▒██░  ██▒▒██░    
-░▓█ ░██  ░ ▐██▓░▒██▄█▓▒ ▒▒▓█  ▄ ▒██▄█▓▒ ▒▒██   ██░▒██   ██░▒██░    
-░▓█▒░██▓ ░ ██▒▓░▒██▒ ░  ░░▒████▒▒██▒ ░  ░░ ████▓▒░░ ████▓▒░░██████▒
- ▒ ░░▒░▒  ██▒▒▒ ▒▓▒░ ░  ░░░ ▒░ ░▒▓▒░ ░  ░░ ▒░▒░▒░ ░ ▒░▒░▒░ ░ ▒░▓  ░
- ▒ ░▒░ ░▓██ ░▒░ ░▒ ░      ░ ░  ░░▒ ░       ░ ▒ ▒░   ░ ▒ ▒░ ░ ░ ▒  ░
- ░  ░░ ░▒ ▒ ░░  ░░          ░   ░░       ░ ░ ░ ▒  ░ ░ ░ ▒    ░ ░   
- ░  ░  ░░ ░                 ░  ░             ░ ░      ░ ░      ░  ░
-        ░ ░                                                        
-");
-            Console.WriteLine($" v{Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion}");
-            Console.WriteLine($" https://github.com/bonesoul/hypepool");
-            Console.WriteLine();
         }
     }
 }

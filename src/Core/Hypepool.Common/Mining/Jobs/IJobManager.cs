@@ -30,7 +30,7 @@ namespace Hypepool.Common.Mining.Jobs
 {
     public interface IJobManager
     {
-        void Initialize(IPoolContext poolContext);
+        void Configure(IPoolContext poolContext);
 
         void Start();
     }

@@ -43,12 +43,44 @@ namespace Hypepool.Common.Pools
         protected readonly IServerFactory ServerFactory;
         protected ILogger _logger;
 
-        public abstract void Initialize();
+        /// <summary>
+        /// Initializes the pool.
+        /// </summary>
+        public abstract Task Initialize();
 
-        protected abstract Task<bool> IsDaemonConnectionHealthy();
+        /// <summary>
+        /// Starts the pool.
+        /// </summary>
+        public abstract Task Start();
 
-        protected abstract Task<bool> IsDaemonConnectedToNetwork();
+        /// <summary>
+        /// Any checks before the initilization.
+        /// </summary>
+        /// <returns></returns>
+        protected abstract Task RunPreInitChecksAsync();
 
+        /// <summary>
+        /// Any extra checks the blockchain may require after initilization.
+        /// </summary>
+        /// <returns></returns>
+        protected abstract Task RunPostInitChecksAsync();
+
+        /// <summary>
+        /// Checks if we are connected to coin daemon.
+        /// </summary>
+        /// <returns></returns>
+        protected abstract Task<bool> IsDaemonConnectionHealthyAsync();
+
+        /// <summary>
+        /// Checks if the coin daemon is connected to network.
+        /// </summary>
+        /// <returns></returns>
+        protected abstract Task<bool> IsDaemonConnectedToNetworkAsync();
+
+        /// <summary>
+        /// Checks if coin is synched to network.
+        /// </summary>
+        /// <returns></returns>
         protected abstract Task EnsureDaemonSynchedAsync();
 
         /// <summary>
@@ -61,34 +93,6 @@ namespace Hypepool.Common.Pools
         {
             PoolContext = poolContext;
             ServerFactory = serverFactory;
-        }
-
-        public virtual void Start()
-        {
-            _logger.Information($"Loading pool..");
-
-            try
-            {
-                PoolContext.DaemonClient.Initialize("127.0.0.1", 28081, "user", "pass", "json_rpc");
-                WaitDaemon();
-
-                PoolContext.JobManager.Initialize(PoolContext);
-                PoolContext.JobManager.Start();
-                PoolContext.StratumServer.Start(this);
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex.ToString());
-                throw;
-            }
-        }
-
-        public async void WaitDaemon()
-        {
-            while (!await IsDaemonConnectionHealthy())
-            {
-                _logger.Information($"Waiting for daemons to come online ...");
-            }
         }
 
         public void OnConnect(IStratumClient client)

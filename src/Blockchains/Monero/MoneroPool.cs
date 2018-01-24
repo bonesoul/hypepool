@@ -37,6 +37,7 @@ using Hypepool.Common.Native;
 using Hypepool.Common.Pools;
 using Hypepool.Common.Stratum;
 using Hypepool.Common.Utils.Time;
+using Hypepool.Monero.Daemon.Requests;
 using Hypepool.Monero.Daemon.Responses;
 using Hypepool.Monero.Stratum;
 using Hypepool.Monero.Stratum.Requests;
@@ -72,14 +73,15 @@ namespace Hypepool.Monero
             PoolContext.Attach(daemonClient, jobManager, stratumServer);
         }
 
-        public override void Start()
+        public override async void Start()
         {
             _logger.Information($"Loading pool..");
 
             try
             {
-                PoolContext.DaemonClient.Initialize("127.0.0.1", 28081, "user", "pass", "json_rpc");
-                WaitDaemon();
+                PoolContext.DaemonClient.Initialize("127.0.0.1", 28081, "user", "pass", MoneroConstants.DaemonRpcLocation);
+                await WaitDaemonConnection(); // wait for coin daemon connection.
+                await EnsureDaemonSynchedAsync(); // ensure the coin daemon is synced to network.
 
                 PoolContext.JobManager.Initialize(PoolContext);
                 PoolContext.JobManager.Start();
@@ -92,44 +94,83 @@ namespace Hypepool.Monero
             }
         }
 
-        public async void WaitDaemon()
+        public async Task WaitDaemonConnection()
         {
             while (!await IsDaemonConnectionHealthy())
             {
-                _logger.Information($"Waiting for daemons to come online ...");
+                _logger.Information("Waiting for wallet daemon connectivity..");
+                //await Task.Delay(TimeSpan.FromSeconds(10));
             }
+
+            _logger.Information("Established coin daemon connection..");
+
+            while (!await IsDaemonConnectedToNetwork())
+            {
+                _logger.Information("Waiting for coin daemon to connect peers..");
+                //await Task.Delay(TimeSpan.FromSeconds(10));
+            }
+
+            _logger.Information("Coin daemon do have peer connections..");
         }
 
         protected override async Task<bool> IsDaemonConnectionHealthy()
         {
-            var response = await PoolContext.DaemonClient.ExecuteCommandAsync<GetInfoResponse>(MoneroRpcCommands.GetInfo);
+            var response = await PoolContext.DaemonClient.ExecuteCommandAsync<GetInfoResponse>(MoneroRpcCommands.GetInfo); // getinfo.
 
             // check if we are free of any errors.
             if (response.Error == null) // if so we,
                 return true; // we have a healthy connection.
 
             if (response.Error.InnerException?.GetType() != typeof(DaemonException)) // if it's a generic exception
-                _logger.Warning($"Daemon connection problem: {response.Error}");
+                _logger.Warning($"Daemon connection problem: {response.Error.InnerException?.Message}");
             else // else if we have a daemon exception.
             {
                 var exception = (DaemonException)response.Error.InnerException;
 
                 _logger.Warning(exception.Code == HttpStatusCode.Unauthorized // check for credentials errors.
-                    ? "Daemon connection problem: daemon reported invalid credentials."
+                    ? "Daemon connection problem: invalid rpc credentials."
                     : $"Daemon connection problem: {exception.Code}");
             }
 
             return false;
         }
 
-        protected override Task<bool> IsDaemonConnectedToNetwork()
+        protected override async Task<bool> IsDaemonConnectedToNetwork()
         {
-            throw new NotImplementedException();
+            var response = await PoolContext.DaemonClient.ExecuteCommandAsync<GetInfoResponse>(MoneroRpcCommands.GetInfo); // getinfo.
+
+            return response.Error == null && response.Response != null && // check if coin daemon have any incoming + outgoing connections.
+                   (response.Response.OutgoingConnectionsCount + response.Response.IncomingConnectionsCount) > 0;
         }
 
-        protected override Task EnsureDaemonSynchedAsync()
+        protected override async Task EnsureDaemonSynchedAsync()
         {
-            throw new NotImplementedException();
+            var request = new GetBlockTemplateRequest
+            {
+                WalletAddress = _poolAddress,
+                ReserveSize = MoneroConstants.ReserveSize
+            };
+
+            while (true) // loop until sync is complete.
+            {
+                var getBlockTemplate = await PoolContext.DaemonClient.ExecuteCommandAsync<GetBlockTemplateResponse>(MoneroRpcCommands.GetBlockTemplate, request);
+
+                var isSynched = getBlockTemplate.Error == null || getBlockTemplate.Error.Code != -9; // is daemon synced to network?
+
+                if (isSynched) // break out of the loop once synched.
+                    break;
+
+                var getInfo = await PoolContext.DaemonClient.ExecuteCommandAsync<GetInfoResponse>(MoneroRpcCommands.GetInfo); // getinfo.
+                var currentHeight = getInfo.Response.Height;
+                var totalBlocks = getInfo.Response.TargetHeight;
+                var percent = (double) currentHeight / totalBlocks * 100;
+
+                _logger.Information($"Waiting for blockchain sync [{percent:0.00}%]..");
+
+                await Task.Delay(1000); // stay awhile and listen!
+            }        
+            
+            _logger.Information("Blockchain is synched to network..");
         }
 
         protected override WorkerContext CreateClientContext()

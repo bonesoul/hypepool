@@ -35,11 +35,14 @@ using Hypepool.Common.JsonRpc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using Serilog;
 
 namespace Hypepool.Common.Daemon
 {
     public class DaemonClient : IDaemonClient
     {
+        protected ILogger _logger;
+
         private string _rpcUrl;
         private Int32 _requestCounter = 0;
         private HttpClient _httpClient;
@@ -50,6 +53,8 @@ namespace Hypepool.Common.Daemon
 
         public DaemonClient()
         {
+            _logger = Log.ForContext<DaemonClient>();
+
             _serializerSettings = new JsonSerializerSettings
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
@@ -94,7 +99,6 @@ namespace Hypepool.Common.Daemon
             {
                 await task;
             }
-
             catch (Exception e)
             {
                 // ignored
@@ -111,13 +115,14 @@ namespace Hypepool.Common.Daemon
 
             // check tasks faults.
             if (task.IsFaulted)
-                response.Error = new JsonRpcException(-999, task.Exception.Message,
-                    task.Exception.InnerExceptions.Count > 0 ? task.Exception.InnerException : task.Exception);
+                response.Error = new JsonRpcException(-999, task.Exception.Message, null, task.Exception.InnerExceptions.Count > 0 ? task.Exception.InnerException : task.Exception);
             else if (task.IsCanceled)
                 response.Error = new JsonRpcException(-998, "Cancelled", null);
             else
             {
                 Debug.Assert(task.IsCompletedSuccessfully);
+
+                //_logger.Verbose($"<< [{task.Result?.Id:x8}] {task.Result?.Result}");
 
                 if (task.Result?.Result is JToken token)
                     response.Response = token?.ToObject<TResponse>(_serializer);
@@ -144,8 +149,9 @@ namespace Hypepool.Common.Daemon
             request.Content = new StringContent(json, Encoding.UTF8, "application/json");
             request.Headers.Authorization = _authenticationHeader;
 
-            // send the request.
+            //_logger.Verbose($">> [{rpcRequest.Id:x8}] {json}");
 
+            // send the request.
             using (var response = await _httpClient.SendAsync(request))
             {
                 // check if succeded

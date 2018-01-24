@@ -37,6 +37,14 @@ namespace Hypepool.Monero
             { CoinType.ETN, 98 },
             { CoinType.AEON, 97 },
         };
+
+        public const string DaemonRpcLocation = "json_rpc";
+
+        public const int InstanceIdSize = 3;
+        public const int ExtraNonceSize = 4;
+
+        // NOTE: for whatever strange reason only reserved_size -1 can be used, the LAST byte MUST be zero or nothing works.
+        public const int ReserveSize = ExtraNonceSize + InstanceIdSize + 1;
     }
 
     public static class MoneroRpcCommands

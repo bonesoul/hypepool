@@ -33,7 +33,7 @@ namespace Hypepool.Core.Internals.Logging
 {
     public class LogManager : ILogManager
     {
-        private const string ConsoleLogFormat = "{Timestamp:HH:mm:ss} [{Level}] [{Source:l}] [{Pool:l}] {Message}{NewLine}{Exception}";
+        private const string ConsoleLogTemplate = "{Timestamp:HH:mm:ss} [{Level}] [{Source:l}] [{Pool:l}] {Message}{NewLine}{Exception}";
 
         public LogManager()
         {
@@ -42,7 +42,7 @@ namespace Hypepool.Core.Internals.Logging
                 .Enrich.With(new SourceEnricher()) // used for enriching logs with sources.
                 .Enrich.With(new ComponentEnricher()) // used for enriching logs with compontents.
                 .MinimumLevel.Verbose() // lower the default minimum level to verbose as sinks can only rise them but not lower.
-                .WriteTo.ColoredConsole(LogEventLevel.Verbose, ConsoleLogFormat)
+                .WriteTo.ColoredConsole(LogEventLevel.Verbose, ConsoleLogTemplate)
                 .CreateLogger();
         }
 

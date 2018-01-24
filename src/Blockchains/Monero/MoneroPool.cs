@@ -72,19 +72,54 @@ namespace Hypepool.Monero
             PoolContext.Attach(daemonClient, jobManager, stratumServer);
         }
 
+        public override void Start()
+        {
+            _logger.Information($"Loading pool..");
+
+            try
+            {
+                PoolContext.DaemonClient.Initialize("127.0.0.1", 28081, "user", "pass", "json_rpc");
+                WaitDaemon();
+
+                PoolContext.JobManager.Initialize(PoolContext);
+                PoolContext.JobManager.Start();
+                PoolContext.StratumServer.Start(this);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.ToString());
+                throw;
+            }
+        }
+
+        public async void WaitDaemon()
+        {
+            while (!await IsDaemonConnectionHealthy())
+            {
+                _logger.Information($"Waiting for daemons to come online ...");
+            }
+        }
+
         protected override async Task<bool> IsDaemonConnectionHealthy()
         {
-            var response =
-              await PoolContext.DaemonClient.ExecuteCommandAsync<GetInfoResponse>(MoneroRpcCommands.GetInfo);
+            var response = await PoolContext.DaemonClient.ExecuteCommandAsync<GetInfoResponse>(MoneroRpcCommands.GetInfo);
 
-            if (response.Error?.InnerException?.GetType() == typeof(DaemonException))
+            // check if we are free of any errors.
+            if (response.Error == null) // if so we,
+                return true; // we have a healthy connection.
+
+            if (response.Error.InnerException?.GetType() != typeof(DaemonException)) // if it's a generic exception
+                _logger.Warning($"Daemon connection problem: {response.Error}");
+            else // else if we have a daemon exception.
             {
-                var exception = (DaemonException) response.Error.InnerException;
-                if (exception.Code == HttpStatusCode.Unauthorized)
-                    _logger.Fatal("Wallet daemon reported invalid credentials");
+                var exception = (DaemonException)response.Error.InnerException;
+
+                _logger.Warning(exception.Code == HttpStatusCode.Unauthorized // check for credentials errors.
+                    ? "Daemon connection problem: daemon reported invalid credentials."
+                    : $"Daemon connection problem: {exception.Code}");
             }
 
-            return response.Error == null;
+            return false;
         }
 
         protected override Task<bool> IsDaemonConnectedToNetwork()

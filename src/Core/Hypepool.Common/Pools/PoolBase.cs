@@ -45,6 +45,8 @@ namespace Hypepool.Common.Pools
 
         public abstract void Initialize();
 
+        public abstract void Start();
+
         protected abstract Task<bool> IsDaemonConnectionHealthy();
 
         protected abstract Task<bool> IsDaemonConnectedToNetwork();
@@ -61,34 +63,6 @@ namespace Hypepool.Common.Pools
         {
             PoolContext = poolContext;
             ServerFactory = serverFactory;
-        }
-
-        public virtual void Start()
-        {
-            _logger.Information($"Loading pool..");
-
-            try
-            {
-                PoolContext.DaemonClient.Initialize("127.0.0.1", 28081, "user", "pass", "json_rpc");
-                WaitDaemon();
-
-                PoolContext.JobManager.Initialize(PoolContext);
-                PoolContext.JobManager.Start();
-                PoolContext.StratumServer.Start(this);
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex.ToString());
-                throw;
-            }
-        }
-
-        public async void WaitDaemon()
-        {
-            while (!await IsDaemonConnectionHealthy())
-            {
-                _logger.Information($"Waiting for daemons to come online ...");
-            }
         }
 
         public void OnConnect(IStratumClient client)

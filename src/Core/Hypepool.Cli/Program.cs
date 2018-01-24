@@ -37,10 +37,12 @@ namespace Hypepool.Cli
 {
     public class Program
     {
-
+        private static ILogger _logger;
 
         public static void Main(string[] args)
         {
+            AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler; // Catch any unhandled exceptions if we are in release mode.
+
             ConsoleExtensions.PrintBanner(); // print banner.
             ConsoleExtensions.PrintLicense(); // print license.
 
@@ -51,17 +53,43 @@ namespace Hypepool.Cli
             var coreFactory = bootstrapper.Container.GetInstance<ICoreFactory>(); // get core object factory.
             var engine = coreFactory.GetEngine(); // get engine.
 
-            var logger = Log.ForContext<Program>();
-            logger.Information($"hypepool warming-up: v{Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion}");
-            logger.Information($"running on {RuntimeInfo.OperatingSystem.Name}-{RuntimeInformation.ProcessArchitecture.ToString().ToLower()}");
-            logger.Information($"os: {RuntimeInformation.OSDescription}");
-            logger.Information($"dotnet core: {RuntimeInfo.DotNetCoreVersion}, framework: {RuntimeInformation.FrameworkDescription}");
-            logger.Information($"running over {Environment.ProcessorCount} core system");
+            // create logger to be used later.
+            _logger = Log.ForContext<Program>();
+
+            _logger.Information($"hypepool warming-up: v{Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion}");
+            _logger.Information($"running on {RuntimeInfo.OperatingSystem.Name}-{RuntimeInformation.ProcessArchitecture.ToString().ToLower()}");
+            _logger.Information($"os: {RuntimeInformation.OSDescription}");
+            _logger.Information($"dotnet core: {RuntimeInfo.DotNetCoreVersion}, framework: {RuntimeInformation.FrameworkDescription}");
+            _logger.Information($"running over {Environment.ProcessorCount} core system");
 
             engine.Start();
 
             while (true)
             {
+            }
+        }
+
+        /// <summary>
+        /// Unhandled exception emitter.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private static void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
+        {
+            if (!(e.ExceptionObject is Exception exception)) // if we can't get the exception, whine about it.
+            {
+                _logger.Error("can't get exception object from UnhandledExceptionEventArgs");
+                throw new ArgumentNullException(nameof(e));
+            }
+
+            if(!e.IsTerminating)
+                _logger.Fatal(exception, $"terminating because of unhandled exception: {exception.Message}");
+            else
+            {
+                _logger.Error(exception, $"caught unhandled exception: {exception.Message}");
+#if !DEBUG                 
+                Environment.Exit(-1); // prevent console window from being closed when we are in development mode.
+#endif
             }
         }
     }

@@ -1,4 +1,6 @@
-﻿using System;
+// original code from: https://github.com/coinfoundry/miningcore/blob/dev/src/MiningCore.Tests/Util/PooledLineBufferTests.cs
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using FluentAssertions;

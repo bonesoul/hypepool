@@ -1,14 +1,8 @@
-```
- ▄ .▄ ▄· ▄▌ ▄▄▄·▄▄▄ . ▄▄▄·            ▄▄▌  
-██▪▐█▐█▪██▌▐█ ▄█▀▄.▀·▐█ ▄█▪     ▪     ██•  
-██▀▐█▐█▌▐█▪ ██▀·▐▀▀▪▄ ██▀· ▄█▀▄  ▄█▀▄ ██▪  
-██▌▐▀ ▐█▀·.▐█▪·•▐█▄▄▌▐█▪·•▐█▌.▐▌▐█▌.▐▌▐█▌▐▌
-▀▀▀ ·  ▀ • .▀    ▀▀▀ .▀    ▀█▄▀▪ ▀█▄▀▪.▀▀▀
-```
+**hypepool** is an rock-solid & platform-agnostic pool server which is a next-gen successor of [CoiniumServ](https://github.com/bonesoul/CoiniumServ) running on [dotnet core 2.0](https://github.com/dotnet/core) + [libuv](https://github.com/libuv/libuv).
 
 [![CircleCI](https://circleci.com/gh/bonesoul/hypepool/tree/develop.svg?style=svg&circle-token=2de3caa01614f309bedc9a2e6f986008e9e7c3af)](https://circleci.com/gh/bonesoul/hypepool/tree/develop) [![Documentation Status](https://readthedocs.org/projects/hypepool-book/badge/?version=latest)](https://readthedocs.org/projects/coiniumserv/?badge=latest)
 
-**hypepool** is an rock-solid & platform-agnostic pool server which is a next-gen successor of [CoiniumServ](https://github.com/bonesoul/CoiniumServ) running on [dotnet core 2.0](https://github.com/dotnet/core) + [libuv](https://github.com/libuv/libuv).
+![hypepool](https://image.ibb.co/cLaDKG/hypepool.png)
 
 ### donations
 

@@ -26,11 +26,12 @@
 
 using System;
 using System.Reflection;
-using System.Threading.Tasks;
-using Hypepool.Cli.Utils;
-using Hypepool.Core.Core;
+using System.Runtime.InteropServices;
+using Hypepool.Cli.Utils.Extensions;
+using Hypepool.Cli.Utils.Runtime;
 using Hypepool.Core.Internals.Bootstrap;
 using Hypepool.Core.Internals.Factories.Core;
+using Serilog;
 
 namespace Hypepool.Cli
 {
@@ -49,6 +50,13 @@ namespace Hypepool.Cli
 
             var coreFactory = bootstrapper.Container.GetInstance<ICoreFactory>(); // get core object factory.
             var engine = coreFactory.GetEngine(); // get engine.
+
+            var logger = Log.ForContext<Program>();
+            logger.Information($"hypepool warming-up: v{Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion}");
+            logger.Information($"running on {RuntimeInfo.OperatingSystem.Name}-{RuntimeInformation.ProcessArchitecture.ToString().ToLower()}");
+            logger.Information($"os: {RuntimeInformation.OSDescription}");
+            logger.Information($"dotnet core: {RuntimeInfo.DotNetCoreVersion}, framework: {RuntimeInformation.FrameworkDescription}");
+            logger.Information($"running over {Environment.ProcessorCount} core system");
 
             engine.Start();
 

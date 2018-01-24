@@ -60,7 +60,7 @@ namespace Hypepool.Monero
 
         public override async Task Initialize()
         {
-            _logger.Information($"Initializing pool..");
+            _logger.Information($"initializing pool..");
 
             try
             {
@@ -105,7 +105,7 @@ namespace Hypepool.Monero
             // decode configured pool address.
             _poolAddressBase58Prefix = LibCryptonote.DecodeAddress(_poolAddress);
             if (_poolAddressBase58Prefix == 0)
-                throw new PoolStartupAbortedException("Unable to decode configured pool address!");
+                throw new PoolStartupAbortedException("unable to decode configured pool address!");
         }
 
         protected override async Task RunPostInitChecksAsync()
@@ -115,26 +115,26 @@ namespace Hypepool.Monero
 
             // ensure pool owns wallet
             if (addressResponse.Response?.Address != _poolAddress)
-                throw new PoolStartupAbortedException("Pool wallet does not own the configured pool address!");
+                throw new PoolStartupAbortedException("pool wallet does not own the configured pool address!");
         }
 
         public async Task WaitDaemonConnection()
         {
             while (!await IsDaemonConnectionHealthyAsync())
             {
-                _logger.Information("Waiting for wallet daemon connectivity..");
+                _logger.Information("waiting for wallet daemon connectivity..");
                 await Task.Delay(TimeSpan.FromSeconds(5000));
             }
 
-            _logger.Information("Established coin daemon connection..");
+            _logger.Information("established coin daemon connection..");
 
             while (!await IsDaemonConnectedToNetworkAsync())
             {
-                _logger.Information("Waiting for coin daemon to connect peers..");
+                _logger.Information("waiting for coin daemon to connect peers..");
                 await Task.Delay(TimeSpan.FromSeconds(5000));
             }
 
-            _logger.Information("Coin daemon do have peer connections..");
+            _logger.Information("coin daemon do have peer connections..");
         }
 
         protected override async Task<bool> IsDaemonConnectionHealthyAsync()
@@ -146,14 +146,14 @@ namespace Hypepool.Monero
                 return true; // we have a healthy connection.
 
             if (response.Error.InnerException?.GetType() != typeof(DaemonException)) // if it's a generic exception
-                _logger.Warning($"Daemon connection problem: {response.Error.InnerException?.Message}");
+                _logger.Warning($"daemon connection problem: {response.Error.InnerException?.Message}");
             else // else if we have a daemon exception.
             {
                 var exception = (DaemonException)response.Error.InnerException;
 
                 _logger.Warning(exception.Code == HttpStatusCode.Unauthorized // check for credentials errors.
-                    ? "Daemon connection problem: invalid rpc credentials."
-                    : $"Daemon connection problem: {exception.Code}");
+                    ? "daemon connection problem: invalid rpc credentials."
+                    : $"daemon connection problem: {exception.Code}");
             }
 
             return false;
@@ -189,12 +189,12 @@ namespace Hypepool.Monero
                 var totalBlocks = infoResponse.Response.TargetHeight;
                 var percent = (double) currentHeight / totalBlocks * 100;
 
-                _logger.Information($"Waiting for blockchain sync [{percent:0.00}%]..");
+                _logger.Information($"waiting for blockchain sync [{percent:0.00}%]..");
 
                 await Task.Delay(5000); // stay awhile and listen!
             }        
             
-            _logger.Information("Blockchain is synched to network..");
+            _logger.Information("blockchain is synched to network..");
         }
 
         protected override WorkerContext CreateClientContext()

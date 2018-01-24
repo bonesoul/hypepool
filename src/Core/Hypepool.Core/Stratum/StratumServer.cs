@@ -93,7 +93,7 @@ namespace Hypepool.Core.Stratum
                                 OnClientConnected(con, endpoint, loop);
                         });
 
-                    _logger.Information($"Initialized stratum server [{endpoint.ToString()}]");
+                    _logger.Information($"stratum server [{endpoint.ToString()}] started..");
 
                     // add to ports list.
                     lock (_ports)

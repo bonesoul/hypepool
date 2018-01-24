@@ -23,47 +23,47 @@
 //      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //      SOFTWARE.
 #endregion
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using Hypepool.Common.Pools;
-using Hypepool.Core.Internals.Factories.Pool;
-using Hypepool.Core.Utils.Logging;
-using Serilog;
 
-namespace Hypepool.Core.Core
+using System;
+using System.Reflection;
+using System.Runtime.InteropServices;
+
+namespace Hypepool.Cli.Utils.Runtime
 {
-    public class Engine : IEngine
+    public static class RuntimeInfo
     {
-        public IReadOnlyList<IPool> Pools { get; }
-
-        private readonly IPoolFactory _poolFactory;
-        private readonly IList<IPool> _pools;
-        private readonly ILogger _logger;
-
-        public Engine(ILogManager logManager, IPoolFactory poolFactory)
+        public static class OperatingSystem
         {
-            _logger = Log.ForContext<Engine>();
-            _poolFactory = poolFactory;
+            public static bool IsWindows() => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
-            _pools = new List<IPool>();
-            Pools = new ReadOnlyCollection<IPool>(_pools);
+            public static bool IsMacOs() => RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+
+            public static bool IsLinux() => RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+
+            public static string Name
+            {
+                get
+                {
+                    if (IsWindows()) return "win";
+                    if (IsMacOs()) return "osx";
+                    if (IsLinux()) return "lin";
+                    return "Unknown";
+                }
+            }
         }
 
-        public async Task Start()
+        public static string DotNetCoreVersion
         {
-            _logger.Information("starting engine..");
-
-            _pools.Add(_poolFactory.GetPool("Monero"));
-
-            foreach (var pool in _pools)
+            get
             {
-                await pool.Initialize();
-            }
+                var assembly = typeof(System.Runtime.GCSettings).GetTypeInfo().Assembly;
+                var assemblyPath = assembly.CodeBase.Split(new[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries);
+                var netCoreAppIndex = Array.IndexOf(assemblyPath, "Microsoft.NETCore.App");
 
-            foreach (var pool in _pools)
-            {
-                await pool.Start();
+                if (netCoreAppIndex > 0 && netCoreAppIndex < assemblyPath.Length - 2)
+                    return assemblyPath[netCoreAppIndex + 1];
+
+                return null;
             }
         }
     }

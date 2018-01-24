@@ -24,6 +24,7 @@
 //      SOFTWARE.
 #endregion
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Hypepool.Common.Pools;
 
 namespace Hypepool.Core.Core
@@ -32,8 +33,6 @@ namespace Hypepool.Core.Core
     {
         IReadOnlyList<IPool> Pools { get; }
 
-        void Initialize();
-
-        void Start();
+        Task Start();
     }
 }

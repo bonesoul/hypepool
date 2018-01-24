@@ -32,9 +32,9 @@ namespace Hypepool.Common.Pools
 {
     public interface IPool
     {
-        void Initialize();
+        Task Initialize();
 
-        void Start();
+        Task Start();
 
         void OnConnect(IStratumClient client);
 

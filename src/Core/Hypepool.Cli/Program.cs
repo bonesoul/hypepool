@@ -26,6 +26,8 @@
 
 using System;
 using System.Reflection;
+using System.Threading.Tasks;
+using Hypepool.Core.Core;
 using Hypepool.Core.Internals.Bootstrap;
 using Hypepool.Core.Internals.Factories.Core;
 
@@ -33,7 +35,9 @@ namespace Hypepool.Cli
 {
     public class Program
     {
-        static void Main(string[] args)
+
+
+        public static void Main(string[] args)
         {
             PrintBanner();
 
@@ -44,11 +48,10 @@ namespace Hypepool.Cli
             var coreFactory = bootstrapper.Container.GetInstance<ICoreFactory>(); // get core object factory.
             var engine = coreFactory.GetEngine(); // get engine.
 
-            engine.Initialize();
             engine.Start();
 
             while (true)
-            {                
+            {
             }
         }
 

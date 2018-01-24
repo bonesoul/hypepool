@@ -58,30 +58,39 @@ namespace Hypepool.Monero
             _logger = Log.ForContext<MoneroPool>();
         }
 
-        public override void Initialize()
+        public override async Task Initialize()
         {
-            var miningDaemon = new DaemonClient("127.0.0.1", 28081, "user", "pass", MoneroConstants.DaemonRpcLocation);
-            var wallDaemon = new DaemonClient("127.0.0.1", 28085, "user", "pass", MoneroConstants.DaemonRpcLocation);
-            var jobManager = new MoneroJobManager();
-            var stratumServer = ServerFactory.GetStratumServer();
-
-            PoolContext.Configure(miningDaemon, wallDaemon, jobManager, stratumServer);
-        }
-
-        public override async void Start()
-        {
-            _logger.Information($"Loading pool..");
+            _logger.Information($"Initializing pool..");
 
             try
             {
+                var miningDaemon = new DaemonClient("127.0.0.1", 28081, "user", "pass", MoneroConstants.DaemonRpcLocation);
+                var wallDaemon = new DaemonClient("127.0.0.1", 28085, "user", "pass", MoneroConstants.DaemonRpcLocation);
+                var jobManager = new MoneroJobManager();
+                var stratumServer = ServerFactory.GetStratumServer();
+
+                PoolContext.Configure(miningDaemon, wallDaemon, jobManager, stratumServer); // configure the pool context.
+                PoolContext.JobManager.Configure(PoolContext);
+
                 await RunPreInitChecksAsync(); // any pre-init checks.
+
                 PoolContext.MiningDaemon.Initialize(); // initialize mining daemon.
                 PoolContext.WalletDaemon.Initialize(); // initialize wallet daemon.
                 await WaitDaemonConnection(); // wait for coin daemon connection.
                 await EnsureDaemonSynchedAsync(); // ensure the coin daemon is synced to network.
-                await RunPostInitChecksAsync(); // run any post init checks required by the blockchain.
 
-                PoolContext.JobManager.Initialize(PoolContext);
+                await RunPostInitChecksAsync(); // run any post init checks required by the blockchain.
+            }
+            catch (Exception ex)
+            {
+                _logger.Fatal(ex.Message);
+            }
+        }
+
+        public override async Task Start()
+        {
+            try
+            {
                 PoolContext.JobManager.Start();
                 PoolContext.StratumServer.Start(this);
             }
@@ -89,6 +98,24 @@ namespace Hypepool.Monero
             {
                 _logger.Fatal(ex.Message);
             }
+        }
+
+        protected override async Task RunPreInitChecksAsync()
+        {
+            // decode configured pool address.
+            _poolAddressBase58Prefix = LibCryptonote.DecodeAddress(_poolAddress);
+            if (_poolAddressBase58Prefix == 0)
+                throw new PoolStartupAbortedException("Unable to decode configured pool address!");
+        }
+
+        protected override async Task RunPostInitChecksAsync()
+        {
+            var infoResponse = await PoolContext.MiningDaemon.ExecuteCommandAsync(MoneroRpcCommands.GetInfo);
+            var addressResponse = await PoolContext.WalletDaemon.ExecuteCommandAsync<GetAddressResponse>(MoneroWalletCommands.GetAddress);
+
+            // ensure pool owns wallet
+            if (addressResponse.Response?.Address != _poolAddress)
+                throw new PoolStartupAbortedException("Pool wallet does not own the configured pool address!");
         }
 
         public async Task WaitDaemonConnection()
@@ -168,24 +195,6 @@ namespace Hypepool.Monero
             }        
             
             _logger.Information("Blockchain is synched to network..");
-        }
-
-        protected override async Task RunPreInitChecksAsync()
-        {
-            // decode configured pool address.
-            _poolAddressBase58Prefix = LibCryptonote.DecodeAddress(_poolAddress);
-            if (_poolAddressBase58Prefix == 0)
-                throw new PoolStartupAbortedException("Unable to decode configured pool address!");
-        }
-
-        protected override async Task RunPostInitChecksAsync()
-        {
-            var infoResponse = await PoolContext.MiningDaemon.ExecuteCommandAsync(MoneroRpcCommands.GetInfo);
-            var addressResponse = await PoolContext.WalletDaemon.ExecuteCommandAsync<GetAddressResponse>(MoneroWalletCommands.GetAddress);
-
-            // ensure pool owns wallet
-            if (addressResponse.Response?.Address != _poolAddress)
-                throw new PoolStartupAbortedException("Pool wallet does not own the configured pool address!");
         }
 
         protected override WorkerContext CreateClientContext()

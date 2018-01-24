@@ -43,9 +43,27 @@ namespace Hypepool.Common.Pools
         protected readonly IServerFactory ServerFactory;
         protected ILogger _logger;
 
-        public abstract void Initialize();
+        /// <summary>
+        /// Initializes the pool.
+        /// </summary>
+        public abstract Task Initialize();
 
-        public abstract void Start();
+        /// <summary>
+        /// Starts the pool.
+        /// </summary>
+        public abstract Task Start();
+
+        /// <summary>
+        /// Any checks before the initilization.
+        /// </summary>
+        /// <returns></returns>
+        protected abstract Task RunPreInitChecksAsync();
+
+        /// <summary>
+        /// Any extra checks the blockchain may require after initilization.
+        /// </summary>
+        /// <returns></returns>
+        protected abstract Task RunPostInitChecksAsync();
 
         /// <summary>
         /// Checks if we are connected to coin daemon.
@@ -64,18 +82,6 @@ namespace Hypepool.Common.Pools
         /// </summary>
         /// <returns></returns>
         protected abstract Task EnsureDaemonSynchedAsync();
-
-        /// <summary>
-        /// Any checks before the initilization.
-        /// </summary>
-        /// <returns></returns>
-        protected abstract Task RunPreInitChecksAsync();
-
-        /// <summary>
-        /// Any extra checks the blockchain may require after initilization.
-        /// </summary>
-        /// <returns></returns>
-        protected abstract Task RunPostInitChecksAsync();
 
         /// <summary>
         /// Creates a context for client.

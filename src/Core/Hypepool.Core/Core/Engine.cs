@@ -25,6 +25,7 @@
 #endregion
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Hypepool.Common.Pools;
 using Hypepool.Core.Internals.Factories.Pool;
 using Hypepool.Core.Utils.Logging;
@@ -47,25 +48,22 @@ namespace Hypepool.Core.Core
 
             _pools = new List<IPool>();
             Pools = new ReadOnlyCollection<IPool>(_pools);
-
-            _logger.Information("Initialized engine..");
         }
 
-        public void Initialize()
+        public async Task Start()
         {
+            _logger.Information("Starting engine..");
+
             _pools.Add(_poolFactory.GetPool("Monero"));
 
             foreach (var pool in _pools)
             {
-                pool.Initialize();
+                await pool.Initialize();
             }
-        }
 
-        public void Start()
-        {
             foreach (var pool in _pools)
             {
-                pool.Start();
+                await pool.Start();
             }
         }
     }

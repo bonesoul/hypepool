@@ -32,7 +32,7 @@ namespace Hypepool.Common.Mining.Jobs
     {
         protected IPoolContext PoolContext { get; private set; }
 
-        public void Initialize(IPoolContext poolContext)
+        public void Configure(IPoolContext poolContext)
         {
             PoolContext = poolContext;
         }

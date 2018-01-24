@@ -78,6 +78,7 @@ development ongoing.
 
 ### installation
 
+* install dotnet core 2.0.5.
 * install node 8+ (https://nodejs.org/en/download/)
 * `npm install -g grunt-cli && npm install`
 * `git clone git@github.com:bonesoul/hypepool.git`

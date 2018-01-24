@@ -1,4 +1,6 @@
-﻿using System;
+// original code from: https://github.com/coinfoundry/miningcore/blob/dev/src/MiningCore/Util/PooledLineBuffer.cs
+
+using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.IO;

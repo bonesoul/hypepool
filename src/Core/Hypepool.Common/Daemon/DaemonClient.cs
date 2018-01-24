@@ -44,7 +44,7 @@ namespace Hypepool.Common.Daemon
     /// </summary>
     public class DaemonClient : IDaemonClient
     {
-        protected ILogger _logger;
+        private readonly ILogger _logger;
 
         private string _rpcUrl;
         private int _requestCounter = 0;

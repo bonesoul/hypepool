@@ -82,7 +82,7 @@ namespace Hypepool.Monero
                 PoolContext.DaemonClient.Initialize("127.0.0.1", 28081, "user", "pass", MoneroConstants.DaemonRpcLocation);
                 await WaitDaemonConnection(); // wait for coin daemon connection.
                 await EnsureDaemonSynchedAsync(); // ensure the coin daemon is synced to network.
-                await RunPostInitChecks();
+                await RunPostInitChecks(); // run any post init checks required by the blockchain.
 
                 PoolContext.JobManager.Initialize(PoolContext);
                 PoolContext.JobManager.Start();
@@ -177,7 +177,7 @@ namespace Hypepool.Monero
         protected override async Task RunPostInitChecks()
         {
             var infoResponse = await PoolContext.DaemonClient.ExecuteCommandAsync(MoneroRpcCommands.GetInfo);
-            //var addressResponse = await walletDaemon.ExecuteCmdAnyAsync<GetAddressResponse>(MWC.GetAddress);
+            var addressResponse = await PoolContext.DaemonClient.ExecuteCommandAsync<GetAddressResponse>(MoneroWalletCommands.GetAddress);
         }
 
         protected override WorkerContext CreateClientContext()

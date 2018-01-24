@@ -82,6 +82,7 @@ namespace Hypepool.Monero
                 PoolContext.DaemonClient.Initialize("127.0.0.1", 28081, "user", "pass", MoneroConstants.DaemonRpcLocation);
                 await WaitDaemonConnection(); // wait for coin daemon connection.
                 await EnsureDaemonSynchedAsync(); // ensure the coin daemon is synced to network.
+                await RunPostInitChecks();
 
                 PoolContext.JobManager.Initialize(PoolContext);
                 PoolContext.JobManager.Start();
@@ -96,24 +97,24 @@ namespace Hypepool.Monero
 
         public async Task WaitDaemonConnection()
         {
-            while (!await IsDaemonConnectionHealthy())
+            while (!await IsDaemonConnectionHealthyAsync())
             {
                 _logger.Information("Waiting for wallet daemon connectivity..");
-                //await Task.Delay(TimeSpan.FromSeconds(10));
+                await Task.Delay(TimeSpan.FromSeconds(5000));
             }
 
             _logger.Information("Established coin daemon connection..");
 
-            while (!await IsDaemonConnectedToNetwork())
+            while (!await IsDaemonConnectedToNetworkAsync())
             {
                 _logger.Information("Waiting for coin daemon to connect peers..");
-                //await Task.Delay(TimeSpan.FromSeconds(10));
+                await Task.Delay(TimeSpan.FromSeconds(5000));
             }
 
             _logger.Information("Coin daemon do have peer connections..");
         }
 
-        protected override async Task<bool> IsDaemonConnectionHealthy()
+        protected override async Task<bool> IsDaemonConnectionHealthyAsync()
         {
             var response = await PoolContext.DaemonClient.ExecuteCommandAsync<GetInfoResponse>(MoneroRpcCommands.GetInfo); // getinfo.
 
@@ -135,7 +136,7 @@ namespace Hypepool.Monero
             return false;
         }
 
-        protected override async Task<bool> IsDaemonConnectedToNetwork()
+        protected override async Task<bool> IsDaemonConnectedToNetworkAsync()
         {
             var response = await PoolContext.DaemonClient.ExecuteCommandAsync<GetInfoResponse>(MoneroRpcCommands.GetInfo); // getinfo.
 
@@ -153,24 +154,30 @@ namespace Hypepool.Monero
 
             while (true) // loop until sync is complete.
             {
-                var getBlockTemplate = await PoolContext.DaemonClient.ExecuteCommandAsync<GetBlockTemplateResponse>(MoneroRpcCommands.GetBlockTemplate, request);
+                var blockTemplateResponse = await PoolContext.DaemonClient.ExecuteCommandAsync<GetBlockTemplateResponse>(MoneroRpcCommands.GetBlockTemplate, request);
 
-                var isSynched = getBlockTemplate.Error == null || getBlockTemplate.Error.Code != -9; // is daemon synced to network?
+                var isSynched = blockTemplateResponse.Error == null || blockTemplateResponse.Error.Code != -9; // is daemon synced to network?
 
                 if (isSynched) // break out of the loop once synched.
                     break;
 
-                var getInfo = await PoolContext.DaemonClient.ExecuteCommandAsync<GetInfoResponse>(MoneroRpcCommands.GetInfo); // getinfo.
-                var currentHeight = getInfo.Response.Height;
-                var totalBlocks = getInfo.Response.TargetHeight;
+                var infoResponse = await PoolContext.DaemonClient.ExecuteCommandAsync<GetInfoResponse>(MoneroRpcCommands.GetInfo); // getinfo.
+                var currentHeight = infoResponse.Response.Height;
+                var totalBlocks = infoResponse.Response.TargetHeight;
                 var percent = (double) currentHeight / totalBlocks * 100;
 
                 _logger.Information($"Waiting for blockchain sync [{percent:0.00}%]..");
 
-                await Task.Delay(1000); // stay awhile and listen!
+                await Task.Delay(5000); // stay awhile and listen!
             }        
             
             _logger.Information("Blockchain is synched to network..");
+        }
+
+        protected override async Task RunPostInitChecks()
+        {
+            var infoResponse = await PoolContext.DaemonClient.ExecuteCommandAsync(MoneroRpcCommands.GetInfo);
+            //var addressResponse = await walletDaemon.ExecuteCmdAnyAsync<GetAddressResponse>(MWC.GetAddress);
         }
 
         protected override WorkerContext CreateClientContext()

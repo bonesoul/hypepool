@@ -47,11 +47,29 @@ namespace Hypepool.Common.Pools
 
         public abstract void Start();
 
-        protected abstract Task<bool> IsDaemonConnectionHealthy();
+        /// <summary>
+        /// Checks if we are connected to coin daemon.
+        /// </summary>
+        /// <returns></returns>
+        protected abstract Task<bool> IsDaemonConnectionHealthyAsync();
 
-        protected abstract Task<bool> IsDaemonConnectedToNetwork();
+        /// <summary>
+        /// Checks if the coin daemon is connected to network.
+        /// </summary>
+        /// <returns></returns>
+        protected abstract Task<bool> IsDaemonConnectedToNetworkAsync();
 
+        /// <summary>
+        /// Checks if coin is synched to network.
+        /// </summary>
+        /// <returns></returns>
         protected abstract Task EnsureDaemonSynchedAsync();
+
+        /// <summary>
+        /// Any extra checks the blockchain may require.
+        /// </summary>
+        /// <returns></returns>
+        protected abstract Task RunPostInitChecks();
 
         /// <summary>
         /// Creates a context for client.

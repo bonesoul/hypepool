@@ -25,14 +25,32 @@
 #endregion
 
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace Hypepool.Common.Daemon
 {
+    /// <summary>
+    /// Daemon client interface.
+    /// </summary>
     public interface IDaemonClient
     {
         void Initialize(string host, int port, string username, string password, string rpcLocation = "");
 
+        /// <summary>
+        /// Executes the request against configured daemon and returns the response.
+        /// </summary>
+        /// <typeparam name="TResponse"></typeparam>
+        /// <param name="method"></param>
+        /// <param name="payload"></param>
+        /// <returns></returns>
         Task<DaemonResponse<TResponse>> ExecuteCommandAsync<TResponse>(string method,
             object payload = null) where TResponse : class;
+
+        /// <summary>
+        /// Executes the request against configured daemon and returns the response.
+        /// </summary>
+        /// <param name="method"></param>
+        /// <returns></returns>
+        Task<DaemonResponse<JToken>> ExecuteCommandAsync(string method);
     }
 }

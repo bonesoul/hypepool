@@ -39,12 +39,15 @@ using Serilog;
 
 namespace Hypepool.Common.Daemon
 {
+    /// <summary>
+    /// Daemon client.
+    /// </summary>
     public class DaemonClient : IDaemonClient
     {
         protected ILogger _logger;
 
         private string _rpcUrl;
-        private Int32 _requestCounter = 0;
+        private int _requestCounter = 0;
         private HttpClient _httpClient;
         private AuthenticationHeaderValue _authenticationHeader;
 
@@ -90,8 +93,14 @@ namespace Hypepool.Common.Daemon
             });
         }
 
-        public async Task<DaemonResponse<TResponse>> ExecuteCommandAsync<TResponse>(string method,
-            object payload = null) where TResponse : class
+        /// <summary>
+        /// Executes the request against configured daemon and returns the response.
+        /// </summary>
+        /// <typeparam name="TResponse"></typeparam>
+        /// <param name="method"></param>
+        /// <param name="payload"></param>
+        /// <returns></returns>
+        public async Task<DaemonResponse<TResponse>> ExecuteCommandAsync<TResponse>(string method, object payload = null) where TResponse : class
         {
             var task = MakeRequestAsync(method, payload);
 
@@ -101,13 +110,29 @@ namespace Hypepool.Common.Daemon
             }
             catch (Exception e)
             {
-                // ignored
+                // TODO: ignored?
             }
 
             var result = MapDaemonResponse<TResponse>(task);
             return result;
         }
 
+        /// <summary>
+        /// Executes the request against configured daemon and returns the response.
+        /// </summary>
+        /// <param name="method"></param>
+        /// <returns></returns>
+        public Task<DaemonResponse<JToken>> ExecuteCommandAsync(string method)
+        {
+            return ExecuteCommandAsync<JToken>(method);
+        }
+
+        /// <summary>
+        /// Maps the response for the request.
+        /// </summary>
+        /// <typeparam name="TResponse"></typeparam>
+        /// <param name="task"></param>
+        /// <returns></returns>
         private DaemonResponse<TResponse> MapDaemonResponse<TResponse>(Task<JsonRpcResponse> task)
             where TResponse : class
         {
@@ -135,7 +160,12 @@ namespace Hypepool.Common.Daemon
             return response;
         }
 
-
+        /// <summary>
+        /// Cooks the actual request.
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="payload"></param>
+        /// <returns></returns>
         private async Task<JsonRpcResponse> MakeRequestAsync(string method, object payload)
         {
             var rpcRequestId = _requestCounter++;

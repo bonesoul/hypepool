@@ -13,20 +13,14 @@
 <br />
 
 <div align="center">
-  <!-- Build Status -->
   <a href="https://circleci.com/gh/bonesoul/hypepool/tree/develop">
-    <img src="https://circleci.com/gh/bonesoul/hypepool/tree/develop.svg?style=svg&circle-token=2de3caa01614f309bedc9a2e6f986008e9e7c3af"
-      alt="Build Status" />
+    <img src="https://circleci.com/gh/bonesoul/hypepool/tree/develop.svg?style=svg&circle-token=2de3caa01614f309bedc9a2e6f986008e9e7c3af" alt="Build Status" />
   </a>
-  <!-- Documentation -->
   <a href="https://readthedocs.org/projects/hypepool-book/?badge=latest">
-    <img src="https://readthedocs.org/projects/hypepool-book/badge/?version=latest"
-      alt="Documentation" />
+    <img src="https://readthedocs.org/projects/hypepool-book/badge/?version=latest" alt="Documentation" />
   </a> 
-  <!-- License -->
   <a href="https://tldrlegal.com/license/mit-license">
-    <img src="https://img.shields.io/badge/license-MIT-blue.svg"
-      alt="License" />
+    <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" />
   </a>   
 </div>
 

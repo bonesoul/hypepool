@@ -80,7 +80,7 @@
 * install [dotnet core](https://www.microsoft.com/net/download/windows).
 * install [node 8+](https://nodejs.org/en/download/)
 * `npm install -g grunt-cli && npm install`
-* `git clone git@github.com:bonesoul/hypepool.git
+* `git clone git@github.com:bonesoul/hypepool.git`
 * `grunt build`
 
 ### donations

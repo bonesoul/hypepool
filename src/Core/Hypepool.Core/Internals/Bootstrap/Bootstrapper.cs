@@ -54,7 +54,6 @@ namespace Hypepool.Core.Internals.Bootstrap
         public void Run()
         {
             HandleRegisteries(); // handle main registeries.
-            HandlePackages(); // handle packages.
         }
 
         private void HandleRegisteries()
@@ -64,25 +63,6 @@ namespace Hypepool.Core.Internals.Bootstrap
             {
                 registry.Run();
             }
-        }
-
-        private void HandlePackages()
-        {
-            // process packages from main executable.
-            var assemblies = new List<Assembly>
-            {
-                Assembly.GetEntryAssembly()
-            };
-
-            // process packages from dll assemblies.
-            var dllAssemblies =
-                from file in new DirectoryInfo(".").GetFiles()
-                where file.Extension.ToLower() == ".dll"
-                select Assembly.Load(AssemblyName.GetAssemblyName(file.FullName));
-
-            assemblies.AddRange(dllAssemblies);
-
-            Container.RegisterPackages(assemblies); // register the packages.
         }
     }
 }

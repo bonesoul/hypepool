@@ -24,10 +24,7 @@
 //      SOFTWARE.
 #endregion
 using Hypepool.Common.Factories.Server;
-using Hypepool.Common.Pools;
 using Hypepool.Common.Stratum;
-using Hypepool.Core.Utils.Logging;
-using SimpleInjector;
 using Stashbox;
 using Stashbox.Infrastructure;
 

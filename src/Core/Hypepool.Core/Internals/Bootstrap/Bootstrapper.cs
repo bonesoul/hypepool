@@ -23,12 +23,9 @@
 //      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //      SOFTWARE.
 #endregion
+
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 using Hypepool.Core.Internals.Registries;
-using SimpleInjector;
 using Stashbox;
 
 namespace Hypepool.Core.Internals.Bootstrap

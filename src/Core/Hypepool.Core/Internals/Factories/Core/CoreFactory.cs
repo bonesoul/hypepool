@@ -25,7 +25,6 @@
 #endregion
 using Hypepool.Core.Core;
 using Hypepool.Core.Utils.Logging;
-using SimpleInjector;
 using Stashbox;
 using Stashbox.Infrastructure;
 

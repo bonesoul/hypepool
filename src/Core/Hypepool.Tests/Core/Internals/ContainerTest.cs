@@ -24,8 +24,6 @@
 //      SOFTWARE.
 #endregion
 
-using System;
-using FluentAssertions;
 using Hypepool.Core.Internals.Bootstrap;
 using Xunit;
 

@@ -26,8 +26,6 @@
 
 using System.Linq;
 using Hypepool.Common.Pools;
-using Hypepool.Core.Utils.Logging;
-using SimpleInjector;
 using Stashbox;
 using Stashbox.Infrastructure;
 

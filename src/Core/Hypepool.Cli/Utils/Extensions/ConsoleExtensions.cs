@@ -25,7 +25,6 @@
 #endregion
 
 using System;
-using System.Reflection;
 
 namespace Hypepool.Cli.Utils.Extensions
 {

@@ -26,7 +26,6 @@
 
 using Hypepool.Common.Stratum;
 using Hypepool.Core.Stratum;
-using SimpleInjector;
 using Stashbox;
 
 namespace Hypepool.Core.Internals.Registries

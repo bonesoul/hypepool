@@ -55,6 +55,18 @@
 
 ![hypepool](https://image.ibb.co/cLaDKG/hypepool.png)
 
+## Features
+
+- [ ] high performance sockets & stratum server.
+- [ ] efficient share processor.
+- [ ] rock solid payment processor.      
+- [ ] superior extensiblity.
+- [ ] vardiff support.
+- [ ] banning support.
+- [ ] full-stack API.
+- [ ] multiple pools & ports support.
+- [ ] multiple coin daemon connections
+
 ### donations
 
 **hypepool** is an open-source project. Your donations will be a great help & motivation for the development of the project.
@@ -90,18 +102,6 @@ for list of supported operating systems [check here](https://github.com/dotnet/c
 
 * dotnet core 2.0.
 * libUV for high-performance sockets.
-
-### features
-
-- [ ] high performance sockets & stratum server.
-- [ ] efficient share processor.
-- [ ] rock solid payment processor.      
-- [ ] superior extensiblity.
-- [ ] vardiff support.
-- [ ] banning support.
-- [ ] full-stack API.
-- [ ] multiple pools & ports support.
-- [ ] multiple coin daemon connections
 
 ### supported blockchains
 

@@ -14,13 +14,16 @@
 
 <div align="center">
   <a href="https://circleci.com/gh/bonesoul/hypepool/tree/develop">
-    <img src="https://img.shields.io/circleci/project/github/bonesoul/hypepool/develop.svg?label=Linux%20build" alt="Linux Build Status" />
+    <img src="https://img.shields.io/circleci/project/github/bonesoul/hypepool/develop.svg?label=Linux%20build" />
   </a> 
+  <a href="https://ci.appveyor.com/project/bonesoul/hypepool">
+    <img src="https://img.shields.io/appveyor/ci/bonesoul/hypepool.svg?label=Windows%20build" />
+  </a>
   <a href="https://readthedocs.org/projects/hypepool-book/?badge=latest">
-    <img src="https://readthedocs.org/projects/hypepool-book/badge/?version=latest" alt="Documentation" />
+    <img src="https://readthedocs.org/projects/hypepool-book/badge/?version=latest" />
   </a> 
   <a href="https://tldrlegal.com/license/mit-license">
-    <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" />
+    <img src="https://img.shields.io/badge/license-MIT-blue.svg" />
   </a>   
 </div>
 

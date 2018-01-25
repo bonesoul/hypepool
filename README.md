@@ -1,3 +1,55 @@
+<h1 align="center">hypepool</h1>
+
+<div align="center">
+  :rocket::zap::sparkles: 
+</div>
+<div align="center">
+  <strong>mining pool server</strong>
+</div>
+<div align="center">
+  A rock-solid & platform-agnostic pool server
+</div>
+
+<br />
+
+<div align="center">
+  <!-- Build Status -->
+  <a href="https://circleci.com/gh/bonesoul/hypepool/tree/develop">
+    <img src="https://circleci.com/gh/bonesoul/hypepool/tree/develop.svg?style=svg&circle-token=2de3caa01614f309bedc9a2e6f986008e9e7c3af"
+      alt="Build Status" />
+  </a>
+  <!-- Documentation -->
+  <a href="https://readthedocs.org/projects/coiniumserv/?badge=latest">
+    <img src="https://readthedocs.org/projects/hypepool-book/badge/?version=latest"
+      alt="Build Status" />
+  </a> 
+</div>
+
+<div align="center">
+  <h3>
+    <a href="#">
+      Website
+    </a>
+    <span> | </span>
+    <a href="#">
+      Handbook
+    </a>
+    <span> | </span>
+    <a href="https://github.com/bonesoul/hypepool/blob/develop/CONTRIBUTING.md">
+      Contributing
+    </a>
+  </h3>
+</div>
+
+<div align="center">
+  <sub>Built with ❤︎ by
+  <a href="https://github.com/bonesoul">Hüseyin Uslu</a> and
+  <a href="https://github.com/bonesoul/hypepool/graphs/contributors">
+    contributors
+  </a>
+</div>
+
+
 ```
  ▄ .▄ ▄· ▄▌ ▄▄▄·▄▄▄ . ▄▄▄·            ▄▄▌  
 ██▪▐█▐█▪██▌▐█ ▄█▀▄.▀·▐█ ▄█▪     ▪     ██•  

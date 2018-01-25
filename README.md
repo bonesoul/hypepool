@@ -19,7 +19,7 @@
       alt="Build Status" />
   </a>
   <!-- Documentation -->
-  <a href="https://readthedocs.org/projects/coiniumserv/?badge=latest">
+  <a href="https://readthedocs.org/projects/hypepool-book/?badge=latest">
     <img src="https://readthedocs.org/projects/hypepool-book/badge/?version=latest"
       alt="Build Status" />
   </a> 

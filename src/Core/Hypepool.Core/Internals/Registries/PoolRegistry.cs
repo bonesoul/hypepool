@@ -23,46 +23,32 @@
 //      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //      SOFTWARE.
 #endregion
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
+
 using Hypepool.Common.Pools;
-using SimpleInjector;
+using Hypepool.Core.Utils.Helpers;
+using Stashbox;
 
 namespace Hypepool.Core.Internals.Registries
 {
     public class PoolRegistry : IRegistry
     {
-        private readonly Container _container;
+        private readonly StashboxContainer _container;
 
-        public PoolRegistry(Container container)
+        public PoolRegistry(StashboxContainer container)
         {
             _container = container;
         }
 
         public void Run()
         {
-            var root = AppDomain.CurrentDomain.BaseDirectory;
-            var assemblies = new List<Assembly>();
+            _container.RegisterType<IPoolContext, PoolContext>();
 
-            foreach(var file in new DirectoryInfo(root).GetFiles())
+            var assemblies = AssemblyHelpers.GetAssemblies();
+
+            foreach (var assembly in assemblies)
             {
-                if( file.Extension.ToLower()!= ".dll")
-                    continue;
-
-                try
-                {
-                    assemblies.Add(Assembly.Load(AssemblyName.GetAssemblyName(file.FullName)));
-                }
-                catch (Exception)
-                {
-                    // ignored
-                }
+                _container.RegisterAssembly(assembly, type => typeof(IPool).IsAssignableFrom(type));
             }
-
-            _container.RegisterCollection<IPool>(assemblies);
-            _container.Register<IPoolContext, PoolContext>();
         }
     }
 }

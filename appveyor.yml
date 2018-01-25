@@ -1,10 +1,8 @@
 image: Visual Studio 2017
 
-before_build: dotnet restore hypepool.sln
-
 build_script:
-  - dotnet build hypepool.sln --framework netcoreapp2.0
+  - dotnet build hypepool.sln
 
 test_script:
  - cd src\Core\Hypepool.Tests
- - dotnet test
+ - dotnet xunit

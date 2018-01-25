@@ -26,15 +26,15 @@
 
 using Hypepool.Common.Stratum;
 using Hypepool.Core.Stratum;
-using SimpleInjector;
+using Stashbox;
 
 namespace Hypepool.Core.Internals.Registries
 {
     public class ServerRegistry : IRegistry
     {
-        private readonly Container _container;
+        private readonly StashboxContainer _container;
 
-        public ServerRegistry(Container container)
+        public ServerRegistry(StashboxContainer container)
         {
             _container = container;
         }

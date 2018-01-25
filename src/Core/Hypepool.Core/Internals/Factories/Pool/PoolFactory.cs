@@ -26,28 +26,29 @@
 
 using System.Linq;
 using Hypepool.Common.Pools;
-using SimpleInjector;
+using Stashbox;
+using Stashbox.Infrastructure;
 
 namespace Hypepool.Core.Internals.Factories.Pool
 {
     public class PoolFactory : IPoolFactory
     {
-        private readonly Container _container;
+        private readonly IDependencyResolver _container;
 
-        public PoolFactory(Container container)
+        public PoolFactory(IDependencyResolver container)
         {
             _container = container;
         }
 
         public IPool GetPool(string name)
         {
-            var registrations = _container.GetAllInstances<IPool>();
+            var registrations = _container.ResolveAll<IPool>();
             return registrations.First();
         }
 
         public IPoolContext GetPoolContext()
         {
-            return _container.GetInstance<IPoolContext>();
+            return _container.Resolve<IPoolContext>();
         }
     }
 }

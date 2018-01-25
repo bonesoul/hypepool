@@ -24,30 +24,32 @@
 //      SOFTWARE.
 #endregion
 
-using Hypepool.Common.Pools;
-using Hypepool.Core.Utils.Helpers;
-using Stashbox;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 
-namespace Hypepool.Core.Internals.Registries
+namespace Hypepool.Core.Utils.Helpers
 {
-    public class PoolRegistry : IRegistry
+    public static class AssemblyHelpers
     {
-        private readonly StashboxContainer _container;
-
-        public PoolRegistry(StashboxContainer container)
+        public static IList<Assembly> GetAssemblies()
         {
-            _container = container;
+            return (from file in FileHelpers.GetCurrentDirectory().GetFiles() // get all files.
+                where file.Extension.ToLower() == ".dll" // filter out non-dll files.
+                select TryLoadAssembly(file)).Where(x => x != null).ToArray(); // try loading .net core assemblies.
         }
 
-        public void Run()
+        public static Assembly TryLoadAssembly(FileInfo file)
         {
-            _container.RegisterType<IPoolContext, PoolContext>();
-
-            var assemblies = AssemblyHelpers.GetAssemblies();
-
-            foreach (var assembly in assemblies)
+            try
             {
-                _container.RegisterAssembly(assembly, type => typeof(IPool).IsAssignableFrom(type));
+                return Assembly.Load(AssemblyName.GetAssemblyName(file.FullName)); // try loading assembly.
+            }
+            catch (BadImageFormatException) // if not dotnet assembly.
+            {
+                return null; // skip it.
             }
         }
     }

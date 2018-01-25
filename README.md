@@ -15,7 +15,7 @@
 <div align="center">
   <a href="https://circleci.com/gh/bonesoul/hypepool/tree/develop">
     <img src="https://img.shields.io/circleci/project/github/bonesoul/hypepool/develop.svg?label=Linux%20build" alt="Linux Build Status" />
-  </a>
+  </a> 
   <a href="https://readthedocs.org/projects/hypepool-book/?badge=latest">
     <img src="https://readthedocs.org/projects/hypepool-book/badge/?version=latest" alt="Documentation" />
   </a> 

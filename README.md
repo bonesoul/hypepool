@@ -21,8 +21,13 @@
   <!-- Documentation -->
   <a href="https://readthedocs.org/projects/hypepool-book/?badge=latest">
     <img src="https://readthedocs.org/projects/hypepool-book/badge/?version=latest"
-      alt="Build Status" />
+      alt="Documentation" />
   </a> 
+  <!-- License -->
+  <a href="https://tldrlegal.com/license/mit-license">
+    <img src="https://img.shields.io/badge/license-MIT-blue.svg"
+      alt="License" />
+  </a>   
 </div>
 
 <div align="center">
@@ -124,6 +129,3 @@ development ongoing.
 ```
 ethereum:0x61aa3e0709e20bcb4aedc2607d4070f1db72e69b
 ```
-
-## License
-[MIT](https://tldrlegal.com/license/mit-license)

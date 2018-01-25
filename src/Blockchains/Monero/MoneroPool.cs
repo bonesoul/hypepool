@@ -47,7 +47,7 @@ using Serilog;
 
 namespace Hypepool.Monero
 {
-    public class MoneroPool : PoolBase<MoneroShare>, IPool
+    public class MoneroPool : PoolBase<MoneroShare>
     {
         private string _poolAddress = "A1fZZpe64V6R4z2jzkN6zm9YEYsGhNC3uTyDyGr1Ettp2o32HNAwFhKXifcwuDcqNMQrkvm3JWXThh79KeUXhHZzA5MASZE";
         private uint _poolAddressBase58Prefix;

@@ -109,14 +109,9 @@ hypepool can run on any platform that dotnet core 2.0 is [available](https://git
 
 To support the project, we'll be stripping out full-featured web frontend as a standalone project which can be purchased to support the development. Still, the user can implement his own web-frontend using the API.
 
-## Other
+## FAQ
 
-### aims
-
-* rock-solid code.
-* being platform-agnostic.
-* aiming high performance.
-* being extremely efficient.
+placeholder
 
 ### status
 
@@ -129,3 +124,6 @@ development ongoing.
 ```
 ethereum:0x61aa3e0709e20bcb4aedc2607d4070f1db72e69b
 ```
+
+## License
+[MIT](https://tldrlegal.com/license/mit-license)

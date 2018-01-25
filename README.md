@@ -77,13 +77,12 @@
 
 ### platforms
 
-hypepool can run on any platform that dotnet core 2.0 is [available](https://github.com/dotnet/core/blob/master/platforms.md).
+hypepool can run on any platform that dotnet core 2.0 is [available](https://github.com/dotnet/core/blob/master/platforms.md). For a list of supported operating systems [check here](https://github.com/dotnet/core/blob/master/release-notes/2.0/2.0-supported-os.md).
+
 * linux
 * windows
 * osx
 * even more; Raspberry Pi, arm32
-
-For a list of supported operating systems [check here](https://github.com/dotnet/core/blob/master/release-notes/2.0/2.0-supported-os.md).
 
 ### technology
 
@@ -106,13 +105,11 @@ For a list of supported operating systems [check here](https://github.com/dotnet
 * `git clone git@github.com:bonesoul/hypepool.git`
 * `grunt build`
 
-### donations
+## web frontend
 
-**hypepool** is an open-source project. Your donations will be a great help & motivation for the development of the project.
+To support the project, we'll be stripping out full-featured web frontend as a standalone project which can be purchased to support the development. Still, the user can implement his own web-frontend using the API.
 
-```
-ethereum:0x61aa3e0709e20bcb4aedc2607d4070f1db72e69b
-```
+## Other
 
 ### aims
 
@@ -121,23 +118,14 @@ ethereum:0x61aa3e0709e20bcb4aedc2607d4070f1db72e69b
 * aiming high performance.
 * being extremely efficient.
 
-
-
-
-### web frontend
-
-To support the project, we'll be stripping out full-featured web frontend as a standalone project which can be purchased to support the development. Still, the user can implement his own web-frontend using the API.
-
 ### status
 
 development ongoing.
 
-### installation
+## donations
 
-* install dotnet core 2.0.5.
-* install node 8+ (https://nodejs.org/en/download/)
-* `npm install -g grunt-cli && npm install`
-* `git clone git@github.com:bonesoul/hypepool.git`
+**hypepool** is an open-source project. Your donations will be a great help & motivation for the development of the project.
 
-finally run;
-* `grunt build`
+```
+ethereum:0x61aa3e0709e20bcb4aedc2607d4070f1db72e69b
+```

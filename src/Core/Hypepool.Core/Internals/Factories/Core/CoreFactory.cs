@@ -27,14 +27,15 @@ using Hypepool.Core.Core;
 using Hypepool.Core.Utils.Logging;
 using SimpleInjector;
 using Stashbox;
+using Stashbox.Infrastructure;
 
 namespace Hypepool.Core.Internals.Factories.Core
 {
     public class CoreFactory: ICoreFactory
     {
-        private readonly StashboxContainer _container;
+        private readonly IDependencyResolver _container;
 
-        public CoreFactory(StashboxContainer container)
+        public CoreFactory(IDependencyResolver container)
         {
             _container = container;
         }

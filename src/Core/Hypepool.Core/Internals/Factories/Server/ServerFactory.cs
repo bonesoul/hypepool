@@ -24,23 +24,27 @@
 //      SOFTWARE.
 #endregion
 using Hypepool.Common.Factories.Server;
+using Hypepool.Common.Pools;
 using Hypepool.Common.Stratum;
+using Hypepool.Core.Utils.Logging;
 using SimpleInjector;
+using Stashbox;
+using Stashbox.Infrastructure;
 
 namespace Hypepool.Core.Internals.Factories.Server
 {
     public class ServerFactory : IServerFactory
     {
-        private readonly Container _container;
+        private readonly IDependencyResolver _container;
 
-        public ServerFactory(Container container)
+        public ServerFactory(IDependencyResolver container)
         {
             _container = container;
         }
 
         public IStratumServer GetStratumServer()
         {
-            return _container.GetInstance<IStratumServer>();
+            return _container.Resolve<IStratumServer>();
         }
     }
 }

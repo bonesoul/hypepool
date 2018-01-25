@@ -67,6 +67,29 @@
 - [ ] multiple pools & ports support.
 - [ ] multiple coin daemon connections
 
+### supported blockchains
+
+- [ ] bitcoin and clones.
+- [ ] ethereum
+- [ ] dash
+- [ ] monero
+- [ ] zcash
+
+### platforms
+
+hypepool can run on any platform that dotnet core 2.0 is [available](https://github.com/dotnet/core/blob/master/platforms.md).
+* linux
+* windows
+* osx
+* even more; Raspberry Pi, arm32
+
+For a list of supported operating systems [check here](https://github.com/dotnet/core/blob/master/release-notes/2.0/2.0-supported-os.md).
+
+### technology
+
+* dotnet core 2.0.
+* libUV for high-performance sockets.
+
 ## Getting Started
 
 ### Prerequisites
@@ -91,16 +114,6 @@
 ethereum:0x61aa3e0709e20bcb4aedc2607d4070f1db72e69b
 ```
 
-### platforms
-
-can run on any platform that dotnet core 2.0 is [available](https://github.com/dotnet/core/blob/master/platforms.md).
-* linux
-* windows
-* osx
-* even more; Raspberry Pi, arm32
-
-for list of supported operating systems [check here](https://github.com/dotnet/core/blob/master/release-notes/2.0/2.0-supported-os.md).
-
 ### aims
 
 * rock-solid code.
@@ -108,26 +121,8 @@ for list of supported operating systems [check here](https://github.com/dotnet/c
 * aiming high performance.
 * being extremely efficient.
 
-### requirements
 
-* node 8+
-* dotnet core 2.0
-* mongodb
 
-### technology
-
-* dotnet core 2.0.
-* libUV for high-performance sockets.
-
-### supported blockchains
-
-- [ ] bitcoin and clones.
-- [ ] ethereum
-- [ ] dash
-- [ ] monero
-- [ ] zcash
-
-keep in mind that you can easly implement support for other blockchains too.
 
 ### web frontend
 

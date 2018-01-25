@@ -62,7 +62,7 @@ namespace Hypepool.Cli
             _logger.Information($"dotnet core: {RuntimeInfo.DotNetCoreVersion}, framework: {RuntimeInformation.FrameworkDescription}");
             _logger.Information($"running over {Environment.ProcessorCount} core system");
 
-            //engine.Start();
+            engine.Start();
 
             while (true)
             {

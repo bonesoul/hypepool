@@ -27,8 +27,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Hypepool.Common.Pools;
+using Hypepool.Common.Shares;
 using Stashbox;
 
 namespace Hypepool.Core.Internals.Registries
@@ -50,8 +52,10 @@ namespace Hypepool.Core.Internals.Registries
 
             foreach (var assembly in assemblies)
             {
-                _container.RegisterAssembly(assembly, type => type == typeof(IPool));
+                _container.RegisterAssembly(assembly, type => typeof(IPool).IsAssignableFrom(type));
             }
+
+            var test = _container.CanResolve<IPool>();
         }
 
         private IList<Assembly> GetAssemblies()

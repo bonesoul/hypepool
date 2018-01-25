@@ -29,26 +29,39 @@ using System.IO;
 using System.Reflection;
 using Hypepool.Common.Pools;
 using SimpleInjector;
+using Stashbox;
 
 namespace Hypepool.Core.Internals.Registries
 {
     public class PoolRegistry : IRegistry
     {
-        private readonly Container _container;
+        private readonly StashboxContainer _container;
 
-        public PoolRegistry(Container container)
+        public PoolRegistry(StashboxContainer container)
         {
             _container = container;
         }
 
         public void Run()
         {
+            _container.RegisterType<IPoolContext, PoolContext>();
+
+            var assemblies = GetAssemblies();
+
+            foreach (var assembly in assemblies)
+            {
+                _container.RegisterAssembly(assembly, type => type == typeof(IPool));
+            }
+        }
+
+        private IList<Assembly> GetAssemblies()
+        {
             var root = AppDomain.CurrentDomain.BaseDirectory;
             var assemblies = new List<Assembly>();
 
-            foreach(var file in new DirectoryInfo(root).GetFiles())
+            foreach (var file in new DirectoryInfo(root).GetFiles())
             {
-                if( file.Extension.ToLower()!= ".dll")
+                if (file.Extension.ToLower() != ".dll")
                     continue;
 
                 try
@@ -61,8 +74,7 @@ namespace Hypepool.Core.Internals.Registries
                 }
             }
 
-            _container.RegisterCollection<IPool>(assemblies);
-            _container.Register<IPoolContext, PoolContext>();
+            return assemblies;
         }
     }
 }

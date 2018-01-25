@@ -26,26 +26,27 @@
 using Hypepool.Core.Core;
 using Hypepool.Core.Utils.Logging;
 using SimpleInjector;
+using Stashbox;
 
 namespace Hypepool.Core.Internals.Factories.Core
 {
     public class CoreFactory: ICoreFactory
     {
-        private readonly Container _container;
+        private readonly StashboxContainer _container;
 
-        public CoreFactory(Container container)
+        public CoreFactory(StashboxContainer container)
         {
             _container = container;
         }
 
         public IEngine GetEngine()
         {
-            return _container.GetInstance<IEngine>();
+            return _container.Resolve<IEngine>();
         }
 
         public ILogManager GetLogManager()
         {
-            return _container.GetInstance<ILogManager>();
+            return _container.Resolve<ILogManager>();
         }
     }
 }

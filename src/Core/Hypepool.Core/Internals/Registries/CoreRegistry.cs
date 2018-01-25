@@ -26,14 +26,15 @@
 using Hypepool.Core.Core;
 using Hypepool.Core.Utils.Logging;
 using SimpleInjector;
+using Stashbox;
 
 namespace Hypepool.Core.Internals.Registries
 {
     public class CoreRegistery : IRegistry
     {
-        private readonly Container _container;
+        private readonly StashboxContainer _container;
 
-        public CoreRegistery(Container container)
+        public CoreRegistery(StashboxContainer container)
         {
             _container = container;
         }

@@ -32,6 +32,7 @@ using Hypepool.Cli.Utils.Runtime;
 using Hypepool.Core.Internals.Bootstrap;
 using Hypepool.Core.Internals.Factories.Core;
 using Serilog;
+using Stashbox;
 
 namespace Hypepool.Cli
 {
@@ -48,9 +49,9 @@ namespace Hypepool.Cli
 
             var bootstrapper = new Bootstrapper(); // IoC kernel bootstrapper.
             bootstrapper.Run(); // run bootstrapper.
-            bootstrapper.Container.Verify(); // verify container
+            //bootstrapper.Container.Verify(); // verify container
 
-            var coreFactory = bootstrapper.Container.GetInstance<ICoreFactory>(); // get core object factory.
+            var coreFactory = bootstrapper.Container.Resolve<ICoreFactory>(); // get core object factory.
             var engine = coreFactory.GetEngine(); // get engine.
 
             // create logger to be used later.
@@ -62,7 +63,7 @@ namespace Hypepool.Cli
             _logger.Information($"dotnet core: {RuntimeInfo.DotNetCoreVersion}, framework: {RuntimeInformation.FrameworkDescription}");
             _logger.Information($"running over {Environment.ProcessorCount} core system");
 
-            engine.Start();
+            //engine.Start();
 
             while (true)
             {

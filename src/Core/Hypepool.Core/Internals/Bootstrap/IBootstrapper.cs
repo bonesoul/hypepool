@@ -24,11 +24,12 @@
 //      SOFTWARE.
 #endregion
 using SimpleInjector;
+using Stashbox;
 
 namespace Hypepool.Core.Internals.Bootstrap
 {
     public interface IBootstrapper
     {
-        Container Container { get; }
+        StashboxContainer Container { get; }
     }
 }

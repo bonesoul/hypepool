@@ -28,22 +28,23 @@ using Hypepool.Core.Internals.Factories.Core;
 using Hypepool.Core.Internals.Factories.Pool;
 using Hypepool.Core.Internals.Factories.Server;
 using SimpleInjector;
+using Stashbox;
 
 namespace Hypepool.Core.Internals.Registries
 {
     public class FactoryRegistry : IRegistry
     {
-        private readonly Container _container;
+        private readonly StashboxContainer _container;
 
-        public FactoryRegistry(Container container)
+        public FactoryRegistry(StashboxContainer container)
         {
             _container = container;
         }
 
         public void Run()
         {
-            _container.RegisterSingleton<IPoolFactory, PoolFactory>();
             _container.RegisterSingleton<ICoreFactory, CoreFactory>();
+            _container.RegisterSingleton<IPoolFactory, PoolFactory>();
             _container.RegisterSingleton<IServerFactory, ServerFactory>();
         }
     }

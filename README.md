@@ -67,6 +67,13 @@
 - [ ] multiple pools & ports support.
 - [ ] multiple coin daemon connections
 
+## Getting Started
+
+### Prerequisites
+
+* dotnet core 2.0
+* mongodb
+
 ### donations
 
 **hypepool** is an open-source project. Your donations will be a great help & motivation for the development of the project.

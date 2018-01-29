@@ -38,7 +38,7 @@ using Serilog;
 
 namespace Hypepool.Common.Pools
 {
-    public abstract class PoolBase<TShare, TJob> where TShare : IShare where TJob: IJob
+    public abstract class PoolBase<TShare, TJob> : IPool where TShare : IShare where TJob: IJob
     {
         /// <summary>
         /// Initializes the pool.

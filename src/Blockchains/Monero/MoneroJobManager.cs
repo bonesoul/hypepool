@@ -51,11 +51,12 @@ namespace Hypepool.Monero
             }
         }
 
-        public override async void Start()
+        public override async Task<MoneroJob> Start()
         {
             _logger.Information($"starting job manager..");
 
             var newJob = await UpdateJob();
+            return newJob ? CurrentJob : null;
         }
 
         protected override async Task<bool> UpdateJob()

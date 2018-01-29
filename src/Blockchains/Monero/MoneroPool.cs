@@ -33,6 +33,7 @@ using Hypepool.Common.Daemon;
 using Hypepool.Common.Factories.Server;
 using Hypepool.Common.JsonRpc;
 using Hypepool.Common.Mining.Context;
+using Hypepool.Common.Mining.Jobs;
 using Hypepool.Common.Native;
 using Hypepool.Common.Pools;
 using Hypepool.Common.Stratum;
@@ -67,7 +68,7 @@ namespace Hypepool.Monero
 
                 var miningDaemon = new DaemonClient("127.0.0.1", 28081, "user", "pass", MoneroConstants.DaemonRpcLocation);
                 var wallDaemon = new DaemonClient("127.0.0.1", 28085, "user", "pass", MoneroConstants.DaemonRpcLocation);
-                var jobManager = new MoneroJobManager();
+                IJobManager<MoneroJob> jobManager = new MoneroJobManager();
                 var stratumServer = ServerFactory.GetStratumServer();
 
                 PoolContext.Configure(miningDaemon, wallDaemon, jobManager, stratumServer); // configure the pool context.

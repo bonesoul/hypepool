@@ -45,7 +45,7 @@ namespace Hypepool.Common.Pools
         /// <summary>
         /// Job manager.
         /// </summary>
-        IJobManager JobManager { get; }
+        IJobManager<IJob> JobManager { get; }
 
         /// <summary>
         /// Stratum server.
@@ -61,6 +61,6 @@ namespace Hypepool.Common.Pools
         /// <param name="walletDaemon"></param>
         /// <param name="jobManager"></param>
         /// <param name="stratumServer"></param>
-        void Configure(IDaemonClient miningDaemon, IDaemonClient walletDaemon, IJobManager jobManager, IStratumServer stratumServer);
+        void Configure(IDaemonClient miningDaemon, IDaemonClient walletDaemon, IJobManager<TJob> jobManager, IStratumServer stratumServer);
     }
 }

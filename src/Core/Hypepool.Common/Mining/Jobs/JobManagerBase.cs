@@ -30,7 +30,7 @@ using Serilog;
 
 namespace Hypepool.Common.Mining.Jobs
 {
-    public abstract class JobManagerBase<TJob> : IJobManager
+    public abstract class JobManagerBase<TJob> : IJobManager<TJob> where TJob : IJob
     {
         protected IPoolContext PoolContext { get; private set; }
 
@@ -39,7 +39,7 @@ namespace Hypepool.Common.Mining.Jobs
         /// <summary>
         /// Starts the job manager.
         /// </summary>
-        public abstract void Start();
+        public abstract Task<TJob> Start();
 
         /// <summary>
         /// Queries the network and updates the job if needed.

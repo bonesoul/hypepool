@@ -25,31 +25,35 @@
 #endregion
 
 using Hypepool.Common.Daemon;
-using Hypepool.Common.Mining.Jobs;
 using Hypepool.Common.Stratum;
+using Hypepool.Monero;
+using NSubstitute;
+using Xunit;
 
-namespace Hypepool.Common.Pools
+namespace Hypepool.Core.Tests
 {
-    public abstract class PoolContext : IPoolContext
+    public class MoneroJobManagerTests
     {
+        private MoneroJobManager _jobManager;
 
-        public IDaemonClient MiningDaemon { get; private set; }
-
-        public IDaemonClient WalletDaemon { get; private set; }
-
-        public IJobManager<IJob> JobManager { get; private set; }
-
-        public IStratumServer StratumServer { get; private set; }
-
-        // todo: move this.
-        public abstract string PoolAddress { get; }
-
-        public void Configure(IDaemonClient miningDaemon, IDaemonClient walletDaemon, IJobManager<TJob> jobManager, IStratumServer stratumServer)
+        public MoneroJobManagerTests()
         {
-            MiningDaemon = miningDaemon;
-            WalletDaemon = walletDaemon;
-            JobManager = jobManager;
-            StratumServer = stratumServer;
+            _jobManager = new MoneroJobManager();
+
+            var miningDaemon = Substitute.For<IDaemonClient>();
+            var walletDaemon = Substitute.For<IDaemonClient>();
+            var stratumServer = Substitute.For<IStratumServer>();           
+
+            var poolContext = new MoneroPoolContext();
+            poolContext.Configure(miningDaemon, walletDaemon, _jobManager, stratumServer);
+
+            _jobManager.Configure(poolContext);
+        }
+
+        [Fact]
+        public void ShouldGetANewJob()
+        {
+
         }
     }
 }

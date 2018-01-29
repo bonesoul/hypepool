@@ -24,14 +24,16 @@
 //      SOFTWARE.
 #endregion
 
+using System.Threading.Tasks;
 using Hypepool.Common.Pools;
+using Hypepool.Common.Shares;
 
 namespace Hypepool.Common.Mining.Jobs
 {
-    public interface IJobManager
+    public interface IJobManager<TJob> where TJob : IJob
     {
         void Configure(IPoolContext poolContext);
 
-        void Start();
+        Task<TJob> Start();
     }
 }

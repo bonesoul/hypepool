@@ -34,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\Hypepool.Core\Hypepool.Core.csproj" />
+    <ProjectReference Include="..\..\Core\Hypepool.Common\Hypepool.Common.csproj" />
   </ItemGroup>
 
 </Project>

@@ -30,7 +30,7 @@ using Hypepool.Common.Stratum;
 
 namespace Hypepool.Common.Pools
 {
-    public class PoolContext : IPoolContext
+    public abstract class PoolContext : IPoolContext
     {
 
         public IDaemonClient MiningDaemon { get; private set; }
@@ -40,6 +40,9 @@ namespace Hypepool.Common.Pools
         public IJobManager JobManager { get; private set; }
 
         public IStratumServer StratumServer { get; private set; }
+
+        // todo: move this.
+        public abstract string PoolAddress { get; }
 
         public void Configure(IDaemonClient miningDaemon, IDaemonClient walletDaemon,IJobManager jobManager, IStratumServer stratumServer)
         {

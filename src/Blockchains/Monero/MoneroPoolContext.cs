@@ -24,33 +24,12 @@
 //      SOFTWARE.
 #endregion
 
-using Hypepool.Common.Mining.Jobs;
-using Hypepool.Monero.Daemon.Requests;
-using Serilog;
+using Hypepool.Common.Pools;
 
 namespace Hypepool.Monero
 {
-    public class MoneroJobManager : JobManagerBase<MoneroJob>
+    public class MoneroPoolContext : PoolContext
     {
-        public MoneroJobManager()
-        {
-            _logger = Log.ForContext<MoneroJobManager>();
-        }
-
-        public override async void Start()
-        {
-            _logger.Information($"starting job manager..");
-
-            CreateNewJob();
-        }
-
-        protected override void CreateNewJob()
-        {
-            var request = new GetBlockTemplateRequest
-            {
-                WalletAddress = PoolContext.PoolAddress,
-                ReserveSize = MoneroConstants.ReserveSize
-            };
-        }
+        public override string PoolAddress => "A1fZZpe64V6R4z2jzkN6zm9YEYsGhNC3uTyDyGr1Ettp2o32HNAwFhKXifcwuDcqNMQrkvm3JWXThh79KeUXhHZzA5MASZE";
     }
 }

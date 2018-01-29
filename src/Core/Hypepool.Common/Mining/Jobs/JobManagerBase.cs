@@ -25,6 +25,7 @@
 #endregion
 
 using Hypepool.Common.Pools;
+using Serilog;
 
 namespace Hypepool.Common.Mining.Jobs
 {
@@ -32,11 +33,18 @@ namespace Hypepool.Common.Mining.Jobs
     {
         protected IPoolContext PoolContext { get; private set; }
 
+        /// <summary>
+        /// Starts the job manager.
+        /// </summary>
+        public abstract void Start();
+
+        protected abstract void CreateNewJob();
+
+        protected ILogger _logger;
+
         public void Configure(IPoolContext poolContext)
         {
             PoolContext = poolContext;
         }
-
-        public abstract void Start();
     }
 }

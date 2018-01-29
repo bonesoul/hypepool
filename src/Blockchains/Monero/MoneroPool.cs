@@ -49,11 +49,10 @@ namespace Hypepool.Monero
 {
     public class MoneroPool : PoolBase<MoneroShare>
     {
-        private string _poolAddress = "A1fZZpe64V6R4z2jzkN6zm9YEYsGhNC3uTyDyGr1Ettp2o32HNAwFhKXifcwuDcqNMQrkvm3JWXThh79KeUXhHZzA5MASZE";
         private uint _poolAddressBase58Prefix;
 
-        public MoneroPool(IPoolContext poolContext, IServerFactory serverFactory)
-            : base(poolContext, serverFactory)
+        public MoneroPool(IServerFactory serverFactory)
+            : base(serverFactory)
         {
             _logger = Log.ForContext<MoneroPool>();
         }
@@ -64,6 +63,8 @@ namespace Hypepool.Monero
 
             try
             {
+                PoolContext = new MoneroPoolContext();
+
                 var miningDaemon = new DaemonClient("127.0.0.1", 28081, "user", "pass", MoneroConstants.DaemonRpcLocation);
                 var wallDaemon = new DaemonClient("127.0.0.1", 28085, "user", "pass", MoneroConstants.DaemonRpcLocation);
                 var jobManager = new MoneroJobManager();
@@ -103,7 +104,7 @@ namespace Hypepool.Monero
         protected override async Task RunPreInitChecksAsync()
         {
             // decode configured pool address.
-            _poolAddressBase58Prefix = LibCryptonote.DecodeAddress(_poolAddress);
+            _poolAddressBase58Prefix = LibCryptonote.DecodeAddress(PoolContext.PoolAddress);
             if (_poolAddressBase58Prefix == 0)
                 throw new PoolStartupAbortedException("unable to decode configured pool address!");
         }
@@ -114,7 +115,7 @@ namespace Hypepool.Monero
             var addressResponse = await PoolContext.WalletDaemon.ExecuteCommandAsync<GetAddressResponse>(MoneroWalletCommands.GetAddress);
 
             // ensure pool owns wallet
-            if (addressResponse.Response?.Address != _poolAddress)
+            if (addressResponse.Response?.Address != PoolContext.PoolAddress)
                 throw new PoolStartupAbortedException("pool wallet does not own the configured pool address!");
         }
 
@@ -171,7 +172,7 @@ namespace Hypepool.Monero
         {
             var request = new GetBlockTemplateRequest
             {
-                WalletAddress = _poolAddress,
+                WalletAddress = PoolContext.PoolAddress,
                 ReserveSize = MoneroConstants.ReserveSize
             };
 

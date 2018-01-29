@@ -52,6 +52,8 @@ namespace Hypepool.Common.Pools
         /// </summary>
         IStratumServer StratumServer { get; }
 
+        string PoolAddress { get; }
+
         /// <summary>
         /// Configures the context instance.
         /// </summary>

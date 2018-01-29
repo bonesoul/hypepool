@@ -36,7 +36,7 @@ using Hypepool.Common.Mining.Context;
 using Hypepool.Common.Native;
 using Hypepool.Common.Pools;
 using Hypepool.Common.Stratum;
-using Hypepool.Common.Utils.Time;
+using Hypepool.Common.Utils.Helpers.Time;
 using Hypepool.Monero.Daemon.Requests;
 using Hypepool.Monero.Daemon.Responses;
 using Hypepool.Monero.Stratum;
@@ -49,7 +49,7 @@ namespace Hypepool.Monero
 {
     public class MoneroPool : PoolBase<MoneroShare>
     {
-        private uint _poolAddressBase58Prefix;
+        private ulong _poolAddressBase58Prefix;
 
         public MoneroPool(IServerFactory serverFactory)
             : base(serverFactory)

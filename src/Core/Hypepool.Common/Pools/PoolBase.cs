@@ -32,7 +32,7 @@ using Hypepool.Common.JsonRpc;
 using Hypepool.Common.Mining.Context;
 using Hypepool.Common.Shares;
 using Hypepool.Common.Stratum;
-using Hypepool.Common.Utils.Time;
+using Hypepool.Common.Utils.Helpers.Time;
 using Serilog;
 
 namespace Hypepool.Common.Pools

@@ -24,7 +24,7 @@
 //      SOFTWARE.
 #endregion
 using System;
-using Hypepool.Common.Utils.Time;
+using Hypepool.Common.Utils.Helpers.Time;
 
 namespace Hypepool.Common.Mining.Context
 {

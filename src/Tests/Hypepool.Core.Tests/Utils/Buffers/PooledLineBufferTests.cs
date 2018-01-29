@@ -32,7 +32,7 @@ using Hypepool.Common.Utils.Buffers;
 using Hypepool.Core.Utils.Buffers;
 using Xunit;
 
-namespace Hypepool.Tests.Utils.Buffers
+namespace Hypepool.Core.Tests.Utils.Buffers
 {
     public class PooledLineBufferTests
     {

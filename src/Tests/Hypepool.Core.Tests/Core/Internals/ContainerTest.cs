@@ -27,7 +27,7 @@
 using Hypepool.Core.Internals.Bootstrap;
 using Xunit;
 
-namespace Hypepool.Tests.Core.Internals
+namespace Hypepool.Core.Tests.Core.Internals
 {
     public class ContainerTest
     {

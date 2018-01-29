@@ -30,7 +30,7 @@ using Hypepool.Common.Stratum;
 
 namespace Hypepool.Common.Pools
 {
-    public interface IPoolContext
+    public interface IPoolContext<TJob> where TJob : IJob
     {
         /// <summary>
         /// Mining daemon client.
@@ -45,7 +45,7 @@ namespace Hypepool.Common.Pools
         /// <summary>
         /// Job manager.
         /// </summary>
-        IJobManager<IJob> JobManager { get; }
+        JobManagerBase<TJob> JobManager { get; }
 
         /// <summary>
         /// Stratum server.
@@ -61,6 +61,6 @@ namespace Hypepool.Common.Pools
         /// <param name="walletDaemon"></param>
         /// <param name="jobManager"></param>
         /// <param name="stratumServer"></param>
-        void Configure(IDaemonClient miningDaemon, IDaemonClient walletDaemon, IJobManager<TJob> jobManager, IStratumServer stratumServer);
+        void Configure(IDaemonClient miningDaemon, IDaemonClient walletDaemon, JobManagerBase<TJob> jobManager, IStratumServer stratumServer);
     }
 }

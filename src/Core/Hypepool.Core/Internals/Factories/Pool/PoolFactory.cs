@@ -25,7 +25,9 @@
 #endregion
 
 using System.Linq;
+using Hypepool.Common.Mining.Jobs;
 using Hypepool.Common.Pools;
+using Hypepool.Common.Shares;
 using Stashbox;
 using Stashbox.Infrastructure;
 
@@ -40,15 +42,15 @@ namespace Hypepool.Core.Internals.Factories.Pool
             _container = container;
         }
 
-        public IPool GetPool(string name)
+        public PoolBase<TShare, TJob> GetPool<TShare, TJob>(string name) where TShare : IShare where TJob : IJob
         {
-            var registrations = _container.ResolveAll<IPool>();
+            var registrations = _container.ResolveAll<PoolBase<TShare, TJob>>();
             return registrations.First();
         }
 
-        public IPoolContext GetPoolContext()
+        public IPoolContext<TJob> GetPoolContext<TJob>() where TJob : IJob
         {
-            return _container.Resolve<IPoolContext>();
+            return _container.Resolve<IPoolContext<TJob>>();
         }
     }
 }

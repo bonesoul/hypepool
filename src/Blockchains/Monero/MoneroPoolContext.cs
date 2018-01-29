@@ -28,7 +28,7 @@ using Hypepool.Common.Pools;
 
 namespace Hypepool.Monero
 {
-    public class MoneroPoolContext : PoolContext
+    public class MoneroPoolContext : PoolContext<MoneroJob>
     {
         public override string PoolAddress => "A1fZZpe64V6R4z2jzkN6zm9YEYsGhNC3uTyDyGr1Ettp2o32HNAwFhKXifcwuDcqNMQrkvm3JWXThh79KeUXhHZzA5MASZE";
     }

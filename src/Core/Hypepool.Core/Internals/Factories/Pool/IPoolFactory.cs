@@ -24,14 +24,16 @@
 //      SOFTWARE.
 #endregion
 
+using Hypepool.Common.Mining.Jobs;
 using Hypepool.Common.Pools;
+using Hypepool.Common.Shares;
 
 namespace Hypepool.Core.Internals.Factories.Pool
 {
     public interface IPoolFactory
     {
-        IPool GetPool(string name);
+        PoolBase<TShare, TJob> GetPool<TShare, TJob>(string name) where TShare : IShare where TJob : IJob;
 
-        IPoolContext GetPoolContext();
+        IPoolContext<TJob> GetPoolContext<TJob>() where TJob : IJob;
     }
 }

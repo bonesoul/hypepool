@@ -30,6 +30,7 @@ using System.Threading.Tasks;
 using Hypepool.Common.Factories.Server;
 using Hypepool.Common.JsonRpc;
 using Hypepool.Common.Mining.Context;
+using Hypepool.Common.Mining.Jobs;
 using Hypepool.Common.Shares;
 using Hypepool.Common.Stratum;
 using Hypepool.Common.Utils.Helpers.Time;
@@ -37,7 +38,7 @@ using Serilog;
 
 namespace Hypepool.Common.Pools
 {
-    public abstract class PoolBase<TShare> : IPool where TShare : IShare
+    public abstract class PoolBase<TShare, TJob> where TShare : IShare where TJob: IJob
     {
         /// <summary>
         /// Initializes the pool.
@@ -88,7 +89,7 @@ namespace Hypepool.Common.Pools
         /// <summary>
         /// Poll context.
         /// </summary>
-        public IPoolContext PoolContext { get; protected set; }
+        public IPoolContext<TJob> PoolContext { get; protected set; }
 
         /// <summary>
         /// Server factory.

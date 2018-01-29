@@ -48,7 +48,7 @@ using Serilog;
 
 namespace Hypepool.Monero
 {
-    public class MoneroPool : PoolBase<MoneroShare>
+    public class MoneroPool : PoolBase<MoneroShare, MoneroJob>
     {
         private ulong _poolAddressBase58Prefix;
 
@@ -68,7 +68,7 @@ namespace Hypepool.Monero
 
                 var miningDaemon = new DaemonClient("127.0.0.1", 28081, "user", "pass", MoneroConstants.DaemonRpcLocation);
                 var wallDaemon = new DaemonClient("127.0.0.1", 28085, "user", "pass", MoneroConstants.DaemonRpcLocation);
-                IJobManager<MoneroJob> jobManager = new MoneroJobManager();
+                var jobManager = new MoneroJobManager();
                 var stratumServer = ServerFactory.GetStratumServer();
 
                 PoolContext.Configure(miningDaemon, wallDaemon, jobManager, stratumServer); // configure the pool context.

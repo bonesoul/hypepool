@@ -10,4 +10,4 @@ jobs:
     steps:
       - checkout
       - run: dotnet build hypepool.sln
-      - run: cd src/Core/Hypepool.Tests/ && dotnet xunit
+      - run: cd src/Tests/Hypepool.Core.Tests/ && dotnet xunit

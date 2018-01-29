@@ -13,11 +13,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypepool.Core", "src\Core\H
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypepool.Cli", "src\Core\Hypepool.Cli\Hypepool.Cli.csproj", "{E3D8AB8F-6E09-4038-B5F4-9547A4A3E0DF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monero", "src\Blockchains\Monero\Monero.csproj", "{3EE7E067-4C99-4287-9792-DE568636A6F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypepool.Monero", "src\Blockchains\Monero\Hypepool.Monero.csproj", "{3EE7E067-4C99-4287-9792-DE568636A6F1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{989B0FFD-CDB8-4B37-AB79-8C8B77F18602}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypepool.Core.Tests", "src\Tests\Hypepool.Core.Tests\Hypepool.Core.Tests.csproj", "{482A3CB8-C0CE-4723-8B0C-8CC79787B57C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypepool.Monero.Tests", "src\Tests\Hypepool.Monero.Tests\Hypepool.Monero.Tests.csproj", "{85A95356-ED37-4BB8-8CA2-D4C8CB9FFA1F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypepool.Common.Tests", "src\Tests\Hypepool.Common.Tests\Hypepool.Common.Tests.csproj", "{7100ADD8-2A56-4D1A-A728-74C078215C9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,6 +93,30 @@ Global
 		{482A3CB8-C0CE-4723-8B0C-8CC79787B57C}.Release|x64.Build.0 = Release|x64
 		{482A3CB8-C0CE-4723-8B0C-8CC79787B57C}.Release|x86.ActiveCfg = Release|x86
 		{482A3CB8-C0CE-4723-8B0C-8CC79787B57C}.Release|x86.Build.0 = Release|x86
+		{85A95356-ED37-4BB8-8CA2-D4C8CB9FFA1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85A95356-ED37-4BB8-8CA2-D4C8CB9FFA1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85A95356-ED37-4BB8-8CA2-D4C8CB9FFA1F}.Debug|x64.ActiveCfg = Debug|x64
+		{85A95356-ED37-4BB8-8CA2-D4C8CB9FFA1F}.Debug|x64.Build.0 = Debug|x64
+		{85A95356-ED37-4BB8-8CA2-D4C8CB9FFA1F}.Debug|x86.ActiveCfg = Debug|x86
+		{85A95356-ED37-4BB8-8CA2-D4C8CB9FFA1F}.Debug|x86.Build.0 = Debug|x86
+		{85A95356-ED37-4BB8-8CA2-D4C8CB9FFA1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85A95356-ED37-4BB8-8CA2-D4C8CB9FFA1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85A95356-ED37-4BB8-8CA2-D4C8CB9FFA1F}.Release|x64.ActiveCfg = Release|x64
+		{85A95356-ED37-4BB8-8CA2-D4C8CB9FFA1F}.Release|x64.Build.0 = Release|x64
+		{85A95356-ED37-4BB8-8CA2-D4C8CB9FFA1F}.Release|x86.ActiveCfg = Release|x86
+		{85A95356-ED37-4BB8-8CA2-D4C8CB9FFA1F}.Release|x86.Build.0 = Release|x86
+		{7100ADD8-2A56-4D1A-A728-74C078215C9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7100ADD8-2A56-4D1A-A728-74C078215C9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7100ADD8-2A56-4D1A-A728-74C078215C9C}.Debug|x64.ActiveCfg = Debug|x64
+		{7100ADD8-2A56-4D1A-A728-74C078215C9C}.Debug|x64.Build.0 = Debug|x64
+		{7100ADD8-2A56-4D1A-A728-74C078215C9C}.Debug|x86.ActiveCfg = Debug|x86
+		{7100ADD8-2A56-4D1A-A728-74C078215C9C}.Debug|x86.Build.0 = Debug|x86
+		{7100ADD8-2A56-4D1A-A728-74C078215C9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7100ADD8-2A56-4D1A-A728-74C078215C9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7100ADD8-2A56-4D1A-A728-74C078215C9C}.Release|x64.ActiveCfg = Release|x64
+		{7100ADD8-2A56-4D1A-A728-74C078215C9C}.Release|x64.Build.0 = Release|x64
+		{7100ADD8-2A56-4D1A-A728-74C078215C9C}.Release|x86.ActiveCfg = Release|x86
+		{7100ADD8-2A56-4D1A-A728-74C078215C9C}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -99,6 +127,8 @@ Global
 		{E3D8AB8F-6E09-4038-B5F4-9547A4A3E0DF} = {7FF6FCE5-FC6E-4FA5-8C07-6EA5E987B7AE}
 		{3EE7E067-4C99-4287-9792-DE568636A6F1} = {B45560AE-FBA1-4D5D-BC03-6EF2B5F286AC}
 		{482A3CB8-C0CE-4723-8B0C-8CC79787B57C} = {989B0FFD-CDB8-4B37-AB79-8C8B77F18602}
+		{85A95356-ED37-4BB8-8CA2-D4C8CB9FFA1F} = {989B0FFD-CDB8-4B37-AB79-8C8B77F18602}
+		{7100ADD8-2A56-4D1A-A728-74C078215C9C} = {989B0FFD-CDB8-4B37-AB79-8C8B77F18602}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A237468A-5EBB-4D19-9AAD-85A05BCC1402}

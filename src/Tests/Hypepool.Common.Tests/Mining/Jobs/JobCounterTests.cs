@@ -24,33 +24,47 @@
 //      SOFTWARE.
 #endregion
 
-using System;
-using System.Threading;
+using System.Reflection;
+using FluentAssertions;
+using Hypepool.Common.Mining.Jobs;
+using Xunit;
 
-namespace Hypepool.Common.Mining.Jobs
+namespace Hypepool.Core.Tests.Mining.Jobs
 {
-    /// <summary>
-    /// Job id counter.
-    /// </summary>
-    public class JobCounter
+    public class JobCounterTests
     {
-        private int _last;
-
-        public JobCounter()
+        private readonly JobCounter _jobCounter;
+        public JobCounterTests()
         {
-            _last = 0;
+            _jobCounter = new JobCounter();
         }
 
         /// <summary>
-        /// Returns a new job id.
+        /// Verifies GetNext().
         /// </summary>
-        /// <returns></returns>
-        public int GetNext()
+        [Fact]
+        public void ShouldBeIncremented()
         {
-            Interlocked.CompareExchange(ref _last, 0, int.MaxValue); // if we reached maxed value, reset to 1.
-            Interlocked.Increment(ref _last); // atomic increase _last.
+            _jobCounter.GetNext().ShouldBeEquivalentTo(1);
+            _jobCounter.GetNext().ShouldBeEquivalentTo(2);
+        }
 
-            return _last;
+        [Fact]
+        public void ShouldResetBackAfterMaxValue()
+        {
+            // get access for private _last field.
+            var last = _jobCounter.GetType().GetField("_last",
+                BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance);
+
+            // set it to int.MaxValue - 1
+            last.SetValue(_jobCounter, int.MaxValue - 1);
+            last.GetValue(_jobCounter).ShouldBeEquivalentTo(int.MaxValue - 1);
+
+            // GetNext() and should be int.MaxValue now.
+            _jobCounter.GetNext().ShouldBeEquivalentTo(int.MaxValue);
+
+            // another GetNext() and should reset back to 1 now.
+            _jobCounter.GetNext().ShouldBeEquivalentTo(1);
         }
     }
 }

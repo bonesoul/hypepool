@@ -4,5 +4,6 @@ build_script:
   - dotnet build hypepool.sln
 
 test_script:
- - cd src\Core\Hypepool.Tests
- - dotnet xunit
+ - cd src\Tests\Hypepool.Core.Tests\ && dotnet xunit
+ - cd src\Tests\Hypepool.Common.Tests\ && dotnet xunit
+ - cd src\Tests\Hypepool.Monero.Tests\ && dotnet xunit 

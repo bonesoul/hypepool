@@ -5,5 +5,5 @@ build_script:
 
 test_script:
  - cd src\Tests\Hypepool.Core.Tests\ && dotnet xunit
- - cd src\Tests\Hypepool.Common.Tests\ && dotnet xunit
- - cd src\Tests\Hypepool.Monero.Tests\ && dotnet xunit 
+ - cd .. && cd src\Tests\Hypepool.Common.Tests\ && dotnet xunit
+ - cd .. && cd src\Tests\Hypepool.Monero.Tests\ && dotnet xunit 

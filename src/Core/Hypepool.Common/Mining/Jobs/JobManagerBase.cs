@@ -24,6 +24,8 @@
 //      SOFTWARE.
 #endregion
 
+using System;
+using System.Reactive;
 using System.Threading.Tasks;
 using Hypepool.Common.Pools;
 using Serilog;
@@ -36,10 +38,12 @@ namespace Hypepool.Common.Mining.Jobs
 
         public TJob CurrentJob { get; protected set; }
 
+        public IObservable<Unit> Blocks { get; protected set; }
+
         /// <summary>
         /// Starts the job manager.
         /// </summary>
-        public abstract Task<IJob> Start();
+        public abstract Task Start();
 
         /// <summary>
         /// Queries the network and updates the job if needed.

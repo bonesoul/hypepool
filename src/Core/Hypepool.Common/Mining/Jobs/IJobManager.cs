@@ -24,6 +24,8 @@
 //      SOFTWARE.
 #endregion
 
+using System;
+using System.Reactive;
 using System.Threading.Tasks;
 using Hypepool.Common.Pools;
 
@@ -31,7 +33,9 @@ namespace Hypepool.Common.Mining.Jobs
 {
     public interface IJobManager
     {
-        Task<IJob> Start();
+        IObservable<Unit> Blocks { get; }
+
+        Task Start();
 
         void Configure(IPoolContext poolContext);
     }

@@ -24,6 +24,9 @@
 //      SOFTWARE.
 #endregion
 
+using System;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Hypepool.Common.Mining.Jobs;
@@ -34,7 +37,7 @@ using Serilog;
 namespace Hypepool.Monero
 {
     public class MoneroJobManager : JobManagerBase<MoneroJob>
-    {
+    {        
         private readonly byte[] instanceId;
         private readonly JobCounter _jobCounter;
 
@@ -51,47 +54,75 @@ namespace Hypepool.Monero
             }
         }
 
-        public override async Task<IJob> Start()
+        public override async Task Start()
         {
             _logger.Information($"starting job manager..");
 
-            var newJob = await UpdateJob();
-            return newJob ? CurrentJob : null;
+            SetupJobUpdates();
+        }
+
+        private void SetupJobUpdates()
+        {
+            // periodically update jobs by querying blocktemplate from daemon.
+
+            // todo: replace this with polly.
+            Blocks = Observable.Interval(TimeSpan.FromMilliseconds(500))
+                .Select(_ => Observable.FromAsync(UpdateJob))
+                .Concat()
+                .Do(gotNewJob =>
+                {
+                    if (gotNewJob)
+                        _logger.Information($"Created a new job as a new block {CurrentJob.BlockTemplate.Height} emerged in network..");
+                    else 
+                        _logger.Verbose("Queried network for a new job, but found none..");
+                })
+                .Where(gotNewJob => gotNewJob)
+                .Select(_ => Unit.Default)
+                .Publish()
+                .RefCount();
         }
 
         protected override async Task<bool> UpdateJob()
         {
-            // cook our getblocktemplate() request.
-            var request = new GetBlockTemplateRequest
+            try
             {
-                WalletAddress = PoolContext.PoolAddress,
-                ReserveSize = MoneroConstants.ReserveSize
-            };
+                // cook our getblocktemplate() request.
+                var request = new GetBlockTemplateRequest
+                {
+                    WalletAddress = PoolContext.PoolAddress,
+                    ReserveSize = MoneroConstants.ReserveSize
+                };
 
-            // call getblocktemplate() from daemon.
-            var response = await PoolContext.Daemon.ExecuteCommandAsync<GetBlockTemplateResponse>(MoneroRpcCommands.GetBlockTemplate, request);
+                // call getblocktemplate() from daemon.
+                var response = await PoolContext.Daemon.ExecuteCommandAsync<GetBlockTemplateResponse>(MoneroRpcCommands.GetBlockTemplate, request);
 
-            // make sure we are free of errors.
-            if (response.Error != null)
-            {
-                _logger.Error($"New job creation failed as daemon responded with [{response.Error.Code}] {response.Error.Message}");
+                // make sure we are free of errors.
+                if (response.Error != null)
+                {
+                    _logger.Error($"New job creation failed as daemon responded with [{response.Error.Code}] {response.Error.Message}");
+                }
+
+                // get the response.
+                var blockTemplate = response.Response;
+
+                // check if we really got a new blocktemplate (for a new block).
+                var gotNewBlockTemplate = (CurrentJob == null || CurrentJob.BlockTemplate.Height < blockTemplate.Height);
+
+                // if we got a new block there, create a new job for it then.
+                if (gotNewBlockTemplate)
+                {
+                    var jobId = _jobCounter.GetNext(); // create a new job id.
+                    var job = new MoneroJob(blockTemplate, instanceId, jobId); // cook the job.
+                    CurrentJob = job; // set the current job.
+                }
+
+                return gotNewBlockTemplate;
             }
-
-            // get the response.
-            var blockTemplate = response.Response;
-
-            // check if we really got a new block.
-            var gotNewBlock = (CurrentJob == null || CurrentJob.BlockTemplate.Height < blockTemplate.Height);
-
-            // if we got a new block there, create a new job for it then.
-            if (gotNewBlock)
+            catch (Exception e)
             {
-                var jobId = _jobCounter.GetNext(); // create a new job id.
-                var job = new MoneroJob(blockTemplate, instanceId, jobId); // cook the job.
-                CurrentJob = job; // set the current job.
+                _logger.Error(e, "Error querying for a new job.");
+                return false;
             }
-
-            return gotNewBlock;
         }
     }
 }

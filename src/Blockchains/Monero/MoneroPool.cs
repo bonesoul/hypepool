@@ -27,6 +27,8 @@
 using System;
 using System.Net;
 using System.Reactive;
+using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using Hypepool.Common.Coins;
 using Hypepool.Common.Daemon;
@@ -92,7 +94,14 @@ namespace Hypepool.Monero
         {
             try
             {
-                var test = PoolContext.JobManager.Start();
+                await PoolContext.JobManager.Start();
+                PoolContext.JobManager.Blocks.Subscribe(_ =>
+                {
+
+                });
+
+                await PoolContext.JobManager.Blocks.Take(1).ToTask();
+
                 PoolContext.StratumServer.Start(this);
             }
             catch (Exception ex)

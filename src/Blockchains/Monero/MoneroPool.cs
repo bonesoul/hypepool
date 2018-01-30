@@ -33,7 +33,6 @@ using Hypepool.Common.Daemon;
 using Hypepool.Common.Factories.Server;
 using Hypepool.Common.JsonRpc;
 using Hypepool.Common.Mining.Context;
-using Hypepool.Common.Mining.Jobs;
 using Hypepool.Common.Native;
 using Hypepool.Common.Pools;
 using Hypepool.Common.Stratum;

@@ -24,7 +24,6 @@
 //      SOFTWARE.
 #endregion
 
-using System;
 using System.Threading;
 
 namespace Hypepool.Common.Mining.Jobs

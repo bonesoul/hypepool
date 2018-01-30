@@ -5,8 +5,8 @@
 	<RuntimeFrameworkVersion>2.0.5</RuntimeFrameworkVersion>
     <IsPackable>false</IsPackable>
     <OutputType>Library</OutputType>
-    <AssemblyName>Hypepool.Core.Tests</AssemblyName>
-    <RootNamespace>Hypepool.Core.Tests</RootNamespace>
+    <AssemblyName>Hypepool.Common.Tests</AssemblyName>
+    <RootNamespace>Hypepool.Common.Tests</RootNamespace>
     <ApplicationIcon />
     <StartupObject />
     <Platforms>AnyCPU;x64;x86</Platforms>

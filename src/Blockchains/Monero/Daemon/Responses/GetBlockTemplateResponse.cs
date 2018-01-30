@@ -34,6 +34,7 @@ namespace Hypepool.Monero.Daemon.Responses
         public string Blob { get; set; }
 
         public long Difficulty { get; set; }
+
         public uint Height { get; set; }
 
         [JsonProperty("prev_hash")]

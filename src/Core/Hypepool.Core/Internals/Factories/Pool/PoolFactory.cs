@@ -25,9 +25,7 @@
 #endregion
 
 using System.Linq;
-using Hypepool.Common.Mining.Jobs;
 using Hypepool.Common.Pools;
-using Hypepool.Common.Shares;
 using Stashbox;
 using Stashbox.Infrastructure;
 

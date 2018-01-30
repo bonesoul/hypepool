@@ -30,7 +30,6 @@ using System.Threading.Tasks;
 using Hypepool.Common.Factories.Server;
 using Hypepool.Common.JsonRpc;
 using Hypepool.Common.Mining.Context;
-using Hypepool.Common.Mining.Jobs;
 using Hypepool.Common.Shares;
 using Hypepool.Common.Stratum;
 using Hypepool.Common.Utils.Helpers.Time;

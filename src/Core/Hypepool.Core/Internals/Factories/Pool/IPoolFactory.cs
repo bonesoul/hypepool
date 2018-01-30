@@ -24,9 +24,7 @@
 //      SOFTWARE.
 #endregion
 
-using Hypepool.Common.Mining.Jobs;
 using Hypepool.Common.Pools;
-using Hypepool.Common.Shares;
 
 namespace Hypepool.Core.Internals.Factories.Pool
 {

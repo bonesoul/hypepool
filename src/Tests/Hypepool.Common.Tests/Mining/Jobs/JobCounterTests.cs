@@ -29,7 +29,7 @@ using FluentAssertions;
 using Hypepool.Common.Mining.Jobs;
 using Xunit;
 
-namespace Hypepool.Core.Tests.Mining.Jobs
+namespace Hypepool.Common.Tests.Mining.Jobs
 {
     public class JobCounterTests
     {

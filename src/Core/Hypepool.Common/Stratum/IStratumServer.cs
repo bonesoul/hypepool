@@ -24,9 +24,7 @@
 //      SOFTWARE.
 #endregion
 using System.Collections.Generic;
-using Hypepool.Common.Mining.Jobs;
 using Hypepool.Common.Pools;
-using Hypepool.Common.Shares;
 using NetUV.Core.Handles;
 
 namespace Hypepool.Common.Stratum

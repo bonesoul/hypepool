@@ -36,6 +36,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="xunit.analyzers" Version="0.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Blockchains\Monero\Hypepool.Monero.csproj" />
     <ProjectReference Include="..\Hypepool.Core\Hypepool.Core.csproj" />
   </ItemGroup>

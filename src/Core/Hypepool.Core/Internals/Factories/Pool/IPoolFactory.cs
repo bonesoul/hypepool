@@ -32,8 +32,8 @@ namespace Hypepool.Core.Internals.Factories.Pool
 {
     public interface IPoolFactory
     {
-        PoolBase<TShare, TJob> GetPool<TShare, TJob>(string name) where TShare : IShare where TJob : IJob;
+        IPool GetPool(string name);
 
-        IPoolContext<TJob> GetPoolContext<TJob>() where TJob : IJob;
+        IPoolContext GetPoolContext();
     }
 }

@@ -48,7 +48,7 @@ using Serilog;
 
 namespace Hypepool.Monero
 {
-    public class MoneroPool : PoolBase<MoneroShare, MoneroJob>
+    public class MoneroPool : PoolBase<MoneroShare>
     {
         private ulong _poolAddressBase58Prefix;
 
@@ -71,13 +71,13 @@ namespace Hypepool.Monero
                 var jobManager = new MoneroJobManager();
                 var stratumServer = ServerFactory.GetStratumServer();
 
-                PoolContext.Configure(miningDaemon, wallDaemon, jobManager, stratumServer); // configure the pool context.
+                ((MoneroPoolContext)PoolContext).Configure(miningDaemon, wallDaemon, jobManager, stratumServer); // configure the pool context.
                 PoolContext.JobManager.Configure(PoolContext);
 
                 await RunPreInitChecksAsync(); // any pre-init checks.
 
-                PoolContext.MiningDaemon.Initialize(); // initialize mining daemon.
-                PoolContext.WalletDaemon.Initialize(); // initialize wallet daemon.
+                PoolContext.Daemon.Initialize(); // initialize mining daemon.
+                ((MoneroPoolContext)PoolContext).WalletDaemon.Initialize(); // initialize wallet daemon.
                 await WaitDaemonConnection(); // wait for coin daemon connection.
                 await EnsureDaemonSynchedAsync(); // ensure the coin daemon is synced to network.
 
@@ -93,7 +93,7 @@ namespace Hypepool.Monero
         {
             try
             {
-                PoolContext.JobManager.Start();
+                var test = PoolContext.JobManager.Start();
                 PoolContext.StratumServer.Start(this);
             }
             catch (Exception ex)
@@ -112,8 +112,8 @@ namespace Hypepool.Monero
 
         protected override async Task RunPostInitChecksAsync()
         {
-            var infoResponse = await PoolContext.MiningDaemon.ExecuteCommandAsync(MoneroRpcCommands.GetInfo);
-            var addressResponse = await PoolContext.WalletDaemon.ExecuteCommandAsync<GetAddressResponse>(MoneroWalletCommands.GetAddress);
+            var infoResponse = await PoolContext.Daemon.ExecuteCommandAsync(MoneroRpcCommands.GetInfo);
+            var addressResponse = await ((MoneroPoolContext)PoolContext).WalletDaemon.ExecuteCommandAsync<GetAddressResponse>(MoneroWalletCommands.GetAddress);
 
             // ensure pool owns wallet
             if (addressResponse.Response?.Address != PoolContext.PoolAddress)
@@ -141,7 +141,7 @@ namespace Hypepool.Monero
 
         protected override async Task<bool> IsDaemonConnectionHealthyAsync()
         {
-            var response = await PoolContext.MiningDaemon.ExecuteCommandAsync<GetInfoResponse>(MoneroRpcCommands.GetInfo); // getinfo.
+            var response = await PoolContext.Daemon.ExecuteCommandAsync<GetInfoResponse>(MoneroRpcCommands.GetInfo); // getinfo.
 
             // check if we are free of any errors.
             if (response.Error == null) // if so we,
@@ -163,7 +163,7 @@ namespace Hypepool.Monero
 
         protected override async Task<bool> IsDaemonConnectedToNetworkAsync()
         {
-            var response = await PoolContext.MiningDaemon.ExecuteCommandAsync<GetInfoResponse>(MoneroRpcCommands.GetInfo); // getinfo.
+            var response = await PoolContext.Daemon.ExecuteCommandAsync<GetInfoResponse>(MoneroRpcCommands.GetInfo); // getinfo.
 
             return response.Error == null && response.Response != null && // check if coin daemon have any incoming + outgoing connections.
                    (response.Response.OutgoingConnectionsCount + response.Response.IncomingConnectionsCount) > 0;
@@ -179,14 +179,14 @@ namespace Hypepool.Monero
 
             while (true) // loop until sync is complete.
             {
-                var blockTemplateResponse = await PoolContext.MiningDaemon.ExecuteCommandAsync<GetBlockTemplateResponse>(MoneroRpcCommands.GetBlockTemplate, request);
+                var blockTemplateResponse = await PoolContext.Daemon.ExecuteCommandAsync<GetBlockTemplateResponse>(MoneroRpcCommands.GetBlockTemplate, request);
 
                 var isSynched = blockTemplateResponse.Error == null || blockTemplateResponse.Error.Code != -9; // is daemon synced to network?
 
                 if (isSynched) // break out of the loop once synched.
                     break;
 
-                var infoResponse = await PoolContext.MiningDaemon.ExecuteCommandAsync<GetInfoResponse>(MoneroRpcCommands.GetInfo); // getinfo.
+                var infoResponse = await PoolContext.Daemon.ExecuteCommandAsync<GetInfoResponse>(MoneroRpcCommands.GetInfo); // getinfo.
                 var currentHeight = infoResponse.Response.Height;
                 var totalBlocks = infoResponse.Response.TargetHeight;
                 var percent = (double) currentHeight / totalBlocks * 100;

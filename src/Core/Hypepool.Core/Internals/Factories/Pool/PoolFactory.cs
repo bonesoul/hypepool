@@ -42,15 +42,15 @@ namespace Hypepool.Core.Internals.Factories.Pool
             _container = container;
         }
 
-        public PoolBase<TShare, TJob> GetPool<TShare, TJob>(string name) where TShare : IShare where TJob : IJob
+        public IPool GetPool(string name)
         {
-            var registrations = _container.ResolveAll<PoolBase<TShare, TJob>>();
+            var registrations = _container.ResolveAll<IPool>();
             return registrations.First();
         }
 
-        public IPoolContext<TJob> GetPoolContext<TJob>() where TJob : IJob
+        public IPoolContext GetPoolContext()
         {
-            return _container.Resolve<IPoolContext<TJob>>();
+            return _container.Resolve<IPoolContext>();
         }
     }
 }

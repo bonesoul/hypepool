@@ -24,37 +24,18 @@
 //      SOFTWARE.
 #endregion
 
-using Hypepool.Common.Daemon;
-using Hypepool.Common.Mining.Jobs;
-using Hypepool.Common.Stratum;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+using Hypepool.Common.Pools;
 
-namespace Hypepool.Common.Pools
+namespace Hypepool.Common.Mining.Jobs
 {
-    public interface IPoolContext
+    public interface IJobManager
     {
-        /// <summary>
-        /// Mining daemon client.
-        /// </summary>
-        IDaemonClient Daemon { get; }
+        Task<IJob> Start();
 
-        /// <summary>
-        /// Job manager.
-        /// </summary>
-        IJobManager JobManager { get; }
-
-        /// <summary>
-        /// Stratum server.
-        /// </summary>
-        IStratumServer StratumServer { get; }
-
-        string PoolAddress { get; }
-
-        /// <summary>
-        /// Configures the context instance.
-        /// </summary>
-        /// <param name="daemon"></param>
-        /// <param name="jobManager"></param>
-        /// <param name="stratumServer"></param>
-        void Configure(IDaemonClient daemon, IJobManager jobManager, IStratumServer stratumServer);
+        void Configure(IPoolContext poolContext);
     }
 }

@@ -24,12 +24,26 @@
 //      SOFTWARE.
 #endregion
 
+using Hypepool.Common.Daemon;
+using Hypepool.Common.Mining.Jobs;
 using Hypepool.Common.Pools;
+using Hypepool.Common.Stratum;
 
 namespace Hypepool.Monero
 {
-    public class MoneroPoolContext : PoolContext<MoneroJob>
+    public class MoneroPoolContext : PoolContext
     {
+        /// <summary>
+        /// Wallet daemon client.
+        /// </summary>
+        public IDaemonClient WalletDaemon { get; private set; }
+
         public override string PoolAddress => "A1fZZpe64V6R4z2jzkN6zm9YEYsGhNC3uTyDyGr1Ettp2o32HNAwFhKXifcwuDcqNMQrkvm3JWXThh79KeUXhHZzA5MASZE";
+
+        public void Configure(IDaemonClient daemon, IDaemonClient walletDaemon, IJobManager jobManager, IStratumServer stratumServer)
+        {
+            WalletDaemon = walletDaemon;
+            base.Configure(daemon, jobManager, stratumServer);
+        }
     }
 }

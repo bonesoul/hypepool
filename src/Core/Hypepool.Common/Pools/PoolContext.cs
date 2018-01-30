@@ -30,24 +30,21 @@ using Hypepool.Common.Stratum;
 
 namespace Hypepool.Common.Pools
 {
-    public abstract class PoolContext<TJob> : IPoolContext<TJob> where TJob : IJob
+    public abstract class PoolContext : IPoolContext
     {
 
-        public IDaemonClient MiningDaemon { get; private set; }
+        public IDaemonClient Daemon { get; private set; }
 
-        public IDaemonClient WalletDaemon { get; private set; }
-
-        public JobManagerBase<TJob> JobManager { get; private set; }
+        public IJobManager JobManager { get; private set; }
 
         public IStratumServer StratumServer { get; private set; }
 
         // todo: move this.
         public abstract string PoolAddress { get; }
 
-        public void Configure(IDaemonClient miningDaemon, IDaemonClient walletDaemon, JobManagerBase<TJob> jobManager, IStratumServer stratumServer)
+        public void Configure(IDaemonClient daemon, IJobManager jobManager, IStratumServer stratumServer)
         {
-            MiningDaemon = miningDaemon;
-            WalletDaemon = walletDaemon;
+            Daemon = daemon;
             JobManager = jobManager;
             StratumServer = stratumServer;
         }

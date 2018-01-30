@@ -37,7 +37,7 @@ namespace Hypepool.Common.Stratum
 
         IReadOnlyDictionary<string, IStratumClient> Clients { get; }
 
-        void Start<TShare, TJob>(PoolBase<TShare, TJob> pool) where TShare : IShare where TJob : IJob;
+        void Start(IPool pool);
 
         void Stop();
 

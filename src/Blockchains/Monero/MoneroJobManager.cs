@@ -51,7 +51,7 @@ namespace Hypepool.Monero
             }
         }
 
-        public override async Task<MoneroJob> Start()
+        public override async Task<IJob> Start()
         {
             _logger.Information($"starting job manager..");
 
@@ -69,7 +69,7 @@ namespace Hypepool.Monero
             };
 
             // call getblocktemplate() from daemon.
-            var response = await PoolContext.MiningDaemon.ExecuteCommandAsync<GetBlockTemplateResponse>(MoneroRpcCommands.GetBlockTemplate, request);
+            var response = await PoolContext.Daemon.ExecuteCommandAsync<GetBlockTemplateResponse>(MoneroRpcCommands.GetBlockTemplate, request);
 
             // make sure we are free of errors.
             if (response.Error != null)

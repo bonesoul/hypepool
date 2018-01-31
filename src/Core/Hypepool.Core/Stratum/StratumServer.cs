@@ -249,7 +249,7 @@ namespace Hypepool.Core.Stratum
             _pool.OnDisconnect(subscriptionId);
         }
 
-        protected void ForEachClient(Action<IStratumClient> action)
+        public void ForEachClient(Action<IStratumClient> action)
         {
             IStratumClient[] clients;
 

@@ -31,11 +31,14 @@ namespace Hypepool.Monero
 {
     public class MoneroJob : IJob
     {
+        public int Id { get; }
+
         public GetBlockTemplateResponse BlockTemplate { get; }
 
-        public MoneroJob(GetBlockTemplateResponse blockTemplate, byte[] instanceId, int jobId)
+        public MoneroJob(GetBlockTemplateResponse blockTemplate, byte[] instanceId, int id)
         {
             BlockTemplate = blockTemplate;
+            Id = id;
         }
     }
 }

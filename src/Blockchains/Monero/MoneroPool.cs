@@ -95,12 +95,10 @@ namespace Hypepool.Monero
             try
             {
                 await PoolContext.JobManager.Start();
-                PoolContext.JobManager.Blocks.Subscribe(_ =>
-                {
 
-                });
+                PoolContext.JobManager.Blocks.Subscribe(_ => BroadcastJob());
 
-                await PoolContext.JobManager.Blocks.Take(1).ToTask();
+                await PoolContext.JobManager.Blocks.Take(1).ToTask(); // wait for the first block.
 
                 PoolContext.StratumServer.Start(this);
             }
@@ -108,6 +106,12 @@ namespace Hypepool.Monero
             {
                 _logger.Fatal(ex.Message);
             }
+        }
+
+        private void BroadcastJob()
+        {
+            var job = ((MoneroJobManager) PoolContext.JobManager).CurrentJob;
+            _logger.Information($"Broadcasting new job 0x{job.Id:x8}..");
         }
 
         protected override async Task RunPreInitChecksAsync()

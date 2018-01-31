@@ -97,7 +97,7 @@ namespace Hypepool.Monero
                 await PoolContext.JobManager.Start();
 
                 PoolContext.JobManager.JobQueue.Subscribe(_ => BroadcastJob());
-                await PoolContext.JobManager.JobQueue.Take(1).ToTask(); // wait for the first block.
+                await PoolContext.JobManager.JobQueue.Take(1).ToTask(); // wait for the first blocktemplate.
 
                 PoolContext.StratumServer.Start(this);
             }

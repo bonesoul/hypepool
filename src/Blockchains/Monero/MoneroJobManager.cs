@@ -43,7 +43,7 @@ namespace Hypepool.Monero
 
         public MoneroJobManager()
         {
-            _logger = Log.ForContext<MoneroJobManager>();
+            _logger = Log.ForContext<MoneroJobManager>().ForContext("Pool", "XMR");
 
             _jobCounter = new JobCounter();
 
@@ -66,7 +66,7 @@ namespace Hypepool.Monero
             // periodically update jobs by querying blocktemplate from daemon.
 
             // todo: replace this with polly.
-            Blocks = Observable.Interval(TimeSpan.FromMilliseconds(500))
+            JobQueue = Observable.Interval(TimeSpan.FromMilliseconds(500))
                 .Select(_ => Observable.FromAsync(UpdateJob))                
                 .Concat()
                 .Do(gotNewJob =>

@@ -38,6 +38,8 @@ namespace Hypepool.Monero
         /// </summary>
         public IDaemonClient WalletDaemon { get; private set; }
 
+        public override string CoinSymbol => "XRP";
+
         public override string PoolAddress => "A1fZZpe64V6R4z2jzkN6zm9YEYsGhNC3uTyDyGr1Ettp2o32HNAwFhKXifcwuDcqNMQrkvm3JWXThh79KeUXhHZzA5MASZE";
 
         public void Configure(IDaemonClient daemon, IDaemonClient walletDaemon, IJobManager jobManager, IStratumServer stratumServer)

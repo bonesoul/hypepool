@@ -39,7 +39,10 @@ namespace Hypepool.Common.Pools
 
         public IStratumServer StratumServer { get; private set; }
 
-        // todo: move this.
+        // todo: move these.
+
+        public abstract string CoinSymbol { get; }
+
         public abstract string PoolAddress { get; }
 
         public void Configure(IDaemonClient daemon, IJobManager jobManager, IStratumServer stratumServer)

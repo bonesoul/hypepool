@@ -33,7 +33,7 @@ namespace Hypepool.Common.Mining.Jobs
 {
     public interface IJobManager
     {
-        IObservable<Unit> Blocks { get; }
+        IObservable<Unit> JobQueue { get; }
 
         Task Start();
 

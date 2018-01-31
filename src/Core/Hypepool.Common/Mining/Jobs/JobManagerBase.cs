@@ -38,7 +38,7 @@ namespace Hypepool.Common.Mining.Jobs
 
         public TJob CurrentJob { get; protected set; }
 
-        public IObservable<Unit> Blocks { get; protected set; }
+        public IObservable<Unit> JobQueue { get; protected set; }
 
         /// <summary>
         /// Starts the job manager.

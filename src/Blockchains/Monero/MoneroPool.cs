@@ -56,7 +56,7 @@ namespace Hypepool.Monero
         public MoneroPool(IServerFactory serverFactory)
             : base(serverFactory)
         {
-            _logger = Log.ForContext<MoneroPool>();
+            _logger = Log.ForContext<MoneroPool>().ForContext("Pool", "XMR");
         }
 
         public override async Task Initialize()
@@ -96,9 +96,8 @@ namespace Hypepool.Monero
             {
                 await PoolContext.JobManager.Start();
 
-                PoolContext.JobManager.Blocks.Subscribe(_ => BroadcastJob());
-
-                await PoolContext.JobManager.Blocks.Take(1).ToTask(); // wait for the first block.
+                PoolContext.JobManager.JobQueue.Subscribe(_ => BroadcastJob());
+                await PoolContext.JobManager.JobQueue.Take(1).ToTask(); // wait for the first block.
 
                 PoolContext.StratumServer.Start(this);
             }
@@ -112,6 +111,17 @@ namespace Hypepool.Monero
         {
             var job = ((MoneroJobManager) PoolContext.JobManager).CurrentJob;
             _logger.Information($"Broadcasting new job 0x{job.Id:x8}..");
+
+            PoolContext.StratumServer.ForEachClient(client =>
+            {
+                var context = client.GetContextAs<MoneroWorkerContext>(); // get client context.
+                if (!context.IsAuthorized || !context.IsSubscribed) // if client is not authorized or subscribed yet,
+                    return; // skip him.
+
+                // todo: add check for if client is alive - and we should move this out from broadcast logic?
+
+                // todo: send job.
+            });
         }
 
         protected override async Task RunPreInitChecksAsync()

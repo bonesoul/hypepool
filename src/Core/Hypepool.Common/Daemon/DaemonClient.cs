@@ -58,7 +58,7 @@ namespace Hypepool.Common.Daemon
 
         public DaemonClient(string host, int port, string username, string password, string rpcLocation = "")
         {
-            _logger = Log.ForContext<DaemonClient>();
+            _logger = Log.ForContext<DaemonClient>().ForContext("Pool", "XMR"); ;
 
             _serializerSettings = new JsonSerializerSettings
             {

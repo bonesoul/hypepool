@@ -25,6 +25,7 @@
 #endregion
 
 using System;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
@@ -74,20 +75,13 @@ namespace Hypepool.Monero.Tests.JobManager
 
             await _poolContext.JobManager.Start(); // start the job manager.
 
-            var scheduler = new TestScheduler();
-            var results = scheduler.CreateObserver<MoneroJob>();
+            var test2 = _poolContext.JobManager.JobQueue.Take(2)
+                .Subscribe(x =>
+                {
+                    var b = "b";
+                });
 
-            _poolContext.JobManager.JobQueue.Select(unit => ((MoneroJobManager) _poolContext.JobManager).CurrentJob).Subscribe(results);
-
-            var testObserver = scheduler.Start(x => _
-            {
-                _poolContext.JobManager.JobQueue.Select(unit => ((MoneroJobManager)_poolContext.JobManager).CurrentJob).Subscribe(results);
-            }, 0,
-                TimeSpan.FromSeconds(1).Ticks,
-                TimeSpan.FromSeconds(5).Ticks);
-
-
-            var test = results.Messages;
+            var a = "b";
 
             //_poolContext.JobManager.JobQueue.Wait(); // wait for rx to process.
 
@@ -178,3 +172,20 @@ namespace Hypepool.Monero.Tests.JobManager
         };
     }
 }
+
+
+//var scheduler = new TestScheduler();
+//var results = scheduler.CreateObserver<MoneroJob>();
+
+//_poolContext.JobManager.JobQueue.Select(unit => ((MoneroJobManager) _poolContext.JobManager).CurrentJob).Subscribe(results);
+
+//var testObserver = scheduler.Start(x => _
+//{
+
+//_poolContext.JobManager.JobQueue.Select(unit => ((MoneroJobManager)_poolContext.JobManager).CurrentJob).Subscribe(results);
+//}, 0,
+//TimeSpan.FromSeconds(1).Ticks,
+//TimeSpan.FromSeconds(5).Ticks);
+
+
+//var test = results.Messages;

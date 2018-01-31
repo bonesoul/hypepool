@@ -78,7 +78,7 @@ namespace Hypepool.Monero
                         //_logger.Verbose("Queried network for a new job, but found none..");
                 })
                 .Where(gotNewJob => gotNewJob == true) // only accept new jobs.
-                .Select(_ => Unit.Default)
+                .Select(_ => new Unit())
                 .Publish()
                 .RefCount();
         }

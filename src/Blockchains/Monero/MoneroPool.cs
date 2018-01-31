@@ -140,6 +140,8 @@ namespace Hypepool.Monero
             // ensure pool owns wallet
             if (addressResponse.Response?.Address != PoolContext.PoolAddress)
                 throw new PoolStartupAbortedException("pool wallet does not own the configured pool address!");
+
+            // todo: add pool address verification.
         }
 
         public async Task WaitDaemonConnection()

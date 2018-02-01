@@ -5,8 +5,8 @@
 	<RuntimeFrameworkVersion>2.0.5</RuntimeFrameworkVersion>
     <IsPackable>false</IsPackable>
     <OutputType>Library</OutputType>
-    <AssemblyName>Hypepool.Tests</AssemblyName>
-    <RootNamespace>Hypepool.Tests</RootNamespace>
+    <AssemblyName>Hypepool.Common.Tests</AssemblyName>
+    <RootNamespace>Hypepool.Common.Tests</RootNamespace>
     <ApplicationIcon />
     <StartupObject />
     <Platforms>AnyCPU;x64;x86</Platforms>
@@ -28,13 +28,14 @@
     <PackageReference Include="FluentAssertions" Version="4.19.4" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
     <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.analyzers" Version="0.8.0" />
     <PackageReference Include="xunit.runner.console" Version="2.3.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Hypepool.Core\Hypepool.Core.csproj" />
+    <ProjectReference Include="..\..\Core\Hypepool.Common\Hypepool.Common.csproj" />
   </ItemGroup>
 
 </Project>

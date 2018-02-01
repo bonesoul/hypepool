@@ -32,17 +32,13 @@ using Hypepool.Common.JsonRpc;
 using Hypepool.Common.Mining.Context;
 using Hypepool.Common.Shares;
 using Hypepool.Common.Stratum;
-using Hypepool.Common.Utils.Time;
+using Hypepool.Common.Utils.Helpers.Time;
 using Serilog;
 
 namespace Hypepool.Common.Pools
 {
     public abstract class PoolBase<TShare> : IPool where TShare : IShare
     {
-        protected readonly IPoolContext PoolContext;
-        protected readonly IServerFactory ServerFactory;
-        protected ILogger _logger;
-
         /// <summary>
         /// Initializes the pool.
         /// </summary>
@@ -89,9 +85,20 @@ namespace Hypepool.Common.Pools
         /// <returns></returns>
         protected abstract WorkerContext CreateClientContext();
 
-        protected PoolBase(IPoolContext poolContext, IServerFactory serverFactory)
+        /// <summary>
+        /// Poll context.
+        /// </summary>
+        public IPoolContext PoolContext { get; protected set; }
+
+        /// <summary>
+        /// Server factory.
+        /// </summary>
+        protected readonly IServerFactory ServerFactory;
+
+        protected ILogger _logger;
+
+        protected PoolBase(IServerFactory serverFactory)
         {
-            PoolContext = poolContext;
             ServerFactory = serverFactory;
         }
 

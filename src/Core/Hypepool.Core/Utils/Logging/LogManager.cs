@@ -33,7 +33,7 @@ namespace Hypepool.Core.Utils.Logging
 {
     public class LogManager : ILogManager
     {
-        private const string ConsoleLogTemplate = "{Timestamp:HH:mm:ss} [{Level:u3}] [{Source:l}] [{Pool:l}] {Message}{NewLine}{Exception}";
+        private const string ConsoleLogTemplate = "{Timestamp:HH:mm:ss} [{Level:u3}] [{Pool:l}] [{Source:l}] {Message}{NewLine}{Exception}";
 
         public LogManager()
         {

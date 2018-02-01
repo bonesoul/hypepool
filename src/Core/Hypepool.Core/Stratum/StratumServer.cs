@@ -36,7 +36,7 @@ using Hypepool.Common.JsonRpc;
 using Hypepool.Common.Pools;
 using Hypepool.Common.Stratum;
 using Hypepool.Common.Utils.Buffers;
-using Hypepool.Common.Utils.Time;
+using Hypepool.Common.Utils.Helpers.Time;
 using Hypepool.Core.Utils.Extensions;
 using Hypepool.Core.Utils.Unique;
 using NetUV.Core.Handles;
@@ -62,7 +62,7 @@ namespace Hypepool.Core.Stratum
 
         public StratumServer()
         {
-            _logger = Log.ForContext<StratumServer>().ForContext("Pool", "pool-name");
+            _logger = Log.ForContext<StratumServer>().ForContext("Pool", "XMR");
 
             _ports = new Dictionary<int, Tcp>();
             _clients = new Dictionary<string, IStratumClient>();
@@ -249,7 +249,7 @@ namespace Hypepool.Core.Stratum
             _pool.OnDisconnect(subscriptionId);
         }
 
-        protected void ForEachClient(Action<IStratumClient> action)
+        public void ForEachClient(Action<IStratumClient> action)
         {
             IStratumClient[] clients;
 

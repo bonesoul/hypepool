@@ -24,25 +24,12 @@
 //      SOFTWARE.
 #endregion
 
-using Newtonsoft.Json;
+using System;
 
-namespace Hypepool.Monero.Daemon.Responses
+namespace Hypepool.Common.Utils.Helpers.Time
 {
-    public class GetBlockTemplateResponse
+    public class StandardClock : IMasterClock
     {
-        [JsonProperty("blocktemplate_blob")]
-        public string Blob { get; set; }
-
-        public long Difficulty { get; set; }
-
-        public uint Height { get; set; }
-
-        [JsonProperty("prev_hash")]
-        public string PreviousBlockhash { get; set; }
-
-        [JsonProperty("reserved_offset")]
-        public uint ReservedOffset { get; set; }
-
-        public string Status { get; set; }
+        public DateTime Now => DateTime.UtcNow;
     }
 }

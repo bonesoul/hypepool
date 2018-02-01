@@ -35,12 +35,7 @@ namespace Hypepool.Common.Pools
         /// <summary>
         /// Mining daemon client.
         /// </summary>
-        IDaemonClient MiningDaemon { get; }
-
-        /// <summary>
-        /// Wallet daemon client.
-        /// </summary>
-        IDaemonClient WalletDaemon { get; }
+        IDaemonClient Daemon { get; }
 
         /// <summary>
         /// Job manager.
@@ -52,13 +47,14 @@ namespace Hypepool.Common.Pools
         /// </summary>
         IStratumServer StratumServer { get; }
 
+        string PoolAddress { get; }
+
         /// <summary>
         /// Configures the context instance.
         /// </summary>
-        /// <param name="miningDaemon"></param>
-        /// <param name="walletDaemon"></param>
+        /// <param name="daemon"></param>
         /// <param name="jobManager"></param>
         /// <param name="stratumServer"></param>
-        void Configure(IDaemonClient miningDaemon, IDaemonClient walletDaemon, IJobManager jobManager, IStratumServer stratumServer);
+        void Configure(IDaemonClient daemon, IJobManager jobManager, IStratumServer stratumServer);
     }
 }

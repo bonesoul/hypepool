@@ -23,12 +23,48 @@
 //      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //      SOFTWARE.
 #endregion
-using System;
 
-namespace Hypepool.Common.Utils.Time
+using System.Reflection;
+using FluentAssertions;
+using Hypepool.Common.Mining.Jobs;
+using Xunit;
+
+namespace Hypepool.Common.Tests.Mining.Jobs
 {
-    public class StandardClock : IMasterClock
+    public class JobCounterTests
     {
-        public DateTime Now => DateTime.UtcNow;
+        private readonly JobCounter _jobCounter;
+        public JobCounterTests()
+        {
+            _jobCounter = new JobCounter();
+        }
+
+        /// <summary>
+        /// Verifies GetNext().
+        /// </summary>
+        [Fact]
+        public void ShouldBeIncremented()
+        {
+            _jobCounter.GetNext().ShouldBeEquivalentTo(1);
+            _jobCounter.GetNext().ShouldBeEquivalentTo(2);
+        }
+
+        [Fact]
+        public void ShouldResetBackAfterMaxValue()
+        {
+            // get access for private _last field.
+            var last = _jobCounter.GetType().GetField("_last",
+                BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance);
+
+            // set it to int.MaxValue - 1
+            last.SetValue(_jobCounter, int.MaxValue - 1);
+            last.GetValue(_jobCounter).ShouldBeEquivalentTo(int.MaxValue - 1);
+
+            // GetNext() and should be int.MaxValue now.
+            _jobCounter.GetNext().ShouldBeEquivalentTo(int.MaxValue);
+
+            // another GetNext() and should reset back to 1 now.
+            _jobCounter.GetNext().ShouldBeEquivalentTo(1);
+        }
     }
 }

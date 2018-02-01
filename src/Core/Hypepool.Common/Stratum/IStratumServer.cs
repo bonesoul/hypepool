@@ -23,6 +23,8 @@
 //      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //      SOFTWARE.
 #endregion
+
+using System;
 using System.Collections.Generic;
 using Hypepool.Common.Pools;
 using NetUV.Core.Handles;
@@ -40,5 +42,7 @@ namespace Hypepool.Common.Stratum
         void Stop();
 
         void DisconnectClient(IStratumClient client);
+
+        void ForEachClient(Action<IStratumClient> action);
     }
 }

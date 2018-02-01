@@ -24,9 +24,21 @@
 //      SOFTWARE.
 #endregion
 
+using Hypepool.Common.Mining.Jobs;
+using Hypepool.Monero.Daemon.Responses;
+
 namespace Hypepool.Monero
 {
-    public class MoneroJob
+    public class MoneroJob : IJob
     {
+        public int Id { get; }
+
+        public GetBlockTemplateResponse BlockTemplate { get; }
+
+        public MoneroJob(GetBlockTemplateResponse blockTemplate, byte[] instanceId, int id)
+        {
+            BlockTemplate = blockTemplate;
+            Id = id;
+        }
     }
 }

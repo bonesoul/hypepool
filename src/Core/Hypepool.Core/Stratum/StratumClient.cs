@@ -35,7 +35,7 @@ using Hypepool.Common.JsonRpc;
 using Hypepool.Common.Mining.Context;
 using Hypepool.Common.Stratum;
 using Hypepool.Common.Utils.Buffers;
-using Hypepool.Common.Utils.Time;
+using Hypepool.Common.Utils.Helpers.Time;
 using Hypepool.Core.Utils.Buffers;
 using Hypepool.Core.Utils.Extensions;
 using NetUV.Core.Handles;
@@ -74,7 +74,7 @@ namespace Hypepool.Core.Stratum
 
         public StratumClient()
         {
-            _logger = Log.ForContext<StratumClient>().ForContext("Pool", "pool-name");
+            _logger = Log.ForContext<StratumClient>().ForContext("Pool", "XMR");            
             _pooledLineBuffer = new PooledLineBuffer(MaxInboundRequestLength);
         }
 

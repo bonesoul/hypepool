@@ -1,9 +1,9 @@
-#region license
+﻿#region license
 // 
 //      hypepool
 //      https://github.com/bonesoul/hypepool
 // 
-//      Copyright (c) 2013 - 2018 H�seyin Uslu
+//      Copyright (c) 2013 - 2018 Hüseyin Uslu
 // 
 //      Permission is hereby granted, free of charge, to any person obtaining a copy
 //      of this software and associated documentation files (the "Software"), to deal
@@ -24,19 +24,28 @@
 //      SOFTWARE.
 #endregion
 
-using Hypepool.Core.Internals.Bootstrap;
-using Xunit;
+using Hypepool.Common.Daemon;
+using Hypepool.Common.Mining.Jobs;
+using Hypepool.Common.Pools;
+using Hypepool.Common.Stratum;
 
-namespace Hypepool.Tests.Core.Internals
+namespace Hypepool.Monero
 {
-    public class ContainerTest
+    public class MoneroPoolContext : PoolContext
     {
-        [Fact]
-        public void VerifyContainer()
+        /// <summary>
+        /// Wallet daemon client.
+        /// </summary>
+        public IDaemonClient WalletDaemon { get; private set; }
+
+        public override string CoinSymbol => "XMR";
+
+        public override string PoolAddress => "A1fZZpe64V6R4z2jzkN6zm9YEYsGhNC3uTyDyGr1Ettp2o32HNAwFhKXifcwuDcqNMQrkvm3JWXThh79KeUXhHZzA5MASZE";
+
+        public void Configure(IDaemonClient daemon, IDaemonClient walletDaemon, IJobManager jobManager, IStratumServer stratumServer)
         {
-            var bootstrapper = new Bootstrapper(); // IoC kernel bootstrapper.
-            //Action act = () => bootstrapper.Container.Verify(); // verify the container.
-            //act.ShouldNotThrow();
+            WalletDaemon = walletDaemon;
+            base.Configure(daemon, jobManager, stratumServer);
         }
     }
 }

@@ -27,6 +27,8 @@
 using System;
 using System.Net;
 using System.Reactive;
+using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using Hypepool.Common.Coins;
 using Hypepool.Common.Daemon;
@@ -36,7 +38,7 @@ using Hypepool.Common.Mining.Context;
 using Hypepool.Common.Native;
 using Hypepool.Common.Pools;
 using Hypepool.Common.Stratum;
-using Hypepool.Common.Utils.Time;
+using Hypepool.Common.Utils.Helpers.Time;
 using Hypepool.Monero.Daemon.Requests;
 using Hypepool.Monero.Daemon.Responses;
 using Hypepool.Monero.Stratum;
@@ -49,13 +51,12 @@ namespace Hypepool.Monero
 {
     public class MoneroPool : PoolBase<MoneroShare>
     {
-        private string _poolAddress = "A1fZZpe64V6R4z2jzkN6zm9YEYsGhNC3uTyDyGr1Ettp2o32HNAwFhKXifcwuDcqNMQrkvm3JWXThh79KeUXhHZzA5MASZE";
-        private uint _poolAddressBase58Prefix;
+        private ulong _poolAddressBase58Prefix;
 
-        public MoneroPool(IPoolContext poolContext, IServerFactory serverFactory)
-            : base(poolContext, serverFactory)
+        public MoneroPool(IServerFactory serverFactory)
+            : base(serverFactory)
         {
-            _logger = Log.ForContext<MoneroPool>();
+            _logger = Log.ForContext<MoneroPool>().ForContext("Pool", "XMR");
         }
 
         public override async Task Initialize()
@@ -64,18 +65,20 @@ namespace Hypepool.Monero
 
             try
             {
+                PoolContext = new MoneroPoolContext();
+
                 var miningDaemon = new DaemonClient("127.0.0.1", 28081, "user", "pass", MoneroConstants.DaemonRpcLocation);
                 var wallDaemon = new DaemonClient("127.0.0.1", 28085, "user", "pass", MoneroConstants.DaemonRpcLocation);
                 var jobManager = new MoneroJobManager();
                 var stratumServer = ServerFactory.GetStratumServer();
 
-                PoolContext.Configure(miningDaemon, wallDaemon, jobManager, stratumServer); // configure the pool context.
+                ((MoneroPoolContext)PoolContext).Configure(miningDaemon, wallDaemon, jobManager, stratumServer); // configure the pool context.
                 PoolContext.JobManager.Configure(PoolContext);
 
                 await RunPreInitChecksAsync(); // any pre-init checks.
 
-                PoolContext.MiningDaemon.Initialize(); // initialize mining daemon.
-                PoolContext.WalletDaemon.Initialize(); // initialize wallet daemon.
+                PoolContext.Daemon.Initialize(); // initialize mining daemon.
+                ((MoneroPoolContext)PoolContext).WalletDaemon.Initialize(); // initialize wallet daemon.
                 await WaitDaemonConnection(); // wait for coin daemon connection.
                 await EnsureDaemonSynchedAsync(); // ensure the coin daemon is synced to network.
 
@@ -91,7 +94,11 @@ namespace Hypepool.Monero
         {
             try
             {
-                PoolContext.JobManager.Start();
+                await PoolContext.JobManager.Start();
+
+                ((MoneroJobManager)PoolContext.JobManager).JobQueue.Subscribe(x => BroadcastJob((MoneroJob)x));
+                await ((MoneroJobManager)PoolContext.JobManager).JobQueue.Take(1).ToTask(); // wait for the first blocktemplate.
+
                 PoolContext.StratumServer.Start(this);
             }
             catch (Exception ex)
@@ -100,22 +107,40 @@ namespace Hypepool.Monero
             }
         }
 
+        private void BroadcastJob(MoneroJob job)
+        {
+            _logger.Information($"Broadcasting new job 0x{job.Id:x8}..");
+
+            PoolContext.StratumServer.ForEachClient(client =>
+            {
+                var context = client.GetContextAs<MoneroWorkerContext>(); // get client context.
+                if (!context.IsAuthorized || !context.IsSubscribed) // if client is not authorized or subscribed yet,
+                    return; // skip him.
+
+                // todo: add check for if client is alive - and we should move this out from broadcast logic?
+
+                // todo: send job.
+            });
+        }
+
         protected override async Task RunPreInitChecksAsync()
         {
             // decode configured pool address.
-            _poolAddressBase58Prefix = LibCryptonote.DecodeAddress(_poolAddress);
+            _poolAddressBase58Prefix = LibCryptonote.DecodeAddress(PoolContext.PoolAddress);
             if (_poolAddressBase58Prefix == 0)
                 throw new PoolStartupAbortedException("unable to decode configured pool address!");
         }
 
         protected override async Task RunPostInitChecksAsync()
         {
-            var infoResponse = await PoolContext.MiningDaemon.ExecuteCommandAsync(MoneroRpcCommands.GetInfo);
-            var addressResponse = await PoolContext.WalletDaemon.ExecuteCommandAsync<GetAddressResponse>(MoneroWalletCommands.GetAddress);
+            var infoResponse = await PoolContext.Daemon.ExecuteCommandAsync(MoneroRpcCommands.GetInfo);
+            var addressResponse = await ((MoneroPoolContext)PoolContext).WalletDaemon.ExecuteCommandAsync<GetAddressResponse>(MoneroWalletCommands.GetAddress);
 
             // ensure pool owns wallet
-            if (addressResponse.Response?.Address != _poolAddress)
+            if (addressResponse.Response?.Address != PoolContext.PoolAddress)
                 throw new PoolStartupAbortedException("pool wallet does not own the configured pool address!");
+
+            // todo: add pool address verification.
         }
 
         public async Task WaitDaemonConnection()
@@ -139,7 +164,7 @@ namespace Hypepool.Monero
 
         protected override async Task<bool> IsDaemonConnectionHealthyAsync()
         {
-            var response = await PoolContext.MiningDaemon.ExecuteCommandAsync<GetInfoResponse>(MoneroRpcCommands.GetInfo); // getinfo.
+            var response = await PoolContext.Daemon.ExecuteCommandAsync<GetInfoResponse>(MoneroRpcCommands.GetInfo); // getinfo.
 
             // check if we are free of any errors.
             if (response.Error == null) // if so we,
@@ -161,7 +186,7 @@ namespace Hypepool.Monero
 
         protected override async Task<bool> IsDaemonConnectedToNetworkAsync()
         {
-            var response = await PoolContext.MiningDaemon.ExecuteCommandAsync<GetInfoResponse>(MoneroRpcCommands.GetInfo); // getinfo.
+            var response = await PoolContext.Daemon.ExecuteCommandAsync<GetInfoResponse>(MoneroRpcCommands.GetInfo); // getinfo.
 
             return response.Error == null && response.Response != null && // check if coin daemon have any incoming + outgoing connections.
                    (response.Response.OutgoingConnectionsCount + response.Response.IncomingConnectionsCount) > 0;
@@ -171,20 +196,20 @@ namespace Hypepool.Monero
         {
             var request = new GetBlockTemplateRequest
             {
-                WalletAddress = _poolAddress,
+                WalletAddress = PoolContext.PoolAddress,
                 ReserveSize = MoneroConstants.ReserveSize
             };
 
             while (true) // loop until sync is complete.
             {
-                var blockTemplateResponse = await PoolContext.MiningDaemon.ExecuteCommandAsync<GetBlockTemplateResponse>(MoneroRpcCommands.GetBlockTemplate, request);
+                var blockTemplateResponse = await PoolContext.Daemon.ExecuteCommandAsync<GetBlockTemplateResponse>(MoneroRpcCommands.GetBlockTemplate, request);
 
                 var isSynched = blockTemplateResponse.Error == null || blockTemplateResponse.Error.Code != -9; // is daemon synced to network?
 
                 if (isSynched) // break out of the loop once synched.
                     break;
 
-                var infoResponse = await PoolContext.MiningDaemon.ExecuteCommandAsync<GetInfoResponse>(MoneroRpcCommands.GetInfo); // getinfo.
+                var infoResponse = await PoolContext.Daemon.ExecuteCommandAsync<GetInfoResponse>(MoneroRpcCommands.GetInfo); // getinfo.
                 var currentHeight = infoResponse.Response.Height;
                 var totalBlocks = infoResponse.Response.TargetHeight;
                 var percent = (double) currentHeight / totalBlocks * 100;

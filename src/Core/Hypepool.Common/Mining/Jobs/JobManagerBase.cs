@@ -24,19 +24,37 @@
 //      SOFTWARE.
 #endregion
 
+using System;
+using System.Threading.Tasks;
 using Hypepool.Common.Pools;
+using Serilog;
 
 namespace Hypepool.Common.Mining.Jobs
 {
-    public abstract class JobManagerBase<TJob> : IJobManager
+    public abstract class JobManagerBase<TJob> : IJobManager where TJob : IJob
     {
         protected IPoolContext PoolContext { get; private set; }
+
+        public TJob CurrentJob { get; protected set; }
+
+        public IObservable<TJob> JobQueue { get; protected set; }
+
+        /// <summary>
+        /// Starts the job manager.
+        /// </summary>
+        public abstract Task Start();
+
+        /// <summary>
+        /// Queries the network and updates the job if needed.
+        /// </summary>
+        /// <returns></returns>
+        protected abstract Task<TJob> UpdateJob();
+
+        protected ILogger _logger;
 
         public void Configure(IPoolContext poolContext)
         {
             PoolContext = poolContext;
         }
-
-        public abstract void Start();
     }
 }

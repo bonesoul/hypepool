@@ -25,10 +25,10 @@
 #endregion
 using System;
 using System.Buffers;
-using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 using System.Text;
 using Hypepool.Common.Utils.Buffers;
+using Hypepool.Common.Utils.Helpers;
 
 namespace Hypepool.Common.Native
 {
@@ -38,7 +38,10 @@ namespace Hypepool.Common.Native
         private static extern bool convert_blob(byte* input, int inputSize, byte* output, ref int outputSize);
 
         [DllImport("libcryptonote", EntryPoint = "decode_address_export", CallingConvention = CallingConvention.Cdecl)]
-        private static extern uint decode_address(byte* input, int inputSize);
+        private static extern UInt64 decode_address(byte* input, int inputSize);
+
+        [DllImport("libcryptonote", EntryPoint = "decode_integrated_address_export", CallingConvention = CallingConvention.Cdecl)]
+        private static extern UInt64 decode_integrated_address(byte* input, int inputSize);
 
         [DllImport("libcryptonote", EntryPoint = "cn_slow_hash_export", CallingConvention = CallingConvention.Cdecl)]
         private static extern int cn_slow_hash(byte* input, byte* output, uint inputLength);
@@ -51,7 +54,8 @@ namespace Hypepool.Common.Native
 
         public static byte[] ConvertBlob(byte[] data, int size)
         {
-            Contract.Requires<ArgumentException>(data.Length > 0, $"{nameof(data)} must not be empty");
+            Enforce.ArgumentNotNull(() => data);
+            Enforce.ArgumentIsValid(data, $"{nameof(data)} must not be empty", (x) => x.Length > 0);
 
             fixed (byte* input = data)
             {
@@ -101,8 +105,10 @@ namespace Hypepool.Common.Native
             }
         }
 
-        public static uint DecodeAddress(string address)
+        public static UInt64 DecodeAddress(string address)
         {
+            Enforce.ArgumentNotNull(() => address);
+            Enforce.ArgumentIsValid(address, $"{nameof(address)} must not be empty", (x) => !string.IsNullOrEmpty(address));
 
             var data = Encoding.UTF8.GetBytes(address);
 
@@ -112,8 +118,21 @@ namespace Hypepool.Common.Native
             }
         }
 
+        public static UInt64 DecodeIntegratedAddress(string address)
+        {
+            Enforce.ArgumentIsValid(address, $"{nameof(address)} must not be empty", (x) => !string.IsNullOrEmpty(address));
+
+            var data = Encoding.UTF8.GetBytes(address);
+
+            fixed (byte* input = data)
+            {
+                return decode_integrated_address(input, data.Length);
+            }
+        }
+
         public static PooledArraySegment<byte> CryptonightHashSlow(byte[] data)
         {
+            Enforce.ArgumentNotNull(() => data);
 
             var result = new PooledArraySegment<byte>(32);
 
@@ -130,6 +149,7 @@ namespace Hypepool.Common.Native
 
         public static PooledArraySegment<byte> CryptonightHashSlowLite(byte[] data)
         {
+            Enforce.ArgumentNotNull(() => data);
 
             var result = new PooledArraySegment<byte>(32);
 
@@ -146,6 +166,7 @@ namespace Hypepool.Common.Native
 
         public static PooledArraySegment<byte> CryptonightHashFast(byte[] data)
         {
+            Enforce.ArgumentNotNull(() => data);
 
             var result = new PooledArraySegment<byte>(32);
 

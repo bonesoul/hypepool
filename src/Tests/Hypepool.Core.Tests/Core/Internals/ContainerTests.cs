@@ -1,9 +1,9 @@
-﻿#region license
+#region license
 // 
 //      hypepool
 //      https://github.com/bonesoul/hypepool
 // 
-//      Copyright (c) 2013 - 2018 Hüseyin Uslu
+//      Copyright (c) 2013 - 2018 H�seyin Uslu
 // 
 //      Permission is hereby granted, free of charge, to any person obtaining a copy
 //      of this software and associated documentation files (the "Software"), to deal
@@ -24,25 +24,20 @@
 //      SOFTWARE.
 #endregion
 
-using Newtonsoft.Json;
+using System;
+using FluentAssertions;
+using Hypepool.Core.Internals.Bootstrap;
+using Xunit;
 
-namespace Hypepool.Monero.Daemon.Responses
+namespace Hypepool.Core.Tests.Core.Internals
 {
-    public class GetBlockTemplateResponse
+    public class ContainerTests
     {
-        [JsonProperty("blocktemplate_blob")]
-        public string Blob { get; set; }
-
-        public long Difficulty { get; set; }
-
-        public uint Height { get; set; }
-
-        [JsonProperty("prev_hash")]
-        public string PreviousBlockhash { get; set; }
-
-        [JsonProperty("reserved_offset")]
-        public uint ReservedOffset { get; set; }
-
-        public string Status { get; set; }
+        [Fact]
+        public void VerifyContainer()
+        {
+            Action act = () => new Bootstrapper(); // verify the container.
+            act.ShouldNotThrow();
+        }
     }
 }

@@ -23,12 +23,33 @@
 //      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //      SOFTWARE.
 #endregion
-using System;
 
-namespace Hypepool.Common.Utils.Time
+using System.Threading;
+
+namespace Hypepool.Common.Mining.Jobs
 {
-    public interface IMasterClock
+    /// <summary>
+    /// Job id counter.
+    /// </summary>
+    public class JobCounter
     {
-        DateTime Now { get; }
+        private int _last;
+
+        public JobCounter()
+        {
+            _last = 0;
+        }
+
+        /// <summary>
+        /// Returns a new job id.
+        /// </summary>
+        /// <returns></returns>
+        public int GetNext()
+        {
+            Interlocked.CompareExchange(ref _last, 0, int.MaxValue); // if we reached maxed value, reset to 1.
+            Interlocked.Increment(ref _last); // atomic increase _last.
+
+            return _last;
+        }
     }
 }

@@ -73,27 +73,11 @@ namespace Hypepool.Monero
                     {
                         if (job != null)
                             _logger.Information($"Created a new job as a new block {CurrentJob.BlockTemplate.Height} emerged in network..");
-                        //else 
-                            //_logger.Verbose("Queried network for a new job, but found none..");
+                        //else _logger.Verbose("Queried network for a new job, but found none..");
                     })
                     .Where(x => x != null) // filter out entries without an actual new job.
                     .Publish() // publish.
                     .RefCount(); // run the observer as long as we have a valid listener.
-
-            //JobQueue = Observable.Interval(TimeSpan.FromMilliseconds(500))
-            //    .Select(_ => Observable.FromAsync(UpdateJob))                
-            //    .Concat()
-            //    .Do(gotNewJob =>
-            //    {
-            //        if (gotNewJob)
-            //            _logger.Information($"Created a new job as a new block {CurrentJob.BlockTemplate.Height} emerged in network..");
-            //        //else 
-            //            //_logger.Verbose("Queried network for a new job, but found none..");
-            //    })
-            //    .Where(gotNewJob => gotNewJob == true) // only accept new jobs.
-            //    .Select(_ => new Unit())
-            //    .Publish()
-            //    .RefCount();
         }
 
         protected override async Task<MoneroJob> UpdateJob()

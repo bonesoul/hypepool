@@ -36,7 +36,7 @@ namespace Hypepool.Core.Tests.Core.Internals
         [Fact]
         public void VerifyContainer()
         {
-            Action act = () => new Bootstrapper(); ; // verify the container.
+            Action act = () => new Bootstrapper(); // verify the container.
             act.ShouldNotThrow();
         }
     }

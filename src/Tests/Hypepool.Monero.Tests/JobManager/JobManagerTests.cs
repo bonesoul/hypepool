@@ -52,11 +52,18 @@ namespace Hypepool.Monero.Tests.JobManager
             // mock objects.
             _daemon = Substitute.For<IDaemonClient>();
 
+            // create objects to be used.
             _jobManager = new MoneroJobManager();
             _poolContext = new MoneroPoolContext();
 
+            Setup();
+        }
+
+        private async void Setup()
+        {
             _poolContext.Configure(_daemon, _daemon, _jobManager, null);
             _jobManager.Configure(_poolContext);
+            await _poolContext.JobManager.Start(); // start the job manager.
         }
 
         [Fact]
@@ -74,9 +81,7 @@ namespace Hypepool.Monero.Tests.JobManager
                     return response;
                 });
 
-            await _poolContext.JobManager.Start(); // start the job manager.
-
-            // check first response.
+            // check first job.
             await _jobManager.JobQueue.Take(1).Do(job =>
             {
                 job.BlockTemplate.Blob.ShouldBeEquivalentTo("07079ccdc1d3053b4aff4fdac0424b58a69234796f1e572eea2650cb4a6c19aa03c17308d73d5b0000000002e3b64201ffa7b64201b3be90f18de9010258f3cdf062d631c578597ad4aa00bb6e99bbbdc816fa295286ea956c2d15e1cf2b0109d8ec8c47fb41668d69ef2ce3764a906285bbab66a127247f627b939380ddc7020800000000000000000000");
@@ -87,7 +92,7 @@ namespace Hypepool.Monero.Tests.JobManager
                 job.BlockTemplate.Status.ShouldBeEquivalentTo("OK");
             });
 
-            // check the second response
+            // check the second job
             await _jobManager.JobQueue.Take(1).Do(job =>
             {
                 job.BlockTemplate.Blob.ShouldBeEquivalentTo("0707b0cfc1d305a6a0d38480cde292cbcd372835fb8d57ff8285b5334c724f610599d379c5499d0000000002e4b64201ffa8b64201ee86ece98de90102d287d0af34a8c9dc624cf4a7495f673782d9a323b1d22dec71b069af84c072672b013b54f7d869b695fd5e5fa05ddf49e971f511440b86ff42ce836283d207777442020800000000000000000000");
@@ -102,23 +107,23 @@ namespace Hypepool.Monero.Tests.JobManager
         [Fact]
         public async void ShouldNotGetANewJobOnSameBlockTemplate()
         {
-            //_daemon.ExecuteCommandAsync<GetBlockTemplateResponse>(MoneroRpcCommands.GetBlockTemplate,Arg.Any<GetBlockTemplateRequest>())
-            //    .Returns(JobManagerTestsContants.DaemonResponse1088295);                       
+            _daemon.ExecuteCommandAsync<GetBlockTemplateResponse>(MoneroRpcCommands.GetBlockTemplate, Arg.Any<GetBlockTemplateRequest>())
+                .Returns(JobManagerTestsContants.DaemonResponse1088295);
 
+            // check first response.
+            await _jobManager.JobQueue.Take(1).Do(job =>
+            {
+                job.BlockTemplate.Blob.ShouldBeEquivalentTo("07079ccdc1d3053b4aff4fdac0424b58a69234796f1e572eea2650cb4a6c19aa03c17308d73d5b0000000002e3b64201ffa7b64201b3be90f18de9010258f3cdf062d631c578597ad4aa00bb6e99bbbdc816fa295286ea956c2d15e1cf2b0109d8ec8c47fb41668d69ef2ce3764a906285bbab66a127247f627b939380ddc7020800000000000000000000");
+                job.BlockTemplate.Difficulty.ShouldBeEquivalentTo(23096);
+                job.BlockTemplate.Height.ShouldBeEquivalentTo(1088295);
+                job.BlockTemplate.PreviousBlockhash.ShouldBeEquivalentTo("3b4aff4fdac0424b58a69234796f1e572eea2650cb4a6c19aa03c17308d73d5b");
+                job.BlockTemplate.ReservedOffset.ShouldBeEquivalentTo(129);
+                job.BlockTemplate.Status.ShouldBeEquivalentTo("OK");
+            });
 
-            //// check first response.
-            //var firstResponse = (MoneroJob)await _jobManager.Start();
-            //firstResponse.ShouldBeEquivalentTo(_jobManager.CurrentJob);
-            //firstResponse.BlockTemplate.Blob.ShouldBeEquivalentTo("07079ccdc1d3053b4aff4fdac0424b58a69234796f1e572eea2650cb4a6c19aa03c17308d73d5b0000000002e3b64201ffa7b64201b3be90f18de9010258f3cdf062d631c578597ad4aa00bb6e99bbbdc816fa295286ea956c2d15e1cf2b0109d8ec8c47fb41668d69ef2ce3764a906285bbab66a127247f627b939380ddc7020800000000000000000000");
-            //firstResponse.BlockTemplate.Difficulty.ShouldBeEquivalentTo(23096);
-            //firstResponse.BlockTemplate.Height.ShouldBeEquivalentTo(1088295);
-            //firstResponse.BlockTemplate.PreviousBlockhash.ShouldBeEquivalentTo("3b4aff4fdac0424b58a69234796f1e572eea2650cb4a6c19aa03c17308d73d5b");
-            //firstResponse.BlockTemplate.ReservedOffset.ShouldBeEquivalentTo(129);
-            //firstResponse.BlockTemplate.Status.ShouldBeEquivalentTo("OK");
-
-            //// check second response.
-            //var secondResponse = (MoneroJob)await _jobManager.Start();
-            //secondResponse.Should().BeNull();
+            // we should not even get a second job as daemon will just reply with same blocktemplates.            
+            Func<Task> call = async () => { await _jobManager.JobQueue.Take(1).Timeout(TimeSpan.FromMilliseconds(1000)); };
+            call.ShouldThrow<TimeoutException>(); // as we won't get a new job, the call should timeout with an expection..
         }
     }
 

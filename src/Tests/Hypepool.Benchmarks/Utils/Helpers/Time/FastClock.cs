@@ -32,7 +32,7 @@ using Hypepool.Common.Utils.Helpers.Time;
 
 namespace Hypepool.Benchmarks.Utils.Helpers.Time
 {
-    [ShortRunJob, RPlotExporter]
+    [ShortRunJob, CsvMeasurementsExporter, RPlotExporter]
     public class Fastclock
     {
         public Fastclock()

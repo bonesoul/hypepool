@@ -96,8 +96,8 @@ namespace Hypepool.Monero
             {
                 await PoolContext.JobManager.Start();
 
-                PoolContext.JobManager.JobQueue.Subscribe(x => BroadcastJob(x));
-                await PoolContext.JobManager.JobQueue.Take(1).ToTask(); // wait for the first blocktemplate.
+                ((MoneroJobManager)PoolContext.JobManager).JobQueue.Subscribe(x => BroadcastJob((MoneroJob)x));
+                await ((MoneroJobManager)PoolContext.JobManager).JobQueue.Take(1).ToTask(); // wait for the first blocktemplate.
 
                 PoolContext.StratumServer.Start(this);
             }
@@ -107,9 +107,8 @@ namespace Hypepool.Monero
             }
         }
 
-        private void BroadcastJob(object test)
+        private void BroadcastJob(MoneroJob job)
         {
-            var job = ((MoneroJobManager) PoolContext.JobManager).CurrentJob;
             _logger.Information($"Broadcasting new job 0x{job.Id:x8}..");
 
             PoolContext.StratumServer.ForEachClient(client =>

@@ -66,24 +66,37 @@ namespace Hypepool.Monero
         {
             // periodically update jobs by querying blocktemplate from daemon.
 
-            // todo: replace this with polly.
-            JobQueue = Observable.Interval(TimeSpan.FromMilliseconds(500))
-                .Select(_ => Observable.FromAsync(UpdateJob))                
-                .Concat()
-                .Do(gotNewJob =>
-                {
-                    if (gotNewJob)
-                        _logger.Information($"Created a new job as a new block {CurrentJob.BlockTemplate.Height} emerged in network..");
-                    //else 
-                        //_logger.Verbose("Queried network for a new job, but found none..");
-                })
-                .Where(gotNewJob => gotNewJob == true) // only accept new jobs.
-                .Select(_ => new Unit())
-                .Publish()
-                .RefCount();
+            JobQueue = Observable.Interval(TimeSpan.FromMilliseconds(1000)) // query every 1 second.
+                .Select(_ => Observable.FromAsync(UpdateJob)) // check if we got a new job.
+                    .Concat() // concat inner observables.
+                    .Do(job => // logging.
+                    {
+                        if (job != null)
+                            _logger.Information($"Created a new job as a new block {CurrentJob.BlockTemplate.Height} emerged in network..");
+                        //else 
+                            //_logger.Verbose("Queried network for a new job, but found none..");
+                    })
+                    .Where(x => x != null) // filter out entries without an actual new job.
+                    .Publish() // publish.
+                    .RefCount(); // run the observer as long as we have a valid listener.
+
+            //JobQueue = Observable.Interval(TimeSpan.FromMilliseconds(500))
+            //    .Select(_ => Observable.FromAsync(UpdateJob))                
+            //    .Concat()
+            //    .Do(gotNewJob =>
+            //    {
+            //        if (gotNewJob)
+            //            _logger.Information($"Created a new job as a new block {CurrentJob.BlockTemplate.Height} emerged in network..");
+            //        //else 
+            //            //_logger.Verbose("Queried network for a new job, but found none..");
+            //    })
+            //    .Where(gotNewJob => gotNewJob == true) // only accept new jobs.
+            //    .Select(_ => new Unit())
+            //    .Publish()
+            //    .RefCount();
         }
 
-        protected override async Task<bool> UpdateJob()
+        protected override async Task<MoneroJob> UpdateJob()
         {
             try
             {
@@ -115,14 +128,15 @@ namespace Hypepool.Monero
                     var jobId = _jobCounter.GetNext(); // create a new job id.
                     var job = new MoneroJob(blockTemplate, instanceId, jobId); // cook the job.
                     CurrentJob = job; // set the current job.
+                    return job;
                 }
 
-                return gotNewBlockTemplate;
+                return null;
             }
             catch (Exception e)
             {
                 _logger.Error(e, "Error querying for a new job.");
-                return false;
+                return null;
             }
         }
     }

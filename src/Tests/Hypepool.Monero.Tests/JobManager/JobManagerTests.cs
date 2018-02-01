@@ -75,23 +75,23 @@ namespace Hypepool.Monero.Tests.JobManager
 
             await _poolContext.JobManager.Start(); // start the job manager.
 
-            _poolContext.JobManager.JobQueue
-                .Take(3)
-                .Subscribe(x =>
-                {
-                    Console.WriteLine(x);
-                }, () => 
+            //_poolContext.JobManager.JobQueue
+            //    .Take(3)
+            //    .Subscribe(x =>
+            //    {
+            //        Console.WriteLine(x);
+            //    }, () => 
                     
-                    Console.WriteLine("Completed"));
+            //        Console.WriteLine("Completed"));
 
 
-            var test2 = _poolContext.JobManager.JobQueue.Take(2)
-                .Subscribe(x =>
-                {
-                    var b = "b";
-                });
+            //var test2 = _poolContext.JobManager.JobQueue.Take(2)
+            //    .Subscribe(x =>
+            //    {
+            //        var b = "b";
+            //    });
 
-            var a = "b";
+            //var a = "b";
 
 
             //_poolContext.JobManager.JobQueue.Wait(); // wait for rx to process.

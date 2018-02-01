@@ -38,7 +38,7 @@ namespace Hypepool.Common.Mining.Jobs
 
         public TJob CurrentJob { get; protected set; }
 
-        public IObservable<Unit> JobQueue { get; protected set; }
+        public IObservable<TJob> JobQueue { get; protected set; }
 
         /// <summary>
         /// Starts the job manager.
@@ -49,7 +49,7 @@ namespace Hypepool.Common.Mining.Jobs
         /// Queries the network and updates the job if needed.
         /// </summary>
         /// <returns></returns>
-        protected abstract Task<bool> UpdateJob();
+        protected abstract Task<TJob> UpdateJob();
 
         protected ILogger _logger;
 

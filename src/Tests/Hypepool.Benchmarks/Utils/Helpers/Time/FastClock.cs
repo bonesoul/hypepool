@@ -26,20 +26,17 @@
 
 using System;
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Attributes.Columns;
 using BenchmarkDotNet.Attributes.Exporters;
 using BenchmarkDotNet.Attributes.Jobs;
 using Hypepool.Common.Utils.Helpers.Time;
 
 namespace Hypepool.Benchmarks.Utils.Helpers.Time
 {
-    [ShortRunJob]
-    [RPlotExporter, RankColumn]
+    [ShortRunJob, RPlotExporter]
     public class Fastclock
     {
         public Fastclock()
-        {
-        }
+        {}
 
         [Benchmark]
         public DateTime MasterClockNow() => MasterClock.Now;

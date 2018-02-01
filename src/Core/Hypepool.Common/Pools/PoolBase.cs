@@ -105,7 +105,7 @@ namespace Hypepool.Common.Pools
         public void OnConnect(IStratumClient client)
         {
             var context = CreateClientContext(); // create worker context.
-            context.Initialize(7500, new StandardClock());
+            context.Initialize(7500);
             client.SetContext(context);
 
             EnsureNoZombie(client); // make sure client communicates within a set period of time.
@@ -113,15 +113,15 @@ namespace Hypepool.Common.Pools
 
         private void EnsureNoZombie(IStratumClient client)
         {
-            Observable.Timer(new StandardClock().Now.AddSeconds(10))
+            Observable.Timer(MasterClock.Now.AddSeconds(10)) // wait 10 seconds.
                 .Take(1)
                 .Subscribe(_ =>
                 {
-                    if (client.LastReceive.HasValue)
-                        return;
+                    if (client.LastReceive.HasValue) // if the worker has send some data,
+                        return; // skip him.
 
                     _logger.Information($"[{client.ConnectionId}] Booting zombie-worker (post-connect silence)");
-                    PoolContext.StratumServer.DisconnectClient(client);
+                    PoolContext.StratumServer.DisconnectClient(client); // else boot him from our server.
                 });
         }
 

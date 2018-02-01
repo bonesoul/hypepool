@@ -147,7 +147,7 @@ namespace Hypepool.Core.Stratum
 
                 var client = new StratumClient();
 
-                client.Initialize(loop, connection, new StandardClock(), endpoint, connectionId,
+                client.Initialize(loop, connection, endpoint, connectionId,
                     data => OnReceive(client, data),
                     () => OnReceiveComplete(client),
                     ex => OnReceiveError(client, ex));
@@ -186,7 +186,7 @@ namespace Hypepool.Core.Stratum
                         if (request != null)
                         {
                             _logger.Debug($"[{client.ConnectionId}] Dispatching request '{request.Method}' [{request.Id}]");
-                            await _pool.OnRequestAsync(client, new Timestamped<JsonRpcRequest>(request, new StandardClock().Now));
+                            await _pool.OnRequestAsync(client, new Timestamped<JsonRpcRequest>(request, MasterClock.Now));
                         }
                         else
                         {

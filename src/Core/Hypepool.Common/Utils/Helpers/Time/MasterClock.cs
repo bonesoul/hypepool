@@ -28,8 +28,25 @@ using System;
 
 namespace Hypepool.Common.Utils.Helpers.Time
 {
-    public class StandardClock : IMasterClock
+    /// <summary>
+    /// Faster clock implementation.
+    /// </summary>
+    /// <remarks>
+    ///  Uses UtcNow which is lot faster then Now.
+    /// </remarks>
+    /// <see href="https://stackoverflow.com/questions/1561791/optimizing-alternatives-to-datetime-now"/>
+    public static class MasterClock
     {
-        public DateTime Now => DateTime.UtcNow;
+        public static TimeSpan LocalUtcOffset { get; }
+
+        /// <summary>
+        /// Returns now.
+        /// </summary>
+        public static DateTime Now => DateTime.UtcNow + LocalUtcOffset;
+
+        static MasterClock()
+        {
+            LocalUtcOffset = TimeZoneInfo.Local.GetUtcOffset(DateTime.Now);
+        }
     }
 }

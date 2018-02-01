@@ -117,7 +117,7 @@ namespace Hypepool.Monero
                 if (!context.IsAuthorized || !context.IsSubscribed) // if client is not authorized or subscribed yet,
                     return; // skip him.
 
-                // todo: add check for if client is alive - and we should move this out from broadcast logic?
+                // todo: add check for if client is alive - and we should move this out from broadcast logic , to share submission logic maybe?
 
                 // todo: send job.
             });
@@ -244,7 +244,7 @@ namespace Hypepool.Monero
                     await OnSubmitAsync(client, timeStampedRequest);
                     break;
                 case MoneroStratumMethods.KeepAlive:
-                    context.LastActivity = new StandardClock().Now; // recognize activity.
+                    context.LastActivity = MasterClock.Now; // recognize activity.
                     break;
                 default:
                     _logger.Debug($"[{client.ConnectionId}] Unsupported RPC request: {JsonConvert.SerializeObject(request, Globals.JsonSerializerSettings)}");
@@ -314,7 +314,7 @@ namespace Hypepool.Monero
             _logger.Information($"[{client.ConnectionId}] = {loginRequest.Login} = {client.RemoteEndpoint.Address}");
 
             // recognize activity.
-            context.LastActivity = new StandardClock().Now;
+            context.LastActivity = MasterClock.Now;
         }
 
         private void OnGetJob(IStratumClient client, Timestamped<JsonRpcRequest> tsRequest)

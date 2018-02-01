@@ -54,10 +54,10 @@ namespace Hypepool.Common.Mining.Context
         /// </summary>
         public string UserAgent { get; set; }
 
-        public void Initialize(double difficulty, IMasterClock clock)
+        public void Initialize(double difficulty)
         {
             Difficulty = difficulty;
-            LastActivity = clock.Now;
+            LastActivity = MasterClock.Now;
         }
     }
 }

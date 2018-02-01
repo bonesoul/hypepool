@@ -10,6 +10,36 @@
     <Platforms>AnyCPU;x64;x86</Platforms>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <LangVersion>latest</LangVersion>
+    <OutputPath>..\..\..\build\benchmark\x86\Debug\</OutputPath>	
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LangVersion>latest</LangVersion>
+    <OutputPath>..\..\..\build\benchmark\x64\Debug\</OutputPath>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <LangVersion>latest</LangVersion>
+    <OutputPath>..\..\..\build\benchmark\AnyCPU\Debug\</OutputPath>		
+  </PropertyGroup>  
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <LangVersion>latest</LangVersion>  
+    <OutputPath>..\..\..\build\benchmark\x86\Release\</OutputPath>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LangVersion>latest</LangVersion>  
+    <OutputPath>..\..\..\build\benchmark\x64\Release\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <LangVersion>latest</LangVersion>    
+    <OutputPath>..\..\..\build\benchmark\AnyCPU\Release\</OutputPath>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.10.12" />
   </ItemGroup>

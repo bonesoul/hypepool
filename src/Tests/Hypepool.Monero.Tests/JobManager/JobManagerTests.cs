@@ -25,17 +25,12 @@
 #endregion
 
 using System;
-using System.Reactive;
 using System.Reactive.Linq;
-using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Hypepool.Common.Daemon;
-using Hypepool.Common.Mining.Jobs;
-using Hypepool.Common.Pools;
 using Hypepool.Monero.Daemon.Requests;
 using Hypepool.Monero.Daemon.Responses;
-using Microsoft.Reactive.Testing;
 using NSubstitute;
 using Xunit;
 
@@ -122,7 +117,7 @@ namespace Hypepool.Monero.Tests.JobManager
             });
 
             // we should not even get a second job as daemon will just reply with same blocktemplates.            
-            Func<Task> call = async () => { await _jobManager.JobQueue.Take(1).Timeout(TimeSpan.FromMilliseconds(1000)); };
+            Func<Task> call = async () => { await _jobManager.JobQueue.Take(1).Timeout(TimeSpan.FromMilliseconds(100)); };
             call.ShouldThrow<TimeoutException>(); // as we won't get a new job, the call should timeout with an expection..
         }
     }

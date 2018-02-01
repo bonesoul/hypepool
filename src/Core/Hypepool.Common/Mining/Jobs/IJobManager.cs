@@ -24,8 +24,6 @@
 //      SOFTWARE.
 #endregion
 
-using System;
-using System.Reactive;
 using System.Threading.Tasks;
 using Hypepool.Common.Pools;
 

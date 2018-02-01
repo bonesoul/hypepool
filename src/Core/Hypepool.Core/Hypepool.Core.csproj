@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
 	<RuntimeFrameworkVersion>2.0.5</RuntimeFrameworkVersion>	
     <Platforms>x64;x86</Platforms>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>	
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">

@@ -13,4 +13,4 @@ jobs:
       - run: cd src/Tests/Hypepool.Core.Tests/ && dotnet xunit
       - run: cd src/Tests/Hypepool.Common.Tests/ && dotnet xunit
       - run: cd src/Tests/Hypepool.Monero.Tests/ && dotnet xunit
-      - run: cd src/Tests/Hypepool.Benchmarks/ && dotnet build --configuration Release && cd src/Tests/Hypepool.Benchmarks/bin/Release/netcoreapp2.0/ &&  dotnet Hypepool.Benchmarks.dll
+      - run: cd src/Tests/Hypepool.Benchmarks/ && dotnet build --configuration Release && cd bin/Release/netcoreapp2.0/ &&  dotnet Hypepool.Benchmarks.dll

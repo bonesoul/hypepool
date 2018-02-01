@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypepool.Monero.Tests", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypepool.Common.Tests", "src\Tests\Hypepool.Common.Tests\Hypepool.Common.Tests.csproj", "{7100ADD8-2A56-4D1A-A728-74C078215C9C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hypepool.Benchmarks", "src\Tests\Hypepool.Benchmarks\Hypepool.Benchmarks.csproj", "{913164F2-1581-4F46-A66A-4A26F036A03D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +119,18 @@ Global
 		{7100ADD8-2A56-4D1A-A728-74C078215C9C}.Release|x64.Build.0 = Release|x64
 		{7100ADD8-2A56-4D1A-A728-74C078215C9C}.Release|x86.ActiveCfg = Release|x86
 		{7100ADD8-2A56-4D1A-A728-74C078215C9C}.Release|x86.Build.0 = Release|x86
+		{913164F2-1581-4F46-A66A-4A26F036A03D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{913164F2-1581-4F46-A66A-4A26F036A03D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{913164F2-1581-4F46-A66A-4A26F036A03D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{913164F2-1581-4F46-A66A-4A26F036A03D}.Debug|x64.Build.0 = Debug|Any CPU
+		{913164F2-1581-4F46-A66A-4A26F036A03D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{913164F2-1581-4F46-A66A-4A26F036A03D}.Debug|x86.Build.0 = Debug|Any CPU
+		{913164F2-1581-4F46-A66A-4A26F036A03D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{913164F2-1581-4F46-A66A-4A26F036A03D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{913164F2-1581-4F46-A66A-4A26F036A03D}.Release|x64.ActiveCfg = Release|Any CPU
+		{913164F2-1581-4F46-A66A-4A26F036A03D}.Release|x64.Build.0 = Release|Any CPU
+		{913164F2-1581-4F46-A66A-4A26F036A03D}.Release|x86.ActiveCfg = Release|Any CPU
+		{913164F2-1581-4F46-A66A-4A26F036A03D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -129,6 +143,7 @@ Global
 		{482A3CB8-C0CE-4723-8B0C-8CC79787B57C} = {989B0FFD-CDB8-4B37-AB79-8C8B77F18602}
 		{85A95356-ED37-4BB8-8CA2-D4C8CB9FFA1F} = {989B0FFD-CDB8-4B37-AB79-8C8B77F18602}
 		{7100ADD8-2A56-4D1A-A728-74C078215C9C} = {989B0FFD-CDB8-4B37-AB79-8C8B77F18602}
+		{913164F2-1581-4F46-A66A-4A26F036A03D} = {989B0FFD-CDB8-4B37-AB79-8C8B77F18602}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A237468A-5EBB-4D19-9AAD-85A05BCC1402}

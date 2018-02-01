@@ -67,7 +67,8 @@
 - [ ] banning support.
 - [ ] full-stack API.
 - [ ] multiple pools & ports support.
-- [ ] multiple coin daemon connections
+- [ ] multiple coin daemon connections.
+- [ ] performance benchmarks.
 
 ### supported blockchains
 

@@ -78,7 +78,7 @@ namespace Hypepool.Core.Stratum
             _pooledLineBuffer = new PooledLineBuffer(MaxInboundRequestLength);
         }
 
-        public void Initialize(Loop loop, Tcp tcp, IMasterClock clock, IPEndPoint endpointConfig, string connectionId,
+        public void Initialize(Loop loop, Tcp tcp, IPEndPoint endpointConfig, string connectionId,
             Action<PooledArraySegment<byte>> onNext, Action onCompleted, Action<Exception> onError)
         {
             IsAlive = true;
@@ -113,7 +113,7 @@ namespace Hypepool.Core.Stratum
 
             _subscription = Disposable.Create(() => { disposer.Send(); });
 
-            Receive(tcp, clock, onNext, onCompleted, onError); // start recieving.
+            Receive(tcp, onNext, onCompleted, onError); // start recieving.
         }
 
         public void SetContext<T>(T value) where T : WorkerContext
@@ -126,8 +126,7 @@ namespace Hypepool.Core.Stratum
             return (T)_workerContext;
         }
 
-        private void Receive(Tcp tcp, IMasterClock clock,
-            Action<PooledArraySegment<byte>> onNext, Action onCompleted, Action<Exception> onError)
+        private void Receive(Tcp tcp, Action<PooledArraySegment<byte>> onNext, Action onCompleted, Action<Exception> onError)
         {
             tcp.OnRead(
                 (handle, buffer) => // onAccept
@@ -137,7 +136,7 @@ namespace Hypepool.Core.Stratum
                         if (buffer.Count == 0 || !IsAlive)
                             return;
 
-                        LastReceive = clock.Now;
+                        LastReceive = MasterClock.Now;
 
                         _pooledLineBuffer.Receive(buffer, buffer.Count,
                             (src, dst, count) => src.ReadBytes(dst, count),

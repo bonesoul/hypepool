@@ -23,41 +23,30 @@
 //      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //      SOFTWARE.
 #endregion
+
 using System;
-using Hypepool.Common.Utils.Helpers.Time;
 
-namespace Hypepool.Common.Mining.Context
+namespace Hypepool.Common.Utils.Helpers.Time
 {
-    public class WorkerContext
+    /// <summary>
+    /// Faster clock implementation.
+    /// </summary>
+    /// <remarks>
+    ///  Uses UtcNow which is lot faster then Now.
+    /// </remarks>
+    /// <see href="https://stackoverflow.com/questions/1561791/optimizing-alternatives-to-datetime-now"/>
+    public static class MasterClock
     {
-        /// <summary>
-        /// Last activity by worker.
-        /// </summary>
-        public DateTime LastActivity { get; set; }
-
-        public bool IsAuthorized { get; set; } = false;
-
-        public bool IsSubscribed { get; set; } = false;
+        public static TimeSpan LocalUtcOffset { get; }
 
         /// <summary>
-        /// Difficulty assigned to this worker, either static or updated through VarDiffManager
+        /// Returns now.
         /// </summary>
-        public double Difficulty { get; set; }
+        public static DateTime Now => DateTime.UtcNow + LocalUtcOffset;
 
-        /// <summary>
-        /// Previous difficulty assigned to this worker
-        /// </summary>
-        public double? PreviousDifficulty { get; set; }
-
-        /// <summary>
-        /// UserAgent reported by Stratum
-        /// </summary>
-        public string UserAgent { get; set; }
-
-        public void Initialize(double difficulty)
+        static MasterClock()
         {
-            Difficulty = difficulty;
-            LastActivity = MasterClock.Now;
+            LocalUtcOffset = TimeZoneInfo.Local.GetUtcOffset(DateTime.Now);
         }
     }
 }

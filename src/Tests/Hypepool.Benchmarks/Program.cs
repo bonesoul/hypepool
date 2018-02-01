@@ -24,12 +24,16 @@
 //      SOFTWARE.
 #endregion
 
-using System;
+using BenchmarkDotNet.Running;
+using Hypepool.Benchmarks.Utils.Helpers.Time;
 
-namespace Hypepool.Common.Utils.Helpers.Time
+namespace Hypepool.Benchmarks
 {
-    public class StandardClock : IMasterClock
+    class Program
     {
-        public DateTime Now => DateTime.UtcNow;
+        static void Main(string[] args)
+        {
+            var summary = BenchmarkRunner.Run<Fastclock>();
+        }
     }
 }

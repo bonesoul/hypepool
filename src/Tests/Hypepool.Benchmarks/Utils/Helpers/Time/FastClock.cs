@@ -25,11 +25,23 @@
 #endregion
 
 using System;
+using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Attributes.Exporters;
+using BenchmarkDotNet.Attributes.Jobs;
+using Hypepool.Common.Utils.Helpers.Time;
 
-namespace Hypepool.Common.Utils.Helpers.Time
+namespace Hypepool.Benchmarks.Utils.Helpers.Time
 {
-    public interface IMasterClock
+    [ShortRunJob, RPlotExporter]
+    public class Fastclock
     {
-        DateTime Now { get; }
+        public Fastclock()
+        {}
+
+        [Benchmark]
+        public DateTime MasterClockNow() => MasterClock.Now;
+
+        [Benchmark]
+        public DateTime DateTimeNow() => DateTime.Now;
     }
 }

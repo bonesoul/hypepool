@@ -5,5 +5,8 @@ build_script:
 
 test_script:
  - cd src\Tests\Hypepool.Core.Tests\ && dotnet xunit
- - cd ..\..\.. && cd src\Tests\Hypepool.Common.Tests\ && dotnet xunit
- - cd ..\..\.. && cd src\Tests\Hypepool.Monero.Tests\ && dotnet xunit 
+ - cd .. && cd Hypepool.Common.Tests\ && dotnet xunit
+ - cd .. && Hypepool.Monero.Tests\ && dotnet xunit 
+ - cd .. && Hypepool.Benchmarks\ && dotnet build --configuration Release && cd bin/Release/netcoreapp2.0/ &&  dotnet Hypepool.Benchmarks.dll
+ 
+ 

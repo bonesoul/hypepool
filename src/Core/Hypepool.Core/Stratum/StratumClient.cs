@@ -38,7 +38,6 @@ using Hypepool.Common.Utils.Buffers;
 using Hypepool.Common.Utils.Extensions;
 using Hypepool.Common.Utils.Helpers.Time;
 using Hypepool.Core.Utils.Buffers;
-using Hypepool.Core.Utils.Extensions;
 using NetUV.Core.Handles;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;

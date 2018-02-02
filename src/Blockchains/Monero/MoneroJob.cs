@@ -33,7 +33,7 @@ using Hypepool.Common.Utils.Buffers;
 using Hypepool.Common.Utils.Extensions;
 using Hypepool.Monero.Daemon.Responses;
 using Hypepool.Monero.Stratum.Responses;
-using NBitcoin.BouncyCastle.Math;
+using Org.BouncyCastle.Math;
 
 namespace Hypepool.Monero
 {

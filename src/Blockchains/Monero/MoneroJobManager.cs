@@ -29,10 +29,8 @@ using System.Reactive.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Hypepool.Common.Mining.Jobs;
-using Hypepool.Common.Stratum;
 using Hypepool.Monero.Daemon.Requests;
 using Hypepool.Monero.Daemon.Responses;
-using Hypepool.Monero.Stratum.Responses;
 using Serilog;
 
 namespace Hypepool.Monero

@@ -25,9 +25,7 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Text;
 
 namespace Hypepool.Common.Utils.Extensions
 {

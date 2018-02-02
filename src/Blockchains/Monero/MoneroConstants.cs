@@ -26,7 +26,7 @@
 
 using System.Collections.Generic;
 using Hypepool.Common.Coins;
-using NBitcoin.BouncyCastle.Math;
+using Org.BouncyCastle.Math;
 
 namespace Hypepool.Monero
 {

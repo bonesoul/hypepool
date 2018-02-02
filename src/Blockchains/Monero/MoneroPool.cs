@@ -35,6 +35,7 @@ using Hypepool.Common.Daemon;
 using Hypepool.Common.Factories.Server;
 using Hypepool.Common.JsonRpc;
 using Hypepool.Common.Mining.Context;
+using Hypepool.Common.Mining.Jobs;
 using Hypepool.Common.Native;
 using Hypepool.Common.Pools;
 using Hypepool.Common.Stratum;
@@ -117,9 +118,17 @@ namespace Hypepool.Monero
                 if (!context.IsAuthorized || !context.IsSubscribed) // if client is not authorized or subscribed yet,
                     return; // skip him.
 
-                // todo: add check for if client is alive - and we should move this out from broadcast logic , to share submission logic maybe?
+                // check for miner activity timeout.
+                var timeout = 600; // secs. todo: move this to config.
+                var lastActivity = MasterClock.Now - context.LastActivity;
+                if (timeout > 0 && lastActivity.TotalSeconds > timeout) // if the client had no activity for the period. 
+                {
+                    PoolContext.StratumServer.DisconnectClient(client); // kick him out.
+                    return; // skip him for the new job.
+                }
 
-                // todo: send job.
+                var workerJob = ((MoneroJobManager)PoolContext.JobManager).CreateWorkerJob(client);
+                // todo: send it.
             });
         }
 
@@ -300,12 +309,7 @@ namespace Hypepool.Monero
             var loginResponse = new MoneroLoginResponse
             {
                 Id = client.ConnectionId,
-                Job = new MoneroJobParams()
-                {
-                    Blob = "a",
-                    JobId = "b",
-                    Target = "c"
-                }
+                Job = ((MoneroJobManager)PoolContext.JobManager).CreateWorkerJob(client)
             };
 
             client.Respond(loginResponse, request.Id);

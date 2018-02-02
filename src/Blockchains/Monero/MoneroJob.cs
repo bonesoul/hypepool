@@ -35,10 +35,17 @@ namespace Hypepool.Monero
 
         public GetBlockTemplateResponse BlockTemplate { get; }
 
+        private uint extraNonce = 0;
+
         public MoneroJob(GetBlockTemplateResponse blockTemplate, byte[] instanceId, int id)
         {
             BlockTemplate = blockTemplate;
             Id = id;
+        }
+
+        public void PrepareWorkerJob(MoneroWorkerJob job)
+        {
+
         }
     }
 }

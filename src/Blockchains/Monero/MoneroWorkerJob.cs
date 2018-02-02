@@ -24,24 +24,31 @@
 //      SOFTWARE.
 #endregion
 
-using Newtonsoft.Json;
+using Hypepool.Common.Mining.Jobs;
 
-namespace Hypepool.Monero.Stratum.Responses
+namespace Hypepool.Monero
 {
-    public class MoneroJobParams
+    public class MoneroWorkerJob : IWorkerJob
     {
-        [JsonProperty("job_id")]
-        public string JobId { get; set; }
+        /// <summary>
+        /// Job id.
+        /// </summary>
+        public int Id { get; }
 
-        public string Blob { get; set; }
+        /// <summary>
+        /// Job difficulty.
+        /// </summary>
+        public double Difficulty { get; }
 
-        public string Target { get; set; }
-    }
+        public uint Height { get; set; }
 
-    public class MoneroLoginResponse : MoneroResponseBase
-    {
-        public string Id { get; set; }
+        public uint ExtraNonce { get; set; }
 
-        public MoneroJobParams Job { get; set; }
+        public MoneroWorkerJob(int jobId, uint height, double difficulty)
+        {
+            Id = jobId;
+            Height = height;
+            Difficulty = difficulty;
+        }
     }
 }

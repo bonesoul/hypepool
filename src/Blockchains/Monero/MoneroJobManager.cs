@@ -29,8 +29,10 @@ using System.Reactive.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Hypepool.Common.Mining.Jobs;
+using Hypepool.Common.Stratum;
 using Hypepool.Monero.Daemon.Requests;
 using Hypepool.Monero.Daemon.Responses;
+using Hypepool.Monero.Stratum.Responses;
 using Serilog;
 
 namespace Hypepool.Monero
@@ -39,12 +41,14 @@ namespace Hypepool.Monero
     {        
         private readonly byte[] instanceId;
         private readonly JobCounter _jobCounter;
+        private readonly JobCounter _workerJobCounter;
 
         public MoneroJobManager()
         {
             _logger = Log.ForContext<MoneroJobManager>().ForContext("Pool", "XMR");
 
             _jobCounter = new JobCounter();
+            _workerJobCounter = new JobCounter();
 
             using (var rng = RandomNumberGenerator.Create())
             {
@@ -120,6 +124,16 @@ namespace Hypepool.Monero
                 _logger.Error(e, "Error querying for a new job.");
                 return null;
             }
+        }
+
+        public MoneroJobParams CreateWorkerJob(IStratumClient client)
+        {
+            var context = client.GetContextAs<MoneroWorkerContext>();
+            var workerJob = new MoneroWorkerJob(_workerJobCounter.GetNext(), CurrentJob.BlockTemplate.Height, context.Difficulty);
+            CurrentJob.PrepareWorkerJob(workerJob);
+            
+
+            return null;
         }
     }
 }

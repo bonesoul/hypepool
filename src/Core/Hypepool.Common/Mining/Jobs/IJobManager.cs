@@ -26,6 +26,7 @@
 
 using System.Threading.Tasks;
 using Hypepool.Common.Pools;
+using Hypepool.Common.Stratum;
 
 namespace Hypepool.Common.Mining.Jobs
 {

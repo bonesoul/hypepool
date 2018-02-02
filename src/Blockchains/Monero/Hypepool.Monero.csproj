@@ -25,6 +25,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="NBitcoin" Version="4.0.0.54" />
     <PackageReference Include="Serilog" Version="2.6.0" />
     <PackageReference Include="xunit.analyzers" Version="0.8.0" />
   </ItemGroup>

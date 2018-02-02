@@ -41,14 +41,12 @@ namespace Hypepool.Monero
     {        
         private readonly byte[] instanceId;
         private readonly JobCounter _jobCounter;
-        private readonly JobCounter _workerJobCounter;
 
         public MoneroJobManager()
         {
             _logger = Log.ForContext<MoneroJobManager>().ForContext("Pool", "XMR");
 
             _jobCounter = new JobCounter();
-            _workerJobCounter = new JobCounter();
 
             using (var rng = RandomNumberGenerator.Create())
             {
@@ -112,7 +110,7 @@ namespace Hypepool.Monero
                 if (gotNewBlockTemplate)
                 {
                     var jobId = _jobCounter.GetNext(); // create a new job id.
-                    var job = new MoneroJob(blockTemplate, instanceId, jobId); // cook the job.
+                    var job = new MoneroJob(jobId, blockTemplate, instanceId); // cook the job.
                     CurrentJob = job; // set the current job.
                     return job;
                 }
@@ -124,16 +122,6 @@ namespace Hypepool.Monero
                 _logger.Error(e, "Error querying for a new job.");
                 return null;
             }
-        }
-
-        public MoneroJobParams CreateWorkerJob(IStratumClient client)
-        {
-            var context = client.GetContextAs<MoneroWorkerContext>();
-            var workerJob = new MoneroWorkerJob(_workerJobCounter.GetNext(), CurrentJob.BlockTemplate.Height, context.Difficulty);
-            CurrentJob.PrepareWorkerJob(workerJob);
-            
-
-            return null;
         }
     }
 }

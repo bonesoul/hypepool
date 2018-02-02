@@ -26,6 +26,7 @@
 
 using System.Collections.Generic;
 using Hypepool.Common.Coins;
+using NBitcoin.BouncyCastle.Math;
 
 namespace Hypepool.Monero
 {
@@ -42,6 +43,8 @@ namespace Hypepool.Monero
 
         public const int InstanceIdSize = 3;
         public const int ExtraNonceSize = 4;
+
+        public static readonly BigInteger Diff1 = new BigInteger("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", 16);
 
         // NOTE: for whatever strange reason only reserved_size -1 can be used, the LAST byte MUST be zero or nothing works.
         public const int ReserveSize = ExtraNonceSize + InstanceIdSize + 1;

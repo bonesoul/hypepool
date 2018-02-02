@@ -44,11 +44,12 @@ namespace Hypepool.Monero
 
         public uint ExtraNonce { get; set; }
 
-        public MoneroWorkerJob(int jobId, uint height, double difficulty)
+        public MoneroWorkerJob(int jobId, uint height, double difficulty, uint extraNonce)
         {
             Id = jobId;
             Height = height;
             Difficulty = difficulty;
+            ExtraNonce = extraNonce;
         }
     }
 }

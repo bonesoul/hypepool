@@ -31,6 +31,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Hypepool.Common.Utils.Buffers;
+using Hypepool.Common.Utils.Extensions;
 using Hypepool.Core.Utils.Extensions;
 using Serilog;
 

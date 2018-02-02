@@ -127,7 +127,7 @@ namespace Hypepool.Monero
                     return; // skip him for the new job.
                 }
 
-                var workerJob = ((MoneroJobManager)PoolContext.JobManager).CreateWorkerJob(client);
+                var workerJob = ((MoneroJobManager) PoolContext.JobManager).CurrentJob.CreateWorkerJob(client);
                 // todo: send it.
             });
         }
@@ -309,7 +309,7 @@ namespace Hypepool.Monero
             var loginResponse = new MoneroLoginResponse
             {
                 Id = client.ConnectionId,
-                Job = ((MoneroJobManager)PoolContext.JobManager).CreateWorkerJob(client)
+                Job = ((MoneroJobManager)PoolContext.JobManager).CurrentJob.CreateWorkerJob(client)
             };
 
             client.Respond(loginResponse, request.Id);

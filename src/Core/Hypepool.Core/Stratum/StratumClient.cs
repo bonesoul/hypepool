@@ -35,6 +35,7 @@ using Hypepool.Common.JsonRpc;
 using Hypepool.Common.Mining.Context;
 using Hypepool.Common.Stratum;
 using Hypepool.Common.Utils.Buffers;
+using Hypepool.Common.Utils.Extensions;
 using Hypepool.Common.Utils.Helpers.Time;
 using Hypepool.Core.Utils.Buffers;
 using Hypepool.Core.Utils.Extensions;

@@ -24,19 +24,37 @@
 //      SOFTWARE.
 #endregion
 
-namespace Hypepool.Core.Utils.Extensions
-{
-    public static class ArrayExtensions
-    {
-        public static int IndexOf(this byte[] arr, byte val, int start, int count)
-        {
-            for (var i = start; i < start + count; i++)
-            {
-                if (arr[i] == val)
-                    return i;
-            }
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Text;
 
-            return -1;
+namespace Hypepool.Common.Utils.Extensions
+{
+    public static class NumberExtensions
+    {
+        public static uint ToBigEndian(this uint value)
+        {
+            if (BitConverter.IsLittleEndian)
+                return (uint)IPAddress.NetworkToHostOrder((int)value);
+
+            return value;
+        }
+
+        public static uint ToLittleEndian(this uint value)
+        {
+            if (!BitConverter.IsLittleEndian)
+                return (uint)IPAddress.HostToNetworkOrder((int)value);
+
+            return value;
+        }
+
+        public static uint ReverseByteOrder(this uint value)
+        {
+            var bytes = BitConverter.GetBytes(value);
+            Array.Reverse(bytes);
+            value = BitConverter.ToUInt32(bytes, 0);
+            return value;
         }
     }
 }

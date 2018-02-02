@@ -27,10 +27,34 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Hypepool.Core.Utils.Extensions
+namespace Hypepool.Common.Utils.Extensions
 {
     public static class StringExtensions
     {
+        /// <summary>
+        /// Converts a str string to byte array.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static byte[] HexToByteArray(this string str)
+        {
+            if (str.StartsWith("0x"))
+                str = str.Substring(2);
+
+            var arr = new byte[str.Length >> 1];
+
+            for (var i = 0; i < str.Length >> 1; ++i)
+                arr[i] = (byte)((GetHexVal(str[i << 1]) << 4) + GetHexVal(str[(i << 1) + 1]));
+
+            return arr;
+        }
+
+        private static int GetHexVal(char hex)
+        {
+            var val = (int)hex;
+            return val - (val < 58 ? 48 : (val < 97 ? 55 : 87));
+        }
+
         public static string FormatJson(this string input)
         {
             try

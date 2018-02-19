@@ -27,7 +27,6 @@
 using System.Linq;
 using Hypepool.Common.Pools;
 using Stashbox;
-using Stashbox.Infrastructure;
 
 namespace Hypepool.Core.Internals.Factories.Pool
 {

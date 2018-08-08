@@ -22,7 +22,7 @@
     "url": "https://github.com/bonesoul/hypepool/issues"
   },
   "devDependencies": {
-    "grunt": "1.0.1",
+    "grunt": "1.0.3",
     "grunt-shell": "2.1.0",
     "load-grunt-tasks": "3.5.2",
     "time-grunt": "1.4.0"

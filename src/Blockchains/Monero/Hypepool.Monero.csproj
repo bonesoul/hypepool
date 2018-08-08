@@ -26,7 +26,7 @@
 
   <ItemGroup>
     <PackageReference Include="Serilog" Version="2.6.0" />
-    <PackageReference Include="xunit.analyzers" Version="0.8.0" />
+    <PackageReference Include="xunit.analyzers" Version="0.10.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -49,8 +49,8 @@ namespace Hypepool.Core.Tests.Utils.Buffers
                 (src, dst, count) => Array.Copy(src, 0, dst, 0, count),
                 (x) => recvCount++, (ex) => errCount++);
 
-            recvCount.ShouldBeEquivalentTo(0);
-            errCount.ShouldBeEquivalentTo(0);
+            recvCount.Should().Be(0);
+            errCount.Should().Be(0);
         }
 
         [Fact]
@@ -72,8 +72,8 @@ namespace Hypepool.Core.Tests.Utils.Buffers
                 (src, dst, count) => Array.Copy(src, 0, dst, 0, count),
                 (x) => recvCount++, (ex) => errCount++);
 
-            recvCount.ShouldBeEquivalentTo(0);
-            errCount.ShouldBeEquivalentTo(0);
+            recvCount.Should().Be(0);
+            errCount.Should().Be(0);
         }
 
         [Fact]
@@ -100,9 +100,9 @@ namespace Hypepool.Core.Tests.Utils.Buffers
                     result = GetString(x);
                 }, (ex) => errCount++);
 
-            recvCount.ShouldBeEquivalentTo(1);
-            errCount.ShouldBeEquivalentTo(0);
-            result.ShouldBeEquivalentTo("deadbeef");
+            recvCount.Should().Be(1);
+            errCount.Should().Be(0);
+            result.Should().Be("deadbeef");
         }
 
         [Fact]
@@ -129,9 +129,9 @@ namespace Hypepool.Core.Tests.Utils.Buffers
                     result = GetString(x);
                 }, (ex) => errCount++);
 
-            recvCount.ShouldBeEquivalentTo(1);
-            errCount.ShouldBeEquivalentTo(0);
-            result.ShouldBeEquivalentTo("deadbeef");
+            recvCount.Should().Be(1);
+            errCount.Should().Be(0);
+            result.Should().Be("deadbeef");
         }
 
         [Fact]
@@ -158,9 +158,9 @@ namespace Hypepool.Core.Tests.Utils.Buffers
                     result = GetString(x);
                 }, (ex) => errCount++);
 
-            recvCount.ShouldBeEquivalentTo(1);
-            errCount.ShouldBeEquivalentTo(0);
-            result.ShouldBeEquivalentTo("deadbeef");
+            recvCount.Should().Be(1);
+            errCount.Should().Be(0);
+            result.Should().Be("deadbeef");
         }
 
         [Fact]
@@ -179,8 +179,8 @@ namespace Hypepool.Core.Tests.Utils.Buffers
                     recvCount++;
                 }, (ex) => errCount++);
 
-            recvCount.ShouldBeEquivalentTo(0);
-            errCount.ShouldBeEquivalentTo(0);
+            recvCount.Should().Be(0);
+            errCount.Should().Be(0);
         }
 
         [Fact]
@@ -199,8 +199,8 @@ namespace Hypepool.Core.Tests.Utils.Buffers
                     recvCount++;
                 }, (ex) => errCount++);
 
-            recvCount.ShouldBeEquivalentTo(0);
-            errCount.ShouldBeEquivalentTo(1);
+            recvCount.Should().Be(0);
+            errCount.Should().Be(1);
         }
 
         [Fact]
@@ -219,8 +219,8 @@ namespace Hypepool.Core.Tests.Utils.Buffers
                     recvCount++;
                 }, (ex) => errCount++);
 
-            recvCount.ShouldBeEquivalentTo(0);
-            errCount.ShouldBeEquivalentTo(0);
+            recvCount.Should().Be(0);
+            errCount.Should().Be(0);
 
             buf = GetBuffer("bee");
 
@@ -231,8 +231,8 @@ namespace Hypepool.Core.Tests.Utils.Buffers
                     recvCount++;
                 }, (ex) => errCount++);
 
-            recvCount.ShouldBeEquivalentTo(0);
-            errCount.ShouldBeEquivalentTo(1);
+            recvCount.Should().Be(0);
+            errCount.Should().Be(1);
         }
 
         [Fact]
@@ -253,9 +253,9 @@ namespace Hypepool.Core.Tests.Utils.Buffers
                     result = GetString(x);
                 }, (ex) => errCount++);
 
-            recvCount.ShouldBeEquivalentTo(1);
-            errCount.ShouldBeEquivalentTo(0);
-            result.ShouldBeEquivalentTo("dead");
+            recvCount.Should().Be(1);
+            errCount.Should().Be(0);
+            result.Should().Be("dead");
         }
 
         [Fact]
@@ -274,12 +274,12 @@ namespace Hypepool.Core.Tests.Utils.Buffers
                     results.Add(GetString(x));
                 }, (ex) => errCount++);
 
-            results.Count.ShouldBeEquivalentTo(3);
-            errCount.ShouldBeEquivalentTo(0);
+            results.Count.Should().Be(3);
+            errCount.Should().Be(0);
 
-            results[0].ShouldBeEquivalentTo("dead");
-            results[1].ShouldBeEquivalentTo("beef");
-            results[2].ShouldBeEquivalentTo("c0de");
+            results[0].Should().Be("dead");
+            results[1].Should().Be("beef");
+            results[2].Should().Be("c0de");
         }
 
         [Fact]
@@ -316,9 +316,9 @@ namespace Hypepool.Core.Tests.Utils.Buffers
                     results.Add(GetString(x));
                 }, (ex) => errCount++);
 
-            results.Count.ShouldBeEquivalentTo(1);
-            errCount.ShouldBeEquivalentTo(0);
-            results[0].ShouldBeEquivalentTo("abc");
+            results.Count.Should().Be(1);
+            errCount.Should().Be(0);
+            results[0].Should().Be("abc");
         }
 
         [Fact]
@@ -355,11 +355,11 @@ namespace Hypepool.Core.Tests.Utils.Buffers
                     results.Add(GetString(x));
                 }, (ex) => errCount++);
 
-            results.Count.ShouldBeEquivalentTo(3);
-            errCount.ShouldBeEquivalentTo(0);
-            results[0].ShouldBeEquivalentTo("a");
-            results[1].ShouldBeEquivalentTo("b");
-            results[2].ShouldBeEquivalentTo("c");
+            results.Count.Should().Be(3);
+            errCount.Should().Be(0);
+            results[0].Should().Be("a");
+            results[1].Should().Be("b");
+            results[2].Should().Be("c");
         }
 
         [Fact]
@@ -378,9 +378,9 @@ namespace Hypepool.Core.Tests.Utils.Buffers
                     results.Add(GetString(x));
                 }, (ex) => errCount++);
 
-            results.Count.ShouldBeEquivalentTo(1);
-            errCount.ShouldBeEquivalentTo(0);
-            results[0].ShouldBeEquivalentTo("dead");
+            results.Count.Should().Be(1);
+            errCount.Should().Be(0);
+            results[0].Should().Be("dead");
         }
 
         [Fact]
@@ -408,10 +408,10 @@ namespace Hypepool.Core.Tests.Utils.Buffers
                     results.Add(GetString(x));
                 }, (ex) => errCount++);
 
-            results.Count.ShouldBeEquivalentTo(2);
-            errCount.ShouldBeEquivalentTo(0);
-            results[0].ShouldBeEquivalentTo("dead");
-            results[1].ShouldBeEquivalentTo("beefc0de");
+            results.Count.Should().Be(2);
+            errCount.Should().Be(0);
+            results[0].Should().Be("dead");
+            results[1].Should().Be("beefc0de");
         }
 
         [Fact]
@@ -448,11 +448,11 @@ namespace Hypepool.Core.Tests.Utils.Buffers
                     results.Add(GetString(x));
                 }, (ex) => errCount++);
 
-            results.Count.ShouldBeEquivalentTo(3);
-            errCount.ShouldBeEquivalentTo(0);
-            results[0].ShouldBeEquivalentTo("dead");
-            results[1].ShouldBeEquivalentTo("beefc0defeed");
-            results[2].ShouldBeEquivalentTo("babe");
+            results.Count.Should().Be(3);
+            errCount.Should().Be(0);
+            results[0].Should().Be("dead");
+            results[1].Should().Be("beefc0defeed");
+            results[2].Should().Be("babe");
         }
 
         private byte[] GetBuffer(string str)

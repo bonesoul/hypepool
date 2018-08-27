@@ -26,7 +26,6 @@
 using Hypepool.Common.Factories.Server;
 using Hypepool.Common.Stratum;
 using Stashbox;
-using Stashbox.Infrastructure;
 
 namespace Hypepool.Core.Internals.Factories.Server
 {

@@ -24,19 +24,32 @@
 //      SOFTWARE.
 #endregion
 
-namespace Hypepool.Core.Utils.Extensions
-{
-    public static class ArrayExtensions
-    {
-        public static int IndexOf(this byte[] arr, byte val, int start, int count)
-        {
-            for (var i = start; i < start + count; i++)
-            {
-                if (arr[i] == val)
-                    return i;
-            }
+using Hypepool.Common.Mining.Jobs;
 
-            return -1;
+namespace Hypepool.Monero
+{
+    public class MoneroWorkerJob : IWorkerJob
+    {
+        /// <summary>
+        /// Job id.
+        /// </summary>
+        public int Id { get; }
+
+        /// <summary>
+        /// Job difficulty.
+        /// </summary>
+        public double Difficulty { get; }
+
+        public uint Height { get; set; }
+
+        public uint ExtraNonce { get; set; }
+
+        public MoneroWorkerJob(int jobId, uint height, double difficulty, uint extraNonce)
+        {
+            Id = jobId;
+            Height = height;
+            Difficulty = difficulty;
+            ExtraNonce = extraNonce;
         }
     }
 }

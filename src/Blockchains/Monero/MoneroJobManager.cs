@@ -108,7 +108,7 @@ namespace Hypepool.Monero
                 if (gotNewBlockTemplate)
                 {
                     var jobId = _jobCounter.GetNext(); // create a new job id.
-                    var job = new MoneroJob(blockTemplate, instanceId, jobId); // cook the job.
+                    var job = new MoneroJob(jobId, blockTemplate, instanceId); // cook the job.
                     CurrentJob = job; // set the current job.
                     return job;
                 }

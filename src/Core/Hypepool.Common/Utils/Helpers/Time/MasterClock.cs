@@ -46,6 +46,7 @@ namespace Hypepool.Common.Utils.Helpers.Time
 
         static MasterClock()
         {
+            // get the offset.
             LocalUtcOffset = TimeZoneInfo.Local.GetUtcOffset(DateTime.Now);
         }
     }

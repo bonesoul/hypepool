@@ -25,23 +25,46 @@
 #endregion
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
-namespace Hypepool.Monero.Stratum.Responses
+namespace Hypepool.Common.Utils.Extensions
 {
-    public class MoneroJobParams
+    public static class StringExtensions
     {
-        [JsonProperty("job_id")]
-        public string JobId { get; set; }
+        /// <summary>
+        /// Converts a str string to byte array.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static byte[] HexToByteArray(this string str)
+        {
+            if (str.StartsWith("0x"))
+                str = str.Substring(2);
 
-        public string Blob { get; set; }
+            var arr = new byte[str.Length >> 1];
 
-        public string Target { get; set; }
-    }
+            for (var i = 0; i < str.Length >> 1; ++i)
+                arr[i] = (byte)((GetHexVal(str[i << 1]) << 4) + GetHexVal(str[(i << 1) + 1]));
 
-    public class MoneroLoginResponse : MoneroResponseBase
-    {
-        public string Id { get; set; }
+            return arr;
+        }
 
-        public MoneroJobParams Job { get; set; }
+        private static int GetHexVal(char hex)
+        {
+            var val = (int)hex;
+            return val - (val < 58 ? 48 : (val < 97 ? 55 : 87));
+        }
+
+        public static string FormatJson(this string input)
+        {
+            try
+            {
+                return JToken.Parse(input).ToString(Formatting.Indented);
+            }
+            catch
+            {
+                return input;
+            }
+        }
     }
 }

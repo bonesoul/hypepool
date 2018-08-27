@@ -35,9 +35,6 @@ namespace Hypepool.Benchmarks.Utils.Helpers.Time
     [ShortRunJob, CsvMeasurementsExporter, RPlotExporter]
     public class Fastclock
     {
-        public Fastclock()
-        {}
-
         [Benchmark]
         public DateTime MasterClockNow() => MasterClock.Now;
 

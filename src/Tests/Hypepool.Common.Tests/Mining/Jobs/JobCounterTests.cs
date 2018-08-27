@@ -45,8 +45,8 @@ namespace Hypepool.Common.Tests.Mining.Jobs
         [Fact]
         public void ShouldBeIncremented()
         {
-            _jobCounter.GetNext().ShouldBeEquivalentTo(1);
-            _jobCounter.GetNext().ShouldBeEquivalentTo(2);
+            _jobCounter.GetNext().Should().Be(1);
+            _jobCounter.GetNext().Should().Be(2);
         }
 
         [Fact]
@@ -58,13 +58,13 @@ namespace Hypepool.Common.Tests.Mining.Jobs
 
             // set it to int.MaxValue - 1
             last.SetValue(_jobCounter, int.MaxValue - 1);
-            last.GetValue(_jobCounter).ShouldBeEquivalentTo(int.MaxValue - 1);
+            last.GetValue(_jobCounter).Should().Be(int.MaxValue - 1);
 
             // GetNext() and should be int.MaxValue now.
-            _jobCounter.GetNext().ShouldBeEquivalentTo(int.MaxValue);
+            _jobCounter.GetNext().Should().Be(int.MaxValue);
 
             // another GetNext() and should reset back to 1 now.
-            _jobCounter.GetNext().ShouldBeEquivalentTo(1);
+            _jobCounter.GetNext().Should().Be(1);
         }
     }
 }

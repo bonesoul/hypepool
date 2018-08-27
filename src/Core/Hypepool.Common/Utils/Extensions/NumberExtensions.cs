@@ -24,24 +24,35 @@
 //      SOFTWARE.
 #endregion
 
-using Newtonsoft.Json;
+using System;
+using System.Net;
 
-namespace Hypepool.Monero.Stratum.Responses
+namespace Hypepool.Common.Utils.Extensions
 {
-    public class MoneroJobParams
+    public static class NumberExtensions
     {
-        [JsonProperty("job_id")]
-        public string JobId { get; set; }
+        public static uint ToBigEndian(this uint value)
+        {
+            if (BitConverter.IsLittleEndian)
+                return (uint)IPAddress.NetworkToHostOrder((int)value);
 
-        public string Blob { get; set; }
+            return value;
+        }
 
-        public string Target { get; set; }
-    }
+        public static uint ToLittleEndian(this uint value)
+        {
+            if (!BitConverter.IsLittleEndian)
+                return (uint)IPAddress.HostToNetworkOrder((int)value);
 
-    public class MoneroLoginResponse : MoneroResponseBase
-    {
-        public string Id { get; set; }
+            return value;
+        }
 
-        public MoneroJobParams Job { get; set; }
+        public static uint ReverseByteOrder(this uint value)
+        {
+            var bytes = BitConverter.GetBytes(value);
+            Array.Reverse(bytes);
+            value = BitConverter.ToUInt32(bytes, 0);
+            return value;
+        }
     }
 }

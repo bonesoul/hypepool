@@ -26,7 +26,6 @@
 using Hypepool.Core.Core;
 using Hypepool.Core.Utils.Logging;
 using Stashbox;
-using Stashbox.Infrastructure;
 
 namespace Hypepool.Core.Internals.Factories.Core
 {

@@ -24,23 +24,9 @@
 //      SOFTWARE.
 #endregion
 
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-
-namespace Hypepool.Core.Utils.Extensions
+namespace Hypepool.Common.Mining.Jobs
 {
-    public static class StringExtensions
+    public interface IWorkerJob
     {
-        public static string FormatJson(this string input)
-        {
-            try
-            {
-                return JToken.Parse(input).ToString(Formatting.Indented);
-            }
-            catch
-            {
-                return input;
-            }
-        }
     }
 }

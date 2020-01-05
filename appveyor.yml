@@ -1,0 +1,13 @@
+image: Visual Studio 2017
+
+build_script:
+  - dotnet build hypepool.sln
+
+test_script:
+ - cd src\Tests\
+ - cd Hypepool.Core.Tests\ && dotnet xunit
+ - cd .. && cd Hypepool.Common.Tests\ && dotnet xunit
+ - cd .. && cd Hypepool.Monero.Tests\ && dotnet xunit 
+ - cd .. && cd Hypepool.Benchmarks\ && dotnet build --configuration Release && cd bin/Release/netcoreapp2.0/ &&  dotnet Hypepool.Benchmarks.dll
+ 
+ 

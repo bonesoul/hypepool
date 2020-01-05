@@ -1,14 +1,7 @@
-<h1 align="center">hypepool</h1>
+# hypepool fork
 
-<div align="center">
-  :rocket::zap::sparkles: 
-</div>
-<div align="center">
-  <strong>mining pool server</strong>
-</div>
-<div align="center">
-  A rock-solid & platform-agnostic pool server
-</div>
+## mining pool server
+A rock-solid & platform-agnostic pool server
 
 <br />
 
@@ -37,7 +30,7 @@
       Handbook
     </a>
     <span> | </span>
-    <a href="https://github.com/bonesoul/hypepool/blob/develop/CONTRIBUTING.md">
+    <a href="https://github.com/bitcoinbrisbane/hypepool/blob/develop/CONTRIBUTING.md">
       Contributing
     </a>
   </h3>

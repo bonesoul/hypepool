@@ -1,0 +1,288 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{F9AAEAF9-F55F-40DC-8CB3-F289323F3E46}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>netmultihashnative</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <ProjectName>libmultihash</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(ProjectDir)windows\include\libsodium;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(ProjectDir)windows\include\libsodium;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)windows\lib\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(ProjectDir)windows\include\libsodium;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(ProjectDir)windows\include\libsodium;$(ProjectDir)windows\include\libsodium;$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>SODIUM_STATIC</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>Ws2_32.lib;$(ProjectDir)windows\lib\x86\libsodium.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>SODIUM_STATIC</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>Ws2_32.lib;$(ProjectDir)windows\lib\x64\libsodium.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>SODIUM_STATIC</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>Ws2_32.lib;$(ProjectDir)windows\lib\x86\libsodium.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>SODIUM_STATIC</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>Ws2_32.lib;$(ProjectDir)windows\lib\x64\libsodium.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="bcrypt.h" />
+    <ClInclude Include="blake.h" />
+    <ClInclude Include="boolberry.h" />
+    <ClInclude Include="c11.h" />
+    <ClInclude Include="dcrypt.h" />
+    <ClInclude Include="equi\endian.h" />
+    <ClInclude Include="equi\equi.h" />
+    <ClInclude Include="fresh.h" />
+    <ClInclude Include="fugue.h" />
+    <ClInclude Include="groestl.h" />
+    <ClInclude Include="hefty1.h" />
+    <ClInclude Include="jh.h" />
+    <ClInclude Include="keccak.h" />
+    <ClInclude Include="libethash\compiler.h" />
+    <ClInclude Include="libethash\data_sizes.h" />
+    <ClInclude Include="libethash\endian.h" />
+    <ClInclude Include="libethash\ethash.h" />
+    <ClInclude Include="libethash\fnv.h" />
+    <ClInclude Include="libethash\internal.h" />
+    <ClInclude Include="libethash\io.h" />
+    <ClInclude Include="libethash\mmap.h" />
+    <ClInclude Include="libethash\sha3.h" />
+    <ClInclude Include="libethash\util.h" />
+    <ClInclude Include="Lyra2.h" />
+    <ClInclude Include="Lyra2RE.h" />
+    <ClInclude Include="neoscrypt.h" />
+    <ClInclude Include="nist5.h" />
+    <ClInclude Include="quark.h" />
+    <ClInclude Include="qubit.h" />
+    <ClInclude Include="s3.h" />
+    <ClInclude Include="scryptjane.h" />
+    <ClInclude Include="scryptn.h" />
+    <ClInclude Include="sha256.h" />
+    <ClInclude Include="sha3\sph_blake.h" />
+    <ClInclude Include="sha3\sph_bmw.h" />
+    <ClInclude Include="sha3\sph_cubehash.h" />
+    <ClInclude Include="sha3\sph_echo.h" />
+    <ClInclude Include="sha3\sph_fugue.h" />
+    <ClInclude Include="sha3\sph_groestl.h" />
+    <ClInclude Include="sha3\sph_hamsi.h" />
+    <ClInclude Include="sha3\sph_hefty1.h" />
+    <ClInclude Include="sha3\sph_jh.h" />
+    <ClInclude Include="sha3\sph_keccak.h" />
+    <ClInclude Include="sha3\sph_luffa.h" />
+    <ClInclude Include="sha3\sph_shabal.h" />
+    <ClInclude Include="sha3\sph_shavite.h" />
+    <ClInclude Include="sha3\sph_simd.h" />
+    <ClInclude Include="sha3\sph_skein.h" />
+    <ClInclude Include="sha3\sph_types.h" />
+    <ClInclude Include="sha3\sph_whirlpool.h" />
+    <ClInclude Include="shavite3.h" />
+    <ClInclude Include="skein.h" />
+    <ClInclude Include="Sponge.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="stdint.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="x11.h" />
+    <ClInclude Include="x13.h" />
+    <ClInclude Include="x14.h" />
+    <ClInclude Include="x15.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="bcrypt.c" />
+    <ClCompile Include="blake.c" />
+    <ClCompile Include="c11.c" />
+    <ClCompile Include="dcrypt.c" />
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="equi\endian.c" />
+    <ClCompile Include="equi\equi.c" />
+    <ClCompile Include="fresh.c" />
+    <ClCompile Include="fugue.c" />
+    <ClCompile Include="groestl.c" />
+    <ClCompile Include="hefty1.c" />
+    <ClCompile Include="jh.c" />
+    <ClCompile Include="keccak.c" />
+    <ClCompile Include="libethash\internal.c" />
+    <ClCompile Include="libethash\io.c" />
+    <ClCompile Include="libethash\io_win32.c" />
+    <ClCompile Include="libethash\mmap_win32.c" />
+    <ClCompile Include="libethash\sha3.c" />
+    <ClCompile Include="libethash\util_win32.c" />
+    <ClCompile Include="Lyra2.c" />
+    <ClCompile Include="Lyra2RE.c" />
+    <ClCompile Include="neoscrypt.c" />
+    <ClCompile Include="exports.cpp" />
+    <ClCompile Include="nist5.c" />
+    <ClCompile Include="quark.c" />
+    <ClCompile Include="qubit.c" />
+    <ClCompile Include="s3.c" />
+    <ClCompile Include="scryptn.c" />
+    <ClCompile Include="sha3\aes_helper.c" />
+    <ClCompile Include="sha3\hamsi.c" />
+    <ClCompile Include="sha3\hamsi_helper.c" />
+    <ClCompile Include="sha3\sph_blake.c" />
+    <ClCompile Include="sha3\sph_bmw.c" />
+    <ClCompile Include="sha3\sph_cubehash.c" />
+    <ClCompile Include="sha3\sph_echo.c" />
+    <ClCompile Include="sha3\sph_fugue.c" />
+    <ClCompile Include="sha3\sph_groestl.c" />
+    <ClCompile Include="sha3\sph_hefty1.c" />
+    <ClCompile Include="sha3\sph_jh.c" />
+    <ClCompile Include="sha3\sph_keccak.c" />
+    <ClCompile Include="sha3\sph_luffa.c" />
+    <ClCompile Include="sha3\sph_shabal.c" />
+    <ClCompile Include="sha3\sph_shavite.c" />
+    <ClCompile Include="sha3\sph_simd.c" />
+    <ClCompile Include="sha3\sph_skein.c" />
+    <ClCompile Include="sha3\sph_whirlpool.c" />
+    <ClCompile Include="shavite3.c" />
+    <ClCompile Include="skein.c" />
+    <ClCompile Include="Sponge.c" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="x11.c" />
+    <ClCompile Include="x13.c" />
+    <ClCompile Include="x14.c" />
+    <ClCompile Include="x15.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Makefile" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

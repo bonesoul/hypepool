@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+	<RuntimeFrameworkVersion>2.0.5</RuntimeFrameworkVersion>	
+    <Version>0.0.1</Version>
+    <AssemblyVersion>0.0.1.0</AssemblyVersion>
+    <FileVersion>0.0.1.0</FileVersion>
+    <Platforms>x64;x86</Platforms>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <OutputPath>..\..\..\build\bin\x86\Debug\</OutputPath>
+    <LangVersion>latest</LangVersion>  	
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutputPath>..\..\..\build\bin\x64\Debug\</OutputPath>
+    <LangVersion>latest</LangVersion>  	
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <OutputPath>..\..\..\build\bin\x86\Release\</OutputPath>
+    <LangVersion>latest</LangVersion>  	
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutputPath>..\..\..\build\bin\x64\Release\</OutputPath>
+    <LangVersion>latest</LangVersion>  	
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.analyzers" Version="0.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Blockchains\Monero\Hypepool.Monero.csproj" />
+    <ProjectReference Include="..\Hypepool.Core\Hypepool.Core.csproj" />
+  </ItemGroup>
+
+  <Target Name="NativeDeps" AfterTargets="Build">
+    <ItemGroup>
+		<x86deps Include="..\..\..\deps\windows\x86\**\*.*" />
+		<x64deps Include="..\..\..\deps\windows\x64\**\*.*" />
+    </ItemGroup>
+    <Copy Condition="'$(Platform)' == 'AnyCPU'" SourceFiles="@(x86deps)" DestinationFiles="@(x86deps->'$(OutputPath)\%(RecursiveDir)%(Filename)%(Extension)')" />
+	<Copy Condition="'$(Platform)' == 'x64'" SourceFiles="@(x64deps)" DestinationFiles="@(x64deps->'$(OutputPath)\%(RecursiveDir)%(Filename)%(Extension)')" />
+	<Copy Condition="'$(Platform)' == 'x86'" SourceFiles="@(x86)" DestinationFiles="@(x86->'$(OutputPath)\%(RecursiveDir)%(Filename)%(Extension)')" />	
+  </Target>
+  
+</Project>

@@ -58,9 +58,9 @@ namespace Hypepool.Cli.Utils.Extensions
         internal static void PrintLicense()
         {
             Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.WriteLine(" Copyright (C) 2013 - 2018, hypepool project - Hüseyin Uslu");
+            Console.WriteLine(" Copyright (C) 2013 - 2020, hypepool project - Hüseyin Uslu");
             Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine(" https://github.com/bonesoul/hypepool");
+            Console.WriteLine(" https://github.com/bitcoinbrisbane/hypepool forked from https://github.com/bonesoul/hypepool");
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine(" hypepool comes with ABSOLUTELY NO WARRANTY.");

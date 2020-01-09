@@ -49,8 +49,8 @@ namespace Hypepool.Common.Daemon
         private readonly string _rpcUrl;
         private HttpClient _httpClient;
         private AuthenticationHeaderValue _authenticationHeader;
-        private string _username;
-        private string _pasword;
+        private readonly string _username;
+        private readonly string _password;
         private int _requestCounter = 0;
 
         private readonly JsonSerializer _serializer;
@@ -76,7 +76,7 @@ namespace Hypepool.Common.Daemon
                 _rpcUrl += $"/{rpcLocation}";
 
             _username = username;
-            _pasword = password;
+            _password = password;
         }
 
         public void Initialize()
@@ -84,7 +84,7 @@ namespace Hypepool.Common.Daemon
             // build authentication header if needed
             if (!string.IsNullOrEmpty(_username))
             {
-                var auth = $"{_username}:{_pasword}";
+                var auth = $"{_username}:{_password}";
                 var base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(auth));
                 _authenticationHeader = new AuthenticationHeaderValue("Basic", base64);
             }
@@ -92,7 +92,7 @@ namespace Hypepool.Common.Daemon
             // create httpclient instance with credentals.
             _httpClient = new HttpClient(new HttpClientHandler
             {
-                Credentials = new NetworkCredential(_username, _pasword),
+                Credentials = new NetworkCredential(_username, _password),
                 PreAuthenticate = true,
                 AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip,
             });
